@@ -22,17 +22,17 @@ public class App {
         return templateEngine;
     }
 
+    // Метод для получения значения переменной окружения JDBC_DATABASE_URL или значения по умолчанию
+    private static String getJdbcUrlTemplate() {
+        return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
+    }
+
     public static Javalin getApp() {
 
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "7070"));
 
-        // Получаем значение переменной окружения JDBC_DATABASE_URL
-        String jdbcUrlTemplate = System.getenv("JDBC_DATABASE_URL");
-
-        // Если переменная окружения не установлена, используем URL для базы данных H2 в памяти
-        if (jdbcUrlTemplate == null || jdbcUrlTemplate.isEmpty()) {
-            jdbcUrlTemplate = "jdbc:h2:mem:project";
-        }
+        // Получаем значение переменной окружения JDBC_DATABASE_URL или значение по умолчанию
+        String jdbcUrlTemplate = getJdbcUrlTemplate();
 
         // Извлекаем значения хоста, базы данных, имени пользователя и пароля из строки JDBC_DATABASE_URL
         String hostname = System.getenv("HOST");
@@ -43,7 +43,7 @@ public class App {
         // Формируем строку подключения к базе данных, заменяя маркеры на значения переменных окружения
         String jdbcUrl = jdbcUrlTemplate
                 .replace("{HOST}", hostname)
-                .replace("{DATABАSE}", database)
+                .replace("{DATABASE}", database)
                 .replace("{USERNAME}", username)
                 .replace("{PASSWORD}", password);
 
