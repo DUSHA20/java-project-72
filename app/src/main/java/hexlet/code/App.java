@@ -33,9 +33,9 @@ public class App {
 
         // Получаем значение переменной окружения JDBC_DATABASE_URL или значение по умолчанию
         String jdbcUrlTemplate = getJdbcUrlTemplate();
-        
+
         String hostname = System.getenv("HOST");
-        String dbport = System.getenv("DP_PORT");
+        String dbport = "5432";
         String database = System.getenv("DATABASE");
         String username = System.getenv("USERNAME");
         String password = System.getenv("PASSWORD");
