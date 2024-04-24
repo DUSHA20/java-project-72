@@ -29,28 +29,18 @@ public class App {
 
     public static Javalin getApp() {
 
-        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "7070"));
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
 
         // Получаем значение переменной окружения JDBC_DATABASE_URL или значение по умолчанию
         String jdbcUrlTemplate = getJdbcUrlTemplate();
 
-        String hostname = System.getenv("HOST");
-        String dbport = "5432";
-        String database = System.getenv("DATABASE");
-        String username = System.getenv("USERNAME");
-        String password = System.getenv("PASSWORD");
-
-        // Формируем строку подключения к базе данных, заменяя маркеры на значения переменных окружения
-        String jdbcUrl = jdbcUrlTemplate
-                .replace("{HOST}", hostname)
-                .replace("{DP_PORT}", dbport)
-                .replace("{DATABASE}", database)
-                .replace("{USERNAME}", username)
-                .replace("{PASSWORD}", password);
-
         // Конфигурируем HikariCP для использования базы данных
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(jdbcUrl);
+        config.setJdbcUrl(jdbcUrlTemplate);
+
+        config.setUsername(System.getenv("USERNAME"));
+        config.setPassword(System.getenv("PASSWORD"));
+
         DataSource dataSource = new HikariDataSource(config);
 
         // Создаем экземпляр UrlRepository и инициализируем базу данных
