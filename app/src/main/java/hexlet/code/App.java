@@ -56,14 +56,11 @@ public class App {
         }
 
         // Создаем TemplateEngine
-        TemplateEngine templateEngine = createTemplateEngine();
-
-        // Подключаем TemplateEngine к Javalin
         Javalin app = Javalin.create(configure -> {
-                    configure.fileRenderer(new JavalinJte(templateEngine));
+                    configure.fileRenderer(new JavalinJte(createTemplateEngine()));
                 })
-                .get("/", ctx -> ctx.result("Hello World"))
-                .start(port); // Используем значение порта
+                .get("/", ctx -> ctx.render("index.html")) // Обработка запроса главной страницы
+                .start(port);
 
         return app;
     }
