@@ -33,9 +33,9 @@ public class App {
 
         // Получаем значение переменной окружения JDBC_DATABASE_URL или значение по умолчанию
         String jdbcUrlTemplate = getJdbcUrlTemplate();
-
-        // Извлекаем значения хоста, базы данных, имени пользователя и пароля из строки JDBC_DATABASE_URL
+        
         String hostname = System.getenv("HOST");
+        String dbport = System.getenv("DP_PORT");
         String database = System.getenv("DATABASE");
         String username = System.getenv("USERNAME");
         String password = System.getenv("PASSWORD");
@@ -43,6 +43,7 @@ public class App {
         // Формируем строку подключения к базе данных, заменяя маркеры на значения переменных окружения
         String jdbcUrl = jdbcUrlTemplate
                 .replace("{HOST}", hostname)
+                .replace("{DP_PORT}", dbport)
                 .replace("{DATABASE}", database)
                 .replace("{USERNAME}", username)
                 .replace("{PASSWORD}", password);
