@@ -26,20 +26,26 @@ public class App {
 
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "7070"));
 
-        // Получаем значения переменных окружения
+        // Получаем значение переменной окружения JDBC_DATABASE_URL
+        String jdbcUrlTemplate = System.getenv("JDBC_DATABASE_URL");
+
+        // Если переменная окружения не установлена, используем URL для базы данных H2 в памяти
+        if (jdbcUrlTemplate == null || jdbcUrlTemplate.isEmpty()) {
+            jdbcUrlTemplate = "jdbc:h2:mem:project";
+        }
+
+        // Извлекаем значения хоста, базы данных, имени пользователя и пароля из строки JDBC_DATABASE_URL
         String hostname = System.getenv("HOST");
-        String dbPort = "5432"; // Жестко закодированный порт PostgreSQL
         String database = System.getenv("DATABASE");
         String username = System.getenv("USERNAME");
         String password = System.getenv("PASSWORD");
 
-        // Формируем строку подключения
-        String jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s?password=%s&user=%s",
-                hostname,
-                dbPort,
-                database,
-                password,
-                username);
+        // Формируем строку подключения к базе данных, заменяя маркеры на значения переменных окружения
+        String jdbcUrl = jdbcUrlTemplate
+                .replace("{HOST}", hostname)
+                .replace("{DATABАSE}", database)
+                .replace("{USERNAME}", username)
+                .replace("{PASSWORD}", password);
 
         // Конфигурируем HikariCP для использования базы данных
         HikariConfig config = new HikariConfig();
