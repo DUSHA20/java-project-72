@@ -86,7 +86,7 @@ public class App {
                 .get("/", ctx -> ctx.render("index.html"))
                 .post("/urls", ctx -> addUrlHandler(ctx, urlRepository))
                 .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
-                .get("/urls/:id", ctx -> getUrlByIdHandler(ctx, urlRepository))
+                .get("/urls/{id}", ctx -> getUrlByIdHandler(ctx, urlRepository))
                 .start(port);
 
         return app;
