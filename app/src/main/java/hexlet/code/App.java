@@ -64,12 +64,19 @@ public class App {
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
         String jdbcUrlTemplate = getJdbcUrlTemplate();
 
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(jdbcUrlTemplate);
-        config.setUsername(System.getenv("USERNAME"));
-        config.setPassword(System.getenv("PASSWORD"));
+        DataSource dataSource;
 
-        DataSource dataSource = new HikariDataSource(config);
+        if (jdbcUrlTemplate.startsWith("jdbc:h2")) {
+            // Используем H2 для локальной разработки
+            dataSource = new HikariDataSource(new HikariConfig());
+        } else {
+            // Используем PostgreSQL для продакшена
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(jdbcUrlTemplate);
+            config.setUsername(System.getenv("JDBC_DATABASE_USER"));
+            config.setPassword(System.getenv("JDBC_DATABASE_PASSWORD"));
+            dataSource = new HikariDataSource(config);
+        }
 
         try {
             Connection connection = dataSource.getConnection();

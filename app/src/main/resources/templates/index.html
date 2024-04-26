@@ -5,40 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
     <link href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            height: 100vh;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            background-color: #cccccc; /* Среднесерый цвет фона */
-            font-size: 1.2rem; /* Увеличенный шрифт */
+        /* Применяем класс к тексту на странице */
+        .bree-serif-regular {
+            font-family: "Bree Serif", serif;
+            font-weight: 400;
+            font-style: normal;
         }
-        .text-center {
-            text-align: center;
-        }
-        .mt-5 {
-            margin-top: 20vh; /* Отступ надписи сверху */
-        }
-        .mt-4 {
-            margin-top: 20px; /* Отступ формы для ввода URL сверху */
+
+        /* Стиль для абзаца */
+        .lead {
+            font-size: 25px; /* Установка размера шрифта */
+            margin-bottom: 20px; /* Установка отступа снизу */
+            color: white; /* Цвет текста */
         }
     </style>
 </head>
 <body>
-<div class="mt-5">
-    <h1 class="display-4 text-center">Анализатор страниц</h1>
-    <p class="lead text-center">Бесплатно проверяйте сайты на SEO пригодность</p>
+<div class="container mt-5">
+    <!-- Применяем класс к заголовкам -->
+    <h1 class="display-1 bree-serif-regular">Анализатор страниц</h1>
+    <!-- Применяем класс к абзацам -->
+    <p class="lead mb-4 bree-serif-regular">Бесплатно проверяйте сайты на SEO пригодность</p>
 
     <!-- Форма для ввода URL -->
-    <form action="/urls" method="post" class="text-center mt-4">
-        <div class="mb-3">
-            <label for="urlInput" class="form-label">URL</label>
-            <input type="text" class="form-control" id="urlInput" name="url">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+    <form action="/urls" method="post" class="d-flex">
+        <input type="text" class="form-control form-control-lg me-2" id="urlInput" name="url" placeholder="Ссылка">
+        <button type="submit" class="btn btn-primary">Проверить</button>
     </form>
 </div>
+
+<footer>
+    &copy; 2024 - Created by Evdokiya Afanaseva
+</footer>
 
 <!-- Подключение скриптов Bootstrap через WebJars -->
 <script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
