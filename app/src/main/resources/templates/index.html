@@ -1,15 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
     <link href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            background-color: #cccccc; /* Среднесерый цвет фона */
+            font-size: 1.2rem; /* Увеличенный шрифт */
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mt-5 {
+            margin-top: 20vh; /* Отступ надписи сверху */
+        }
+        .mt-4 {
+            margin-top: 20px; /* Отступ формы для ввода URL сверху */
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h1 class="mt-5">Hello, World!</h1>
-    <p>Welcome to my website!</p>
+<div class="mt-5">
+    <h1 class="display-4 text-center">Анализатор страниц</h1>
+    <p class="lead text-center">Бесплатно проверяйте сайты на SEO пригодность</p>
+
+    <!-- Форма для ввода URL -->
+    <form action="/urls" method="post" class="text-center mt-4">
+        <div class="mb-3">
+            <label for="urlInput" class="form-label">URL</label>
+            <input type="text" class="form-control" id="urlInput" name="url">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </div>
 
 <!-- Подключение скриптов Bootstrap через WebJars -->

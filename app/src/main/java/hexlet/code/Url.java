@@ -16,11 +16,12 @@ public class Url {
 
     private LocalDateTime createdAt;
 
-    // Конструкторы
+    // Пустой конструктор для JPA
     public Url() {
     }
 
-    public Url(String name, LocalDateTime createdAt) {
+    public Url(long id, String name, LocalDateTime createdAt) {
+        this.id = id;
         this.name = name;
         this.createdAt = createdAt;
     }

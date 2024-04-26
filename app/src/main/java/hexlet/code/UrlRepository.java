@@ -3,6 +3,12 @@ package hexlet.code;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDateTime;
+
 
 public class UrlRepository extends BaseRepository {
 
@@ -24,5 +30,67 @@ public class UrlRepository extends BaseRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    // Метод для проверки существования URL в базе данных
+    public boolean exists(String url) {
+        String sql = "SELECT COUNT(*) FROM urls WHERE name = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, url);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Метод для добавления URL в базу данных
+    public void addUrl(String url) {
+        String sql = "INSERT INTO urls (name, created_at) VALUES (?, NOW())";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, url);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Метод для получения списка всех URL из базы данных
+    public List<String> getAllUrls() {
+        List<String> urls = new ArrayList<>();
+        String sql = "SELECT name FROM urls";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String url = resultSet.getString("name");
+                urls.add(url);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return urls;
+    }
+
+    // Метод для получения URL по идентификатору из базы данных
+    public Url getUrlById(long id) {
+        Url url = null;
+        String sql = "SELECT id, name, created_at FROM urls WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    long urlId = resultSet.getLong("id");
+                    String name = resultSet.getString("name");
+                    LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+                    url = new Url(urlId, name, createdAt); // Используем конструктор с параметрами
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 }
