@@ -6,15 +6,31 @@ body {
     align-items: flex-start;
     justify-content: flex-start;
     background: linear-gradient(to bottom, #555555 50%, #ffffff 50%);
-    font-family: Bree, sans-serif;
+    font-family: "Bree Serif", serif;
     font-size: 2.1rem;
     color: white;
+    position: relative; /* Установим позиционирование для позиционирования изображения */
 }
 
 .container {
     width: 80%;
     max-width: 1100px;
     padding: 80px;
+    position: relative; /* Нужно для правильного отображения контента над фоном */
+    z-index: 1; /* Устанавливаем контейнер над фоном */
+}
+
+.background-image {
+    background-image: url('8478.jpg');
+    background-size: 100% auto; /* Уменьшаем изображение в два раза по ширине */
+    background-position: 50% 85%; /* 50% по горизонтали (по центру) и 0 по вертикали (вверху) */
+    height: 50vh; /* Растягиваем изображение на половину высоты экрана */
+    width: 100%; /* Занимаем всю доступную ширину */
+    position: absolute; /* Абсолютное позиционирование, чтобы разместить фон над контентом */
+    top: 0; /* Располагаем фон в верхней части страницы */
+    left: 0;
+    opacity: 0.4; /* Прозрачность фона */
+    z-index: 0; /* Устанавливаем фон под контейнером */
 }
 
 .form-control {
@@ -26,20 +42,17 @@ body {
     height: 3.5rem;
     margin-left: 180px;
     margin-bottom: -10px;
-    border: 2px solid green;
+    border: 2px solid SteelBlue;
 }
 
 .btn-primary {
-    background-color: green;
-    border: 2px solid green;
+    color: white;
+    background-color: SteelBlue;
+    border: 2px solid SteelBlue;
     border-radius: 10px;
     font-size: 1.2rem;
     height: 3.8rem;
     width: 200px;
-}
-
-.text-left {
-    text-align: left;
 }
 
 .display-1 {
@@ -55,9 +68,9 @@ body {
 }
 
 .bree-serif-regular {
-  font-family: "Bree Serif", serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Bree Serif", serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 footer {
