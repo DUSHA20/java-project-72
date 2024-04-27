@@ -53,6 +53,11 @@ body {
     font-size: 1.2rem;
     height: 3.8rem;
     width: 200px;
+    transition: background-color 0.3s ease; /* Добавляем плавный переход */
+}
+
+.btn-primary:hover {
+    background-color: rgba(70, 130, 180, 0.8); /* Затемняем цвет фона при наведении на кнопку */
 }
 
 .display-1 {
