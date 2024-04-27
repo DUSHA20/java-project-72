@@ -89,6 +89,7 @@ public class App {
 
         Javalin app = Javalin.create(configure -> {
                     configure.fileRenderer(new JavalinJte(createTemplateEngine()));
+                    configure.staticFiles.add("/temlates");
                 })
                 .get("/", ctx -> ctx.render("index.html"))
                 .post("/urls", ctx -> addUrlHandler(ctx, urlRepository))
