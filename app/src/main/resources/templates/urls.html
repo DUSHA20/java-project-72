@@ -17,7 +17,7 @@
 <script>
     // Функция для загрузки списка URL и добавления его на страницу
     function loadUrls() {
-        fetch('/getAllUrls') // Предположим, что это ваш маршрут для получения списка URL
+        fetch('/urls') // Предположим, что это ваш маршрут для получения списка URL
             .then(response => response.json())
             .then(data => {
                 var urlsList = document.getElementById('urls-list');
