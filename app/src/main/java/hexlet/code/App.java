@@ -15,6 +15,7 @@ import java.net.URL;
 import io.javalin.http.Context;
 import java.util.Map;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 public class App {
 
@@ -53,10 +54,12 @@ public class App {
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
         List<Url> urls = urlRepository.getAllUrls();
         // Выводим список URL в консоль для отладки
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
         for (Url url : urls) {
             System.out.println("ID: " + url.getId());
             System.out.println("Name: " + url.getName());
-            System.out.println("Created At: " + url.getCreatedAt());
+            // Форматируем дату перед выводом в консоль
+            System.out.println("Created At: " + url.getCreatedAt().format(formatter));
         }
         // Передаем список URL в HTML-шаблон
         ctx.render("urls.html", Map.of("urls", urls));
