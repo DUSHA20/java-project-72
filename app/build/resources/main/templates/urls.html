@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Все URL</title>
+    <title>Список URL</title>
 </head>
 <body>
-<h1>Все URL</h1>
+<h1>Список URL</h1>
+
 <ul>
     {{#each urls}}
-    <li>{{this}}</li>
+    <li>
+        <p>ID: {{this.id}}</p>
+        <p>Name: {{this.name}}</p>
+        <p>Created At: {{this.createdAt}}</p>
+    </li>
     {{/each}}
 </ul>
+
 </body>
 </html>

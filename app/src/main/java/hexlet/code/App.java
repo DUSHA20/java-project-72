@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URL;
 import io.javalin.http.Context;
 import java.util.Map;
+import java.util.List;
 
 public class App {
 
@@ -50,7 +51,15 @@ public class App {
     }
 
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
-        ctx.render("urls.html", Map.of("urls", urlRepository.getAllUrls()));
+        List<Url> urls = urlRepository.getAllUrls();
+        // Выводим список URL в консоль для отладки
+        for (Url url : urls) {
+            System.out.println("ID: " + url.getId());
+            System.out.println("Name: " + url.getName());
+            System.out.println("Created At: " + url.getCreatedAt());
+        }
+        // Передаем список URL в HTML-шаблон
+        ctx.render("urls.html", Map.of("urls", urls));
     }
 
     public static void getUrlByIdHandler(Context ctx, UrlRepository urlRepository) {

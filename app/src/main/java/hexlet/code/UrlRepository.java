@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class UrlRepository extends BaseRepository {
@@ -86,13 +87,21 @@ public class UrlRepository extends BaseRepository {
     }
 
     // Метод для получения списка всех URL из базы данных
-    public List<String> getAllUrls() {
-        List<String> urls = new ArrayList<>();
-        String sql = "SELECT name FROM urls";
+    public List<Url> getAllUrls() {
+        List<Url> urls = new ArrayList<>();
+        String sql = "SELECT * FROM urls"; // Получаем все данные из таблицы urls
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                String url = resultSet.getString("name");
+                Url url = new Url();
+                url.setId(resultSet.getLong("id"));
+                url.setName(resultSet.getString("name"));
+
+                // Преобразуем строку в LocalDateTime
+                String createdAtString = resultSet.getString("created_at");
+                LocalDateTime createdAt = LocalDateTime.parse(createdAtString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                url.setCreatedAt(createdAt);
+
                 urls.add(url);
             }
         } catch (SQLException e) {
