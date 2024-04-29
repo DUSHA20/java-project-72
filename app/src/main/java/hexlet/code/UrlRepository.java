@@ -97,9 +97,9 @@ public class UrlRepository extends BaseRepository {
                 url.setId(resultSet.getLong("id"));
                 url.setName(resultSet.getString("name"));
 
-                // Преобразуем строку в LocalDateTime
+                // Преобразуем строку в LocalDate (без времени)
                 String createdAtString = resultSet.getString("created_at");
-                LocalDateTime createdAt = LocalDateTime.parse(createdAtString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                LocalDateTime createdAt = LocalDateTime.parse(createdAtString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                 url.setCreatedAt(createdAt);
 
                 urls.add(url);
