@@ -16,8 +16,6 @@ import io.javalin.http.Context;
 import java.util.Map;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
-import com.google.gson.*;
-import java.time.LocalDateTime;
 
 public class App {
 
@@ -53,13 +51,31 @@ public class App {
         ctx.redirect("/");
     }
 
-    private static final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-            .create();
-
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
         List<Url> urls = urlRepository.getAllUrls();
-        ctx.render("urls.html", Map.of("urls", urls));
+        StringBuilder htmlContent = new StringBuilder();
+
+        // Добавляем ссылку на внешний файл CSS
+        String cssLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"/templates/styles.css\">";
+
+        // Добавляем начало таблицы
+        htmlContent.append("<table id=\"urls-table\">");
+        htmlContent.append("<tr><th>ID</th><th>Name</th><th>Created At</th></tr>");
+
+        // Добавляем каждый URL в таблицу
+        for (Url url : urls) {
+            htmlContent.append("<tr>");
+            htmlContent.append("<td>").append(url.getId()).append("</td>");
+            htmlContent.append("<td>").append(url.getName()).append("</td>");
+            htmlContent.append("<td>").append(url.getCreatedAt()).append("</td>");
+            htmlContent.append("</tr>");
+        }
+
+        // Закрываем таблицу
+        htmlContent.append("</table>");
+
+        // Передаем HTML содержимое на клиентскую сторону
+        ctx.html(cssLink + htmlContent.toString());
     }
 
     public static void getUrlByIdHandler(Context ctx, UrlRepository urlRepository) {
