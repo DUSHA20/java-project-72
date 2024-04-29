@@ -9,34 +9,39 @@
 <body>
 <h1>Сайты</h1>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Created At</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Список URL будет вставлен с использованием шаблонизации -->
-    {{#each urls}}
-    <tr>
-        <td>{{this.id}}</td>
-        <td>{{this.name}}</td>
-        <td>{{formatCreatedAt this.createdAt}}</td>
-    </tr>
-    {{/each}}
-    </tbody>
-</table>
+<ul id="urls-list">
+    <!-- Список URL будет динамически добавлен с помощью JavaScript -->
+</ul>
 
-<!-- Скрипт для форматирования даты и времени -->
+<!-- Скрипт для загрузки и форматирования списка URL -->
 <script>
+    // Получаем JSON из атрибута контекста
+    var jsonUrls = JSON.parse('{{jsonUrls}}');
+
+    // Функция для загрузки списка URL и добавления его на страницу
+    function loadUrls() {
+        var urlsList = document.getElementById('urls-list');
+        // Перебираем JSON и создаем элементы для списка URL
+        jsonUrls.forEach(url => {
+            var listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <p>ID: ${url.id}</p>
+                <p>Name: ${url.name}</p>
+                <p>Created At: ${formatCreatedAt(url.createdAt)}</p>
+            `;
+            urlsList.appendChild(listItem);
+        });
+    }
+
     // Функция для форматирования даты и времени
     function formatCreatedAt(createdAt) {
         var date = new Date(createdAt);
         var options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 6 };
         return date.toLocaleString('ru-RU', options);
     }
+
+    // Вызов функции загрузки списка URL при загрузке страницы
+    document.addEventListener('DOMContentLoaded', loadUrls);
 </script>
 
 </body>
