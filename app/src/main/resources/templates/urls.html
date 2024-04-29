@@ -7,42 +7,21 @@
     <link rel="stylesheet" href="styles.css"> <!-- Ссылка на файл стилей -->
 </head>
 <body>
-<h1>Сайты</h1>
+<h1>Список URL</h1>
 
 <ul id="urls-list">
     <!-- Список URL будет динамически добавлен с помощью JavaScript -->
+    #foreach($url in $urls)
+    <li>
+        <p>ID: $url.getId()</p>
+        <p>Name: $url.getName()</p>
+        <p>Created At: $url.getCreatedAt()</p>
+    </li>
+    #end
 </ul>
 
-<!-- Скрипт для загрузки и форматирования списка URL -->
 <script>
-    // Получаем JSON из атрибута контекста
-    var jsonUrls = '{{jsonUrls}}';
-
-    // Функция для загрузки списка URL и добавления его на страницу
-    function loadUrls() {
-        var urlsList = document.getElementById('urls-list');
-        // Парсим JSON и создаем элементы для списка URL
-        var urls = JSON.parse(jsonUrls);
-        urls.forEach(function(url) {
-            var listItem = document.createElement('li');
-            listItem.innerHTML = `
-                <p>ID: ${id}</p>
-                <p>Name: ${name}</p>
-                <p>Created At: ${formatCreatedAt(createdAt)}</p>
-            `;
-            urlsList.appendChild(listItem);
-        });
-    }
-
-    // Функция для форматирования даты и времени
-    function formatCreatedAt(createdAt) {
-        var date = new Date(createdAt);
-        var options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 6 };
-        return date.toLocaleString('ru-RU', options);
-    }
-
-    // Вызов функции загрузки списка URL при загрузке страницы
-    document.addEventListener('DOMContentLoaded', loadUrls);
+    // JavaScript для динамического управления списком URL
 </script>
 
 </body>

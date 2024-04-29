@@ -59,25 +59,7 @@ public class App {
 
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
         List<Url> urls = urlRepository.getAllUrls();
-        StringBuilder htmlContent = new StringBuilder();
-
-        // Добавляем начало списка
-        htmlContent.append("<ul id=\"urls-list\">");
-
-        // Добавляем каждый URL в список
-        for (Url url : urls) {
-            htmlContent.append("<li>");
-            htmlContent.append("<p>ID: ").append(url.getId()).append("</p>");
-            htmlContent.append("<p>Name: ").append(url.getName()).append("</p>");
-            htmlContent.append("<p>Created At: ").append(url.getCreatedAt()).append("</p>");
-            htmlContent.append("</li>");
-        }
-
-        // Добавляем конец списка
-        htmlContent.append("</ul>");
-
-        // Передаем HTML содержимое на клиентскую сторону
-        ctx.html(htmlContent.toString());
+        ctx.render("urls.html", Map.of("urls", urls));
     }
 
     public static void getUrlByIdHandler(Context ctx, UrlRepository urlRepository) {
