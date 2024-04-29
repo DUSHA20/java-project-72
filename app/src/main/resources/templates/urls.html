@@ -23,12 +23,12 @@
         var urlsList = document.getElementById('urls-list');
         // Парсим JSON и создаем элементы для списка URL
         var urls = JSON.parse(jsonUrls);
-        urls.forEach(url => {
+        urls.forEach(function(url) {
             var listItem = document.createElement('li');
             listItem.innerHTML = `
-                <p>ID: ${url.id}</p>
-                <p>Name: ${url.name}</p>
-                <p>Created At: ${formatCreatedAt(url.createdAt)}</p>
+                <p>ID: ${id}</p>
+                <p>Name: ${name}</p>
+                <p>Created At: ${formatCreatedAt(createdAt)}</p>
             `;
             urlsList.appendChild(listItem);
         });
