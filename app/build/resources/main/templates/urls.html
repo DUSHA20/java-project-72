@@ -8,15 +8,41 @@
 <body>
 <h1>Список URL</h1>
 
-<ul>
-    {{#each urls}}
-    <li>
-        <p>ID: {{this.id}}</p>
-        <p>Name: {{this.name}}</p>
-        <p>Created At: {{this.createdAt}}</p>
-    </li>
-    {{/each}}
+<ul id="urls-list">
+    <!-- Список URL будет динамически добавлен с помощью JavaScript -->
 </ul>
+
+<!-- Скрипт для загрузки и форматирования списка URL -->
+<script>
+    // Функция для загрузки списка URL и добавления его на страницу
+    function loadUrls() {
+        fetch('/getAllUrls') // Предположим, что это ваш маршрут для получения списка URL
+            .then(response => response.json())
+            .then(data => {
+                var urlsList = document.getElementById('urls-list');
+                data.forEach(url => {
+                    var listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <p>ID: ${url.id}</p>
+                        <p>Name: ${url.name}</p>
+                        <p>Created At: ${formatCreatedAt(url.createdAt)}</p>
+                    `;
+                    urlsList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Ошибка загрузки списка URL:', error));
+    }
+
+    // Функция для форматирования даты и времени
+    function formatCreatedAt(createdAt) {
+        var date = new Date(createdAt);
+        var options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', fractionalSecondDigits: 6 };
+        return date.toLocaleString('ru-RU', options);
+    }
+
+    // Вызов функции загрузки списка URL при загрузке страницы
+    document.addEventListener('DOMContentLoaded', loadUrls);
+</script>
 
 </body>
 </html>
