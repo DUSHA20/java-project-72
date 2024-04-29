@@ -16,13 +16,14 @@
 <!-- Скрипт для загрузки и форматирования списка URL -->
 <script>
     // Получаем JSON из атрибута контекста
-    var jsonUrls = JSON.parse('{{jsonUrls}}');
+    var jsonUrls = '{{jsonUrls}}';
 
     // Функция для загрузки списка URL и добавления его на страницу
     function loadUrls() {
         var urlsList = document.getElementById('urls-list');
-        // Перебираем JSON и создаем элементы для списка URL
-        jsonUrls.forEach(url => {
+        // Парсим JSON и создаем элементы для списка URL
+        var urls = JSON.parse(jsonUrls);
+        urls.forEach(url => {
             var listItem = document.createElement('li');
             listItem.innerHTML = `
                 <p>ID: ${url.id}</p>
