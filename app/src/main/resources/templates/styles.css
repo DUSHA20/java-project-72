@@ -60,6 +60,7 @@ body {
     background-color: rgba(70, 130, 180, 0.8); /* Затемняем цвет фона при наведении на кнопку */
 }
 
+
 .display-1 {
     font-size: 70px;
     margin-left: 180px;
@@ -87,4 +88,46 @@ footer {
     font-size: 1.2rem;
     position: absolute;
     bottom: 0;
+}
+
+/* Стили для ссылок на главной странице */
+.links {
+    position: absolute;
+    top: 8px;
+    left: 25px;
+    z-index: 2;
+}
+
+.link-btn {
+    color: white;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-right: 20px;
+    font-size: 1.2rem;
+    text-decoration: none; /* Убираем подчеркивание */
+    cursor: pointer;
+    transition: color 0.3s ease; /* Добавим плавное изменение цвета текста */
+}
+
+.link-btn:hover {
+    color: #ccc; /* Изменяем цвет текста при наведении */
+}
+
+/* Стили для страницы с выводом всех URL */
+.urls-container {
+    padding: 20px;
+}
+
+.url-item {
+    margin-bottom: 10px;
+}
+
+/* Стили для страницы с подробностями URL */
+.details-container {
+    padding: 20px;
+}
+
+.detail-item {
+    margin-bottom: 10px;
 }
