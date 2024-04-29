@@ -53,16 +53,10 @@ public class App {
         ctx.redirect("/");
     }
 
-    private static final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
-            .create();
-
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
         List<Url> urls = urlRepository.getAllUrls();
-        // Преобразование списка URL в формат JSON с помощью зарегистрированного Gson
-        String jsonUrls = gson.toJson(urls);
-        // Передаем JSON на клиентскую сторону
-        ctx.json(jsonUrls);
+        // Передаем список URL в шаблонизатор для вставки в HTML
+        ctx.render("urls.html", Map.of("urls", urls));
     }
 
     public static void getUrlByIdHandler(Context ctx, UrlRepository urlRepository) {
