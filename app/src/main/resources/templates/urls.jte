@@ -21,7 +21,7 @@
 
         .content {
             max-width: 800px;
-            margin: 50px auto; /* Центрируем таблицу */
+            margin: 50px auto; /* Центрируем список */
         }
 
         h1 {
@@ -29,20 +29,12 @@
             text-align: center;
         }
 
-        ul#urls-list {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 20px; /* Добавляем отступ перед таблицей */
-            border-top: 1px solid lightgray; /* Добавляем линию над таблицей */
-            padding-top: 20px; /* Добавляем отступ сверху таблицы */
-        }
-
-        ul#urls-list li {
+        .url-item {
             border-bottom: 1px solid lightgray;
             padding: 10px;
         }
 
-        ul#urls-list li p {
+        .url-item p {
             margin: 0;
         }
     </style>
@@ -55,16 +47,14 @@
     <div class="content">
         <h1>Сайты</h1>
 
-        <ul id="urls-list">
-            <!-- Список URL будет динамически добавлен с помощью JTE -->
-            <?jte foreach (Url url in $urls) { ?>
-            <li>
-                <p>ID: <?jte url.getId() ?></p>
-                <p>Name: <?jte url.getName() ?></p>
-                <p>Created At: <?jte url.getCreatedAt() ?></p>
-            </li>
-            <?jte } ?>
-        </ul>
+        <!-- Список URL будет динамически добавлен с помощью JTE -->
+        <?jte foreach (Url url in $urls) { ?>
+        <div class="url-item">
+            <p>ID: <?jte url.getId() ?></p>
+            <p>Name: <?jte url.getName() ?></p>
+            <p>Created At: <?jte url.getCreatedAt() ?></p>
+        </div>
+        <?jte } ?>
     </div>
 
     <script>
