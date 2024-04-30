@@ -5,7 +5,6 @@
 
 List<Url> urls = urlRepository.getAllUrls();
 
-@if(!urls.isEmpty())
 <div>
     <h3 style="color: navy; text-align: center;">Сайты</h3>
     <table style="width: 100%; border-collapse: collapse; border: 1px solid #dddddd; text-align: left;">
@@ -17,16 +16,13 @@ List<Url> urls = urlRepository.getAllUrls();
             </tr>
         </thead>
         <tbody>
-            @for(int i = 0; i < urls.size(); i++)
+            @for(Url url : urls)
             <tr style="border: 1px solid #dddddd;">
-                <td style="border: 1px solid #dddddd; padding: 8px;">${urls.get(i).getId()}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">${urls.get(i).getName()}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">${urls.get(i).getCreatedAt().toString()}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getId()}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getName()}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getCreatedAt().toString()}</td>
             </tr>
             @endfor
         </tbody>
     </table>
 </div>
-@else
-<p>Список сайтов пуст</p>
-@endif
