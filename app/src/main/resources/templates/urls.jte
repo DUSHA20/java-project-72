@@ -1,7 +1,9 @@
-@import hexlet.code.App
 @import hexlet.code.Url
-
 @import java.util.List
+@import hexlet.code.App
+@import hexlet.code.UrlRepository
+
+List<Url> urls = urlRepository.getAllUrls();
 
 @if(!urls.isEmpty())
 <div>
