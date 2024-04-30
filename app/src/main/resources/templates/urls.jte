@@ -1,65 +1,30 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список URL</title>
-    <style>
-        body {
-            background-color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+@import hexlet.code.App
+@import hexlet.code.Url
 
-        .header {
-            background-color: darkgray;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
+@import java.util.List
 
-        .content {
-            max-width: 800px;
-            margin: 50px auto; /* Центрируем список */
-        }
-
-        h1 {
-            color: navy;
-            text-align: center;
-        }
-
-        .url-item {
-            border-bottom: 1px solid lightgray;
-            padding: 10px;
-        }
-
-        .url-item p {
-            margin: 0;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <a href="/" style="color: white; text-decoration: none;">Главная</a>
-    </div>
-
-    <div class="content">
-        <h1>Сайты</h1>
-
-        <!-- Список URL будет динамически добавлен с помощью JTE -->
-        <?jte foreach (Url url in $urls) { ?>
-        <div class="url-item">
-            <p>ID: <?jte url.getId() ?></p>
-            <p>Name: <?jte url.getName() ?></p>
-            <p>Created At: <?jte url.getCreatedAt() ?></p>
-        </div>
-        <?jte } ?>
-    </div>
-
-    <script>
-        // JavaScript для динамического управления списком URL
-    </script>
-
-</body>
-</html>
+@if(!urls.isEmpty())
+<div>
+    <h3 style="color: navy; text-align: center;">Добавленные сайты</h3>
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid #dddddd; text-align: left;">
+        <thead>
+            <tr style="background-color: darkgray; color: white;">
+                <th style="border: 1px solid #dddddd; padding: 8px;">ID</th>
+                <th style="border: 1px solid #dddddd; padding: 8px;">Имя</th>
+                <th style="border: 1px solid #dddddd; padding: 8px;">Дата создания</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var url in urls)
+            <tr style="border: 1px solid #dddddd;">
+                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getId()}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getName()}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getCreatedAt().toString()}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@else
+<p>Список сайтов пуст</p>
+@endif
