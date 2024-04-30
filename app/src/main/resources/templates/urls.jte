@@ -22,9 +22,9 @@ public String generateUrlsPage(List<Url> urls) {
                 <!-- Список URL будет динамически добавлен с помощью JavaScript -->
                 @for(Url url : urls)
                 <li>
-                    <p>ID: ${url.getId()}</p>
-                    <p>Name: ${url.getName()}</p>
-                    <p>Created At: ${url.getCreatedAt()}</p>
+                    <p>ID: @{url.getId()}</p>
+                    <p>Name: @{url.getName()}</p>
+                    <p>Created At: @{url.getCreatedAt()}</p>
                 </li>
                 @endfor
             </ul>
