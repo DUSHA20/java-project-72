@@ -23,10 +23,10 @@ List<Url> urls = urlRepository.getAllUrls();
                 <td style="border: 1px solid #dddddd; padding: 8px;">${urls.get(i).getName()}</td>
                 <td style="border: 1px solid #dddddd; padding: 8px;">${urls.get(i).getCreatedAt().toString()}</td>
             </tr>
-            @endfor
+            @end
         </tbody>
     </table>
 </div>
 @else
 <p>Список сайтов пуст</p>
-@endif
+@end
