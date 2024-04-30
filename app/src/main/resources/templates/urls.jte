@@ -3,26 +3,37 @@
 @import hexlet.code.App
 @import hexlet.code.UrlRepository
 
-List<Url> urls = urlRepository.getAllUrls();
+// Определение шаблона
+@text
+public String generateUrlsPage(List<Url> urls) {
+    return """
+        <!DOCTYPE html>
+        <html lang="ru">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Список URL</title>
+            <link rel="stylesheet" href="styles.css"> <!-- Ссылка на файл стилей -->
+        </head>
+        <body>
+            <h1>Список URL</h1>
 
-<div>
-    <h3 style="color: navy; text-align: center;">Сайты</h3>
-    <table style="width: 100%; border-collapse: collapse; border: 1px solid #dddddd; text-align: left;">
-        <thead>
-            <tr style="background-color: darkgray; color: white;">
-                <th style="border: 1px solid #dddddd; padding: 8px;">ID</th>
-                <th style="border: 1px solid #dddddd; padding: 8px;">Имя</th>
-                <th style="border: 1px solid #dddddd; padding: 8px;">Дата создания</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for(Url url : urls)
-            <tr style="border: 1px solid #dddddd;">
-                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getId()}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getName()}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getCreatedAt().toString()}</td>
-            </tr>
-            @endfor
-        </tbody>
-    </table>
-</div>
+            <ul id="urls-list">
+                <!-- Список URL будет динамически добавлен с помощью JavaScript -->
+                @foreach($url in $urls)
+                <li>
+                    <p>ID: $url.getId()</p>
+                    <p>Name: $url.getName()</p>
+                    <p>Created At: $url.getCreatedAt()</p>
+                </li>
+                @end
+            </ul>
+
+            <script>
+                // JavaScript для динамического управления списком URL
+            </script>
+
+        </body>
+        </html>
+    """;
+}
