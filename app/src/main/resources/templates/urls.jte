@@ -1,7 +1,7 @@
 @import java.util.List
 @import hexlet.code.Url
 
-@param(urls)
+@param("urls")
 public void render(List<Url> urls) {
     <!DOCTYPE html>
     <html lang="ru">
