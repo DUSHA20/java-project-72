@@ -1,5 +1,3 @@
-// urls_list.jte
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,6 +8,20 @@
         body {
             background-color: white;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: darkgray;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 50px auto; /* Центрируем таблицу */
         }
 
         h1 {
@@ -20,6 +32,9 @@
         ul#urls-list {
             list-style-type: none;
             padding: 0;
+            margin-top: 20px; /* Добавляем отступ перед таблицей */
+            border-top: 1px solid lightgray; /* Добавляем линию над таблицей */
+            padding-top: 20px; /* Добавляем отступ сверху таблицы */
         }
 
         ul#urls-list li {
@@ -33,18 +48,24 @@
     </style>
 </head>
 <body>
-    <h1>Список URL</h1>
+    <div class="header">
+        <a href="/" style="color: white; text-decoration: none;">Главная</a>
+    </div>
 
-    <ul id="urls-list">
-        <!-- Список URL будет динамически добавлен с помощью JavaScript -->
-        #foreach($url in $urls)
-        <li>
-            <p>ID: $url.getId()</p>
-            <p>Name: $url.getName()</p>
-            <p>Created At: $url.getCreatedAt()</p>
-        </li>
-        #end
-    </ul>
+    <div class="content">
+        <h1>Сайты</h1>
+
+        <ul id="urls-list">
+            <!-- Список URL будет динамически добавлен с помощью JTE -->
+            <?jte foreach (Url url in $urls) { ?>
+            <li>
+                <p>ID: <?jte url.getId() ?></p>
+                <p>Name: <?jte url.getName() ?></p>
+                <p>Created At: <?jte url.getCreatedAt() ?></p>
+            </li>
+            <?jte } ?>
+        </ul>
+    </div>
 
     <script>
         // JavaScript для динамического управления списком URL
