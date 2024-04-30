@@ -5,7 +5,7 @@
 
 @if(!urls.isEmpty())
 <div>
-    <h3 style="color: navy; text-align: center;">Добавленные сайты</h3>
+    <h3 style="color: navy; text-align: center;">Сайты</h3>
     <table style="width: 100%; border-collapse: collapse; border: 1px solid #dddddd; text-align: left;">
         <thead>
             <tr style="background-color: darkgray; color: white;">
@@ -15,13 +15,13 @@
             </tr>
         </thead>
         <tbody>
-            @foreach(var url in urls)
+            @for(int i = 0; i < urls.size(); i++)
             <tr style="border: 1px solid #dddddd;">
-                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getId()}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getName()}</td>
-                <td style="border: 1px solid #dddddd; padding: 8px;">${url.getCreatedAt().toString()}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">${urls.get(i).getId()}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">${urls.get(i).getName()}</td>
+                <td style="border: 1px solid #dddddd; padding: 8px;">${urls.get(i).getCreatedAt().toString()}</td>
             </tr>
-            @endforeach
+            @endfor
         </tbody>
     </table>
 </div>
