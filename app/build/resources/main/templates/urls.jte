@@ -27,7 +27,7 @@ public class urls {
             #html(
                 "<tr>",
                 "<td>${url.id}</td>",
-                "<td><a href='${url.name}'>${url.name}</a></td>",
+                "<td><a href='${url.name}'>${url.name}</a></td>"
                 "<td>${url.createdAt}</td>", // Вставляем дату создания
                 "</tr>"
             )
