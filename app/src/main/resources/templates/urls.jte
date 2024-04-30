@@ -20,13 +20,13 @@ public String generateUrlsPage(List<Url> urls) {
 
             <ul id="urls-list">
                 <!-- Список URL будет динамически добавлен с помощью JavaScript -->
-                @foreach($url in $urls)
+                @for(Url url : urls)
                 <li>
-                    <p>ID: $url.getId()</p>
-                    <p>Name: $url.getName()</p>
-                    <p>Created At: $url.getCreatedAt()</p>
+                    <p>ID: ${url.getId()}</p>
+                    <p>Name: ${url.getName()}</p>
+                    <p>Created At: ${url.getCreatedAt()}</p>
                 </li>
-                @end
+                @endfor
             </ul>
 
             <script>
