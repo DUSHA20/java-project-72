@@ -114,23 +114,6 @@ footer {
     color: #ccc; /* Изменяем цвет текста при наведении */
 }
 
-table {
-    width: 80%; /* Ширина таблицы */
-    margin: auto; /* Центрирование таблицы по горизонтали */
-    border-collapse: collapse; /* Объединение границ ячеек */
-}
-
-th, td {
-    padding: 8px; /* Отступ внутри ячеек */
-    border: 1px solid #ddd; /* Границы ячеек */
-    text-align: left; /* Выравнивание текста в ячейках по левому краю */
-}
-
-th {
-    background-color: #f2f2f2; /* Цвет фона заголовков */
-    color: black; /* Цвет текста заголовков */
-}
-
 /* Стили для страницы с выводом всех URL */
 .urls-container {
     padding: 20px;
