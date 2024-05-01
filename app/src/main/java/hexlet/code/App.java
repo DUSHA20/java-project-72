@@ -66,13 +66,13 @@ public class App {
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
         List<Url> urls = urlRepository.getAllUrls();
 
-        // Создаем отдельные списки для каждого элемента
-        List<Long> ids = urls.stream().map(Url::getId).collect(Collectors.toList());
-        List<String> names = urls.stream().map(Url::getName).collect(Collectors.toList());
-        List<LocalDateTime> createdDates = urls.stream().map(Url::getCreatedAt).collect(Collectors.toList());
+        // Создаем список объектов UrlPage
+        List<UrlPage> urlPages = urls.stream()
+                .map(UrlPage::new)
+                .collect(Collectors.toList());
 
-        // Передаем каждый список в шаблон отдельно
-        ctx.render("urls.jte", Map.of("ids", ids, "names", names, "createdDates", createdDates));
+        // Передаем список объектов UrlPage в шаблон
+        ctx.render("urls.jte", Map.of("urlPages", urlPages));
     }
 
     public static Javalin getApp() {

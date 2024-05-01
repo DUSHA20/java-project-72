@@ -1,3 +1,6 @@
+@import hexlet.code.UrlPage
+@param List<UrlPage> urlPages
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,11 +17,11 @@
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < ids.size(); i++)
+            @for (UrlPage page : urlPages)
                 <tr>
-                    <td>@ids.get(i)</td>
-                    <td>@names.get(i)</td>
-                    <td>@createdDates.get(i)</td>
+                    <td>@page.getUrl().getId()</td>
+                    <td>@page.getUrl().getName()</td>
+                    <td>@page.getUrl().getCreatedAt()</td>
                 </tr>
             @endfor
         </tbody>
