@@ -45,6 +45,9 @@ public class App {
                 // Если URL не существует, добавляем его
                 urlRepository.addUrl(url);
 
+                // Выполняем проверку URL и добавляем информацию о проверке в базу данных
+                UrlChecker.checkAndSaveUrlInfo(url, urlRepository);
+
                 // Получаем добавленный URL из репозитория
                 Url addedUrl = urlRepository.getLastInsertedUrl();
                 // Получаем его ID
@@ -63,16 +66,97 @@ public class App {
     }
 
     // здесь еще надо будет добавить параметры из таблицы UrlCheck status проверки и последнее время проверки
+    // здесь еще надо будет добавить параметры из таблицы UrlCheck status проверки и последнее время проверки
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
         List<Url> urls = urlRepository.getAllUrls();
+        StringBuilder htmlContent = new StringBuilder();
 
-        // Создаем список объектов UrlPage
-        List<UrlPage> urlPages = urls.stream()
-                .map(UrlPage::new)
-                .collect(Collectors.toList());
+        // Добавляем начало HTML страницы с встроенными стилями
+        htmlContent.append("<!DOCTYPE html>");
+        htmlContent.append("<html lang=\"ru\">");
+        htmlContent.append("<head>");
+        htmlContent.append("<meta charset=\"UTF-8\">");
+        htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+        htmlContent.append("<title>Список URL</title>");
+        htmlContent.append("</head>");
+        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
 
-        // Передаем список объектов UrlPage в шаблон
-        ctx.render("urls.jte", Map.of("urlPages", urlPages));
+        // Добавляем верхнюю шапку страницы
+        htmlContent.append("<div style=\"background-color: darkgray; padding: 10px; text-align: center;\">");
+        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
+        htmlContent.append("</div>");
+
+        // Добавляем начало таблицы с встроенными стилями
+        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
+        htmlContent.append("<tr style=\"background-color: lightgray;\"><th style=\"padding: 8px;\">ID</th><th style=\"padding: 8px;\">Name</th><th style=\"padding: 8px;\">Created At</th></tr>");
+
+        // Добавляем каждый URL в таблицу
+        for (Url url : urls) {
+            htmlContent.append("<tr style=\"border: 1px solid black;\">");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(url.getId()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(url.getName()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(url.getCreatedAt()).append("</td>");
+            htmlContent.append("</tr>");
+        }
+
+        // Закрываем таблицу и HTML страницу
+        htmlContent.append("</table>");
+        htmlContent.append("</body>");
+        htmlContent.append("</html>");
+
+        // Передаем HTML содержимое на клиентскую сторону
+        ctx.html(htmlContent.toString());
+    }
+
+    public static void getAllUrlChecksHandler(Context ctx, UrlRepository urlRepository) {
+        List<UrlCheck> urlChecks = urlRepository.getAllUrlChecks();
+        StringBuilder htmlContent = new StringBuilder();
+
+        // Добавляем начало HTML страницы с встроенными стилями
+        htmlContent.append("<!DOCTYPE html>");
+        htmlContent.append("<html lang=\"ru\">");
+        htmlContent.append("<head>");
+        htmlContent.append("<meta charset=\"UTF-8\">");
+        htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+        htmlContent.append("<title>Список проверок URL</title>");
+        htmlContent.append("</head>");
+        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
+
+        // Добавляем верхнюю шапку страницы
+        htmlContent.append("<div style=\"background-color: darkgray; padding: 10px; text-align: center;\">");
+        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
+        htmlContent.append("</div>");
+
+        // Добавляем начало таблицы с встроенными стилями
+        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
+        htmlContent.append("<tr style=\"background-color: lightgray;\">");
+        htmlContent.append("<th style=\"padding: 8px;\">ID</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">URL</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Title</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">H1</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Description</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Created At</th>");
+        htmlContent.append("</tr>");
+
+        // Добавляем каждую проверку URL в таблицу
+        for (UrlCheck urlCheck : urlChecks) {
+            htmlContent.append("<tr style=\"border: 1px solid black;\">");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getId()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getUrl()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getTitle()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getH1()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getDescription()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getCreatedAt()).append("</td>");
+            htmlContent.append("</tr>");
+        }
+
+        // Закрываем таблицу и HTML страницу
+        htmlContent.append("</table>");
+        htmlContent.append("</body>");
+        htmlContent.append("</html>");
+
+        // Передаем HTML содержимое на клиентскую сторону
+        ctx.html(htmlContent.toString());
     }
 
     public static Javalin getApp() {
@@ -110,6 +194,7 @@ public class App {
                 .get("/", ctx -> ctx.render("index.html"))
                 .post("/urls", ctx -> addUrlHandler(ctx, urlRepository))
                 .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
+                .get("/urls/checks", ctx -> getAllUrlChecksHandler(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);

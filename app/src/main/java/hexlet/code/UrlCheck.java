@@ -9,8 +9,6 @@ public class UrlCheck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer statusCode;
-
     private String title;
 
     private String h1;
@@ -26,8 +24,8 @@ public class UrlCheck {
     public UrlCheck() {
     }
 
-    public UrlCheck(Integer statusCode, String title, String h1, String description, Long urlId, LocalDateTime createdAt) {
-        this.statusCode = statusCode;
+    public UrlCheck(Long id, String title, String h1, String description, Long urlId, LocalDateTime createdAt) {
+        this.id = id;
         this.title = title;
         this.h1 = h1;
         this.description = description;
@@ -35,21 +33,13 @@ public class UrlCheck {
         this.createdAt = createdAt;
     }
 
-    // Getters and Setters
+    // Getters and setters
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(Integer statusCode) {
-        this.statusCode = statusCode;
     }
 
     public String getTitle() {
@@ -76,11 +66,11 @@ public class UrlCheck {
         this.description = description;
     }
 
-    public Long getUrlId() {
+    public Long getUrl() {
         return urlId;
     }
 
-    public void setUrlId(Long urlId) {
+    public void setUrl(Long urlId) {
         this.urlId = urlId;
     }
 
@@ -91,5 +81,4 @@ public class UrlCheck {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-
 }
