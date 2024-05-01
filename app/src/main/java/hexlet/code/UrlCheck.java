@@ -16,7 +16,7 @@ public class UrlCheck {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private String nameurl;
+    private String name_url;
 
     private LocalDateTime createdAt;
 
@@ -29,7 +29,7 @@ public class UrlCheck {
         this.title = title;
         this.h1 = h1;
         this.description = description;
-        this.nameurl = nameurl;
+        this.name_url = nameurl;
         this.createdAt = createdAt;
     }
 
@@ -67,11 +67,11 @@ public class UrlCheck {
     }
 
     public String getUrl() {
-        return nameurl;
+        return name_url;
     }
 
-    public void setUrl(String urlId) {
-        this.nameurl = urlId;
+    public void setUrl(String name_url) {
+        this.name_url = name_url;
     }
 
     public LocalDateTime getCreatedAt() {
