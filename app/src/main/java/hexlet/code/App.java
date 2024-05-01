@@ -15,6 +15,8 @@ import java.net.URL;
 import io.javalin.http.Context;
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 public class App {
 
@@ -64,8 +66,13 @@ public class App {
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
         List<Url> urls = urlRepository.getAllUrls();
 
-        // Передаем данные в шаблон и рендерим его
-        ctx.render("urls.jte", Map.of("urls", urls));
+        // Создаем отдельные списки для каждого элемента
+        List<Long> ids = urls.stream().map(Url::getId).collect(Collectors.toList());
+        List<String> names = urls.stream().map(Url::getName).collect(Collectors.toList());
+        List<LocalDateTime> createdDates = urls.stream().map(Url::getCreatedAt).collect(Collectors.toList());
+
+        // Передаем каждый список в шаблон отдельно
+        ctx.render("urls.jte", Map.of("ids", ids, "names", names, "createdDates", createdDates));
     }
 
     public static Javalin getApp() {
