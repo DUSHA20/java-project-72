@@ -22,9 +22,9 @@
         <tbody>
             @for (UrlPage page : urlPages)
                 <tr>
-                    <td>@page.getUrl().getId()</td>
-                    <td>@page.getUrl().getName()</td>
-                    <td>@page.getUrl().getCreatedAt()</td>
+                    <td>@(page.getUrl().getId())</td>
+                    <td>@(page.getUrl().getName())</td>
+                    <td>@(page.getUrl().getCreatedAt())</td>
                 </tr>
             @endfor
         </tbody>
