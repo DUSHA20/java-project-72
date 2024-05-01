@@ -65,7 +65,6 @@ public class App {
         } catch (Exception e) {
             System.out.println("Некорректный URL: " + url);
         }
-        ctx.redirect("/");
     }
 
     // здесь еще надо будет добавить параметры из таблицы UrlCheck status проверки и последнее время проверки
