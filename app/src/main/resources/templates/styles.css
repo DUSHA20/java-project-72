@@ -113,21 +113,3 @@ footer {
 .link-btn:hover {
     color: #ccc; /* Изменяем цвет текста при наведении */
 }
-
-/* Стили для страницы с выводом всех URL */
-.urls-container {
-    padding: 20px;
-}
-
-.url-item {
-    margin-bottom: 10px;
-}
-
-/* Стили для страницы с подробностями URL */
-.details-container {
-    padding: 20px;
-}
-
-.detail-item {
-    margin-bottom: 10px;
-}

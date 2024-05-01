@@ -71,6 +71,25 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
+    public Url getLastInsertedUrl() {
+        Url url = null;
+        String sql = "SELECT * FROM urls ORDER BY id DESC LIMIT 1";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                url = new Url();
+                url.setId(resultSet.getLong("id"));
+                url.setName(resultSet.getString("name"));
+                Timestamp timestamp = resultSet.getTimestamp("created_at");
+                LocalDateTime createdAt = timestamp.toLocalDateTime();
+                url.setCreatedAt(createdAt);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
     public void addUrlCheck(UrlCheck urlCheck) {
         String sql = "INSERT INTO url_checks (url_id, status_code, title, h1, description, created_at) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
