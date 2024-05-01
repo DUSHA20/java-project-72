@@ -123,7 +123,7 @@ public class App {
         htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
 
         // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: darkgray; padding: 10px; text-align: center;\">");
+        htmlContent.append("<div style=\"background-color: darkgray; padding: 10px; text-align: left;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 

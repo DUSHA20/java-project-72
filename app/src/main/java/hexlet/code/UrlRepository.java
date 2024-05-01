@@ -179,7 +179,7 @@ public class UrlRepository extends BaseRepository {
             while (resultSet.next()) {
                 UrlCheck urlCheck = new UrlCheck();
                 urlCheck.setId(resultSet.getLong("id"));
-                urlCheck.setUrl(resultSet.getLong("url"));
+                urlCheck.setUrl(resultSet.getString("url"));
                 urlCheck.setTitle(resultSet.getString("title"));
                 urlCheck.setH1(resultSet.getString("h1"));
                 urlCheck.setDescription(resultSet.getString("description"));
