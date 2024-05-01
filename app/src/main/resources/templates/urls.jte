@@ -1,4 +1,6 @@
 @import hexlet.code.UrlPage
+@import java.util.List
+
 @param List<UrlPage> urlPages
 
 <!DOCTYPE html>
