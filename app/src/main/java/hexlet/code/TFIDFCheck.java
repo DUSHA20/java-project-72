@@ -2,6 +2,7 @@ package hexlet.code;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
 public class TFIDFCheck {
@@ -13,7 +14,7 @@ public class TFIDFCheck {
 
     private String word;
 
-    private Double tfidf;
+    private BigDecimal tfidf;
 
     private LocalDateTime createdAt;
 
@@ -21,7 +22,7 @@ public class TFIDFCheck {
     public TFIDFCheck() {
     }
 
-    public TFIDFCheck(Long id, Long url_id, String word, Double tfidf, LocalDateTime createdAt) {
+    public TFIDFCheck(Long id, Long url_id, String word, BigDecimal tfidf, LocalDateTime createdAt) {
         this.id = id;
         this.url_id = url_id;
         this.word = word;
@@ -54,11 +55,11 @@ public class TFIDFCheck {
         this.word = word;
     }
 
-    public Double getTfidf() {
+    public BigDecimal getTfidf() {
         return tfidf;
     }
 
-    public void setTfidf(Double tfidf) {
+    public void setTfidf(BigDecimal tfidf) {
         this.tfidf = tfidf;
     }
 
