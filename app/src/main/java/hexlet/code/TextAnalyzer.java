@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 import hexlet.code.TFIDFCheck;
 
 public class TextAnalyzer {
+
+    private static final int TOP_N = 10;
     public static void calculateAndSaveTFIDFForUrl(String url, UrlRepository urlRepository) {
         try {
             String text = extractTextFromUrl(url);
@@ -28,15 +30,22 @@ public class TextAnalyzer {
     }
 
     public static Map<String, Double> calculateTFIDF(String text) {
-        String[] words = text.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+        String[] words = text.replaceAll("[^a-zA-Zа-яА-Я ]", "").toLowerCase().split("\\s+");
         Map<String, Double> tfMap = calculateTF(words);
         Map<String, Double> idfMap = calculateIDF(words);
         Map<String, Double> tfidfMap = new HashMap<>();
 
+        int count = 0; // Счетчик добавленных слов
         for (Map.Entry<String, Double> entry : tfMap.entrySet()) {
             String word = entry.getKey();
-            double tfidf = entry.getValue() * idfMap.getOrDefault(word, 0.0);
-            tfidfMap.put(word, tfidf);
+            if (word.length() > 3 && !word.equals(word.toUpperCase())) { // Условие для фильтрации слов
+                double tfidf = entry.getValue() * idfMap.getOrDefault(word, 0.0);
+                tfidfMap.put(word, tfidf);
+                count++;
+                if (count >= TOP_N) {
+                    break;
+                }
+            }
         }
 
         return tfidfMap;
@@ -63,10 +72,10 @@ public class TextAnalyzer {
     public static Map<String, Double> calculateIDF(String[] words) {
         Map<String, Integer> documentCountMap = new HashMap<>();
         Map<String, Double> idfMap = new HashMap<>();
-        int totalDocuments = 1;
+        int totalDocuments = 2;
 
         for (String word : words) {
-            documentCountMap.put(word, 1);
+            documentCountMap.put(word, 2);
         }
 
         for (Map.Entry<String, Integer> entry : documentCountMap.entrySet()) {

@@ -184,8 +184,8 @@ public class App {
         htmlContent.append("<tr style=\"background-color: lightgray;\">");
         htmlContent.append("<th style=\"padding: 8px;\">ID_Проверки</th>");
         htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Заголовок</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">H1</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Слово</th>");
+        htmlContent.append("<th style=\"padding: 8px;\"></th>");
         htmlContent.append("<th style=\"padding: 8px;\">Дата и время проверки</th>");
         htmlContent.append("</tr>");
 
