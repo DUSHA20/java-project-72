@@ -233,7 +233,7 @@ public class UrlRepository extends BaseRepository {
         try {
             Long urlId = getUrlIdByName(url);
             if (urlId != null) {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO Checks (url_id, word, tfidf, created_at) VALUES (?, ?, ?, ?)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO TFIDFResults (url_id, word, tfidf, created_at) VALUES (?, ?, ?, ?)");
                 for (Map.Entry<String, Double> entry : tfidfMap.entrySet()) {
                     String word = entry.getKey();
                     Double tfidf = entry.getValue();
