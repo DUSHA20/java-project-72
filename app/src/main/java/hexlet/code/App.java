@@ -131,7 +131,7 @@ public class App {
         htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
         htmlContent.append("<tr style=\"background-color: lightgray;\">");
         htmlContent.append("<th style=\"padding: 8px;\">ID</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">URL</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">URL_id</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Title</th>");
         htmlContent.append("<th style=\"padding: 8px;\">H1</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Description</th>");
