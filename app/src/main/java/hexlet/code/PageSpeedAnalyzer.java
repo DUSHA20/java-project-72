@@ -50,6 +50,9 @@ public class PageSpeedAnalyzer {
                 JSONObject lighthouseMetricsJson = new JSONObject(lighthouseMetrics);
                 String lighthouseMetricsString = lighthouseMetricsJson.toString();
 
+                // Вывод всей строки с данными о скорости загрузки страницы в консоль
+                System.out.println("Page speed analysis data: " + lighthouseMetricsString);
+
                 urlRepository.addPageSpeedAnalysis(url, lighthouseMetricsString);
 
             } else {
