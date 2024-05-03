@@ -56,7 +56,7 @@ public class App {
                 // Вычисляем TF-IDF и добавляем результаты в базу данных
                 TextAnalyzer.calculateAndSaveTFIDFForUrl(url, urlRepository);
 
-                PageSpeedAnalyzer.analyzePageSpeed(url, urlRepository);
+                PageSpeedAnalyzer.analyzePage(url, urlRepository);
 
                 // Перенаправляем пользователя на страницу с информацией о добавленном URL
                 ctx.redirect("/urls/" + addedUrlId);
@@ -211,8 +211,8 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
-    public static void getAllPageSpeedAnalysisHandler(Context ctx, UrlRepository urlRepository) {
-        List<PageSpeedAnalysis> pageSpeedAnalysisList = urlRepository.getAllPageSpeedAnalysis();
+    public static void getAllSpeedAnalysisHandler(Context ctx, UrlRepository urlRepository) {
+        List<PageSpeedAnalysis> pageSpeedAnalysisList = urlRepository.getAllSpeedAnalysis();
         StringBuilder htmlContent = new StringBuilder();
 
         // Добавляем начало HTML страницы с встроенными стилями
@@ -235,7 +235,10 @@ public class App {
         htmlContent.append("<tr style=\"background-color: lightgray;\">");
         htmlContent.append("<th style=\"padding: 8px;\">ID_Анализа</th>");
         htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Результат анализа</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Время загрузки (мс)</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Размер контента (байт)</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Количество запросов</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Использование CDN</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Дата и время анализа</th>");
         htmlContent.append("</tr>");
 
@@ -244,7 +247,10 @@ public class App {
             htmlContent.append("<tr style=\"border: 1px solid black;\">");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getId()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getUrlId()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getAnalysisResult()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getLoadTime()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getContentLength()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getRequestCount()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getCdnUsed()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getCreatedAt()).append("</td>");
             htmlContent.append("</tr>");
         }
@@ -295,7 +301,7 @@ public class App {
                 .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
                 .get("/urls/checks", ctx -> getAllUrlChecksHandler(ctx, urlRepository))
                 .get("/urls/tfidfchecks", ctx -> getAllTFIDFChecksHandler(ctx, urlRepository))
-                .get("/urls/pagespeedresults", ctx -> getAllPageSpeedAnalysisHandler(ctx, urlRepository))
+                .get("/urls/pagespeedresults", ctx -> getAllSpeedAnalysisHandler(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);

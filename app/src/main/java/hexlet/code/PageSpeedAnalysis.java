@@ -9,22 +9,34 @@ public class PageSpeedAnalysis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "url_id")
     private Long urlId;
 
-    @Column(columnDefinition = "TEXT")
-    private String analysisResult;
+    @Column(name = "load_time")
+    private Long loadTime;
 
+    @Column(name = "content_length")
+    private Integer contentLength;
+
+    @Column(name = "request_count")
+    private Integer requestCount;
+
+    @Column(name = "is_cdn_used")
+    private Boolean isCdnUsed;
+
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
     // Constructors, getters, and setters
     public PageSpeedAnalysis() {
     }
 
-    public PageSpeedAnalysis(Long id, Long urlId, String analysisResult, LocalDateTime createdAt) {
-        this.id = id;
+    public PageSpeedAnalysis(Long urlId, Long loadTime, Integer contentLength, Integer requestCount, Boolean isCdnUsed) {
         this.urlId = urlId;
-        this.analysisResult = analysisResult;
-        this.createdAt = createdAt;
+        this.loadTime = loadTime;
+        this.contentLength = contentLength;
+        this.requestCount = requestCount;
+        this.isCdnUsed = isCdnUsed;
     }
 
     // Getters and setters
@@ -44,12 +56,36 @@ public class PageSpeedAnalysis {
         this.urlId = urlId;
     }
 
-    public String getAnalysisResult() {
-        return analysisResult;
+    public Long getLoadTime() {
+        return loadTime;
     }
 
-    public void setAnalysisResult(String analysisResult) {
-        this.analysisResult = analysisResult;
+    public void setLoadTime(Long loadTime) {
+        this.loadTime = loadTime;
+    }
+
+    public Integer getContentLength() {
+        return contentLength;
+    }
+
+    public void setContentLength(Integer contentLength) {
+        this.contentLength = contentLength;
+    }
+
+    public Integer getRequestCount() {
+        return requestCount;
+    }
+
+    public void setRequestCount(Integer requestCount) {
+        this.requestCount = requestCount;
+    }
+
+    public Boolean getCdnUsed() {
+        return isCdnUsed;
+    }
+
+    public void setCdnUsed(Boolean cdnUsed) {
+        isCdnUsed = cdnUsed;
     }
 
     public LocalDateTime getCreatedAt() {
