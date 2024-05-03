@@ -72,10 +72,10 @@ public class TextAnalyzer {
     public static Map<String, Double> calculateIDF(String[] words) {
         Map<String, Integer> documentCountMap = new HashMap<>();
         Map<String, Double> idfMap = new HashMap<>();
-        int totalDocuments = 2;
+        int totalDocuments = words.length;
 
         for (String word : words) {
-            documentCountMap.put(word, 2);
+            documentCountMap.put(word, totalDocuments);
         }
 
         for (Map.Entry<String, Integer> entry : documentCountMap.entrySet()) {

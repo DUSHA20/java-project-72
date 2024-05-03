@@ -56,6 +56,8 @@ public class App {
                 // Вычисляем TF-IDF и добавляем результаты в базу данных
                 TextAnalyzer.calculateAndSaveTFIDFForUrl(url, urlRepository);
 
+                PageSpeedAnalyzer.analyzePageSpeed(url, urlRepository);
+
                 // Перенаправляем пользователя на страницу с информацией о добавленном URL
                 ctx.redirect("/urls/" + addedUrlId);
 
@@ -209,6 +211,56 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
+    public class PageSpeedAnalysisHandler {
+
+        public static void getAllPageSpeedAnalysisHandler(Context ctx, UrlRepository urlRepository) {
+            List<PageSpeedAnalysis> pageSpeedAnalysisList = urlRepository.getAllPageSpeedAnalysis();
+            StringBuilder htmlContent = new StringBuilder();
+
+            // Добавляем начало HTML страницы с встроенными стилями
+            htmlContent.append("<!DOCTYPE html>");
+            htmlContent.append("<html lang=\"ru\">");
+            htmlContent.append("<head>");
+            htmlContent.append("<meta charset=\"UTF-8\">");
+            htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+            htmlContent.append("<title>Список анализов скорости загрузки страниц</title>");
+            htmlContent.append("</head>");
+            htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
+
+            // Добавляем верхнюю шапку страницы
+            htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: left;\">");
+            htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
+            htmlContent.append("</div>");
+
+            // Добавляем начало таблицы с встроенными стилями
+            htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
+            htmlContent.append("<tr style=\"background-color: lightgray;\">");
+            htmlContent.append("<th style=\"padding: 8px;\">ID_Анализа</th>");
+            htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
+            htmlContent.append("<th style=\"padding: 8px;\">Результат анализа</th>");
+            htmlContent.append("<th style=\"padding: 8px;\">Дата и время анализа</th>");
+            htmlContent.append("</tr>");
+
+            // Добавляем каждый анализ скорости загрузки страницы в таблицу
+            for (PageSpeedAnalysis pageSpeedAnalysis : pageSpeedAnalysisList) {
+                htmlContent.append("<tr style=\"border: 1px solid black;\">");
+                htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getId()).append("</td>");
+                htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getUrlId()).append("</td>");
+                htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getAnalysisResult()).append("</td>");
+                htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getCreatedAt()).append("</td>");
+                htmlContent.append("</tr>");
+            }
+
+            // Закрываем таблицу и HTML страницу
+            htmlContent.append("</table>");
+            htmlContent.append("</body>");
+            htmlContent.append("</html>");
+
+            // Передаем HTML содержимое на клиентскую сторону
+            ctx.html(htmlContent.toString());
+        }
+    }
+
     public static Javalin getApp() {
 
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
@@ -246,6 +298,7 @@ public class App {
                 .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
                 .get("/urls/checks", ctx -> getAllUrlChecksHandler(ctx, urlRepository))
                 .get("/urls/tfidfchecks", ctx -> getAllTFIDFChecksHandler(ctx, urlRepository))
+                .get("/urls/pagespeedresults", ctx -> getAllTFIDFChecksHandler(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);
