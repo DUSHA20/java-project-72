@@ -54,7 +54,7 @@ public class App {
                 long addedUrlId = addedUrl.getId();
 
                 // Вычисляем TF-IDF и добавляем результаты в базу данных
-                TextAnalyzer.calculateAndSaveTFIDFForUrl(url, urlRepository);
+                //TextAnalyzer.calculateAndSaveTFIDFForUrl(url, urlRepository);
 
                 PageSpeedAnalyzer.analyzePageSpeed(url, urlRepository);
 
