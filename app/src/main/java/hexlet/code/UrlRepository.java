@@ -66,7 +66,7 @@ public class UrlRepository extends BaseRepository {
                     "content_length INT NOT NULL," +
                     "request_count INT NOT NULL," +
                     "is_cdn_used BOOLEAN NOT NULL," +
-                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                     "FOREIGN KEY (url_id) REFERENCES urls(id)" +
                     ")";
             statement.executeUpdate(createSpeedAnalysisTableSql);
