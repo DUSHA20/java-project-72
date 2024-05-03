@@ -278,7 +278,7 @@ public class UrlRepository extends BaseRepository {
 
     public List<TFIDFCheck> getAllTFIDFChecks() {
         List<TFIDFCheck> tfidfchecks = new ArrayList<>();
-        String sql = "SELECT * FROM TFIDFResults"; // Получаем все данные из таблицы TFIDFResults
+        String sql = "SELECT id, url_id, word, created_at FROM SpeedAnalysis";
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -286,7 +286,6 @@ public class UrlRepository extends BaseRepository {
                 tfidfcheck.setId(resultSet.getLong("id"));
                 tfidfcheck.setUrlId(resultSet.getLong("url_id"));
                 tfidfcheck.setWord(resultSet.getString("word"));
-                tfidfcheck.setTfidf(resultSet.getBigDecimal("tfidf"));
 
                 Timestamp timestamp = resultSet.getTimestamp("created_at");
                 // Преобразуем Timestamp в LocalDateTime
@@ -331,8 +330,6 @@ public class UrlRepository extends BaseRepository {
                 pagespeedAnalysis.setId(resultSet.getLong("id"));
                 pagespeedAnalysis.setUrlId(resultSet.getLong("url_id"));
                 pagespeedAnalysis.setLoadTime(resultSet.getLong("load_time"));
-                pagespeedAnalysis.setContentLength(resultSet.getInt("content_length"));
-                pagespeedAnalysis.setRequestCount(resultSet.getInt("request_count"));
                 pagespeedAnalysis.setCdnUsed(resultSet.getBoolean("is_cdn_used"));
 
                 Timestamp timestamp = resultSet.getTimestamp("created_at");
