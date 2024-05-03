@@ -323,7 +323,7 @@ public class UrlRepository extends BaseRepository {
 
     public List<PageSpeedAnalysis> getAllSpeedAnalysis() {
         List<PageSpeedAnalysis> pagespeedAnalysisList = new ArrayList<>();
-        String sql = "SELECT * FROM SpeedAnalysis"; // Получаем все данные из таблицы SpeedAnalysis
+        String sql = "SELECT id, url_id, load_time, is_cdn_used, created_at FROM SpeedAnalysis";
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {

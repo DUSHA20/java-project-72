@@ -236,8 +236,6 @@ public class App {
         htmlContent.append("<th style=\"padding: 8px;\">ID_Анализа</th>");
         htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Время загрузки (мс)</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Размер контента (байт)</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Количество запросов</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Использование CDN</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Дата и время анализа</th>");
         htmlContent.append("</tr>");
@@ -248,8 +246,6 @@ public class App {
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getId()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getUrlId()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getLoadTime()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getContentLength()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getRequestCount()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getCdnUsed()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getCreatedAt()).append("</td>");
             htmlContent.append("</tr>");
