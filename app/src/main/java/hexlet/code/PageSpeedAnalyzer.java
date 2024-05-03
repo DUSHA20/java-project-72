@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class PageSpeedAnalyzer {
 
-    private static final String API_KEY = "AIzaSyA479L4JXJbWXTM6R8bAOQ3aTXYRzE8Z9g";
+    private static final String API_KEY = "AIzaSyATMIvPccvzI5MxsejIq8cPS41hmx8-MLs";
     private static final String API_ENDPOINT = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
 
     public static void analyzePageSpeed(String url, UrlRepository urlRepository) {
