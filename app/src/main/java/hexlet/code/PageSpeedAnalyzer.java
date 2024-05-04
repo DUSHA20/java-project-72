@@ -30,7 +30,7 @@ public class PageSpeedAnalyzer {
             long endTime = System.currentTimeMillis();
 
             // Размер страницы
-            int contentLength = connection.getContentLength();
+            int contentLength = getPageContentLength(url);
 
             // Количество запросов к серверу
             int requestCount = connection.getHeaderFieldInt("X-Total-Requests", 0);
@@ -48,6 +48,28 @@ public class PageSpeedAnalyzer {
         } catch (IOException e) {
             // Обрабатываем ошибку
             e.printStackTrace();
+        }
+    }
+
+    public static int getPageContentLength(String url) {
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("GET");
+
+            // Читаем содержимое страницы
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder content = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line);
+            }
+            reader.close();
+
+            // Возвращаем размер содержимого страницы
+            return content.toString().getBytes().length;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1; // или какой-то другой код ошибки
         }
     }
 }
