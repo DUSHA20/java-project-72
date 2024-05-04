@@ -10,7 +10,8 @@ public class LinkCheck {
     private Long id;
 
     // Новое поле для связи с таблицей urls
-    private Long url_id;
+    @Column(name = "url_id")
+    private Long urlId;
 
     // Столбец для хранения URL-адреса
     private String url;
@@ -49,11 +50,11 @@ public class LinkCheck {
 
     // Добавленные методы для работы с новым полем url_id
     public Long getUrlId() {
-        return url_id;
+        return urlId;
     }
 
-    public void setUrlId(Long url_id) {
-        this.url_id = url_id;
+    public void setUrlId(Long urlId) {
+        this.urlId = urlId;
     }
 
     // Getters and setters для остальных полей
@@ -79,13 +80,5 @@ public class LinkCheck {
 
     public void setCheckedAt(LocalDateTime checkedAt) {
         this.checkedAt = checkedAt;
-    }
-
-    public LinkType getLinkType() {
-        return linkType;
-    }
-
-    public void setLinkType(LinkType linkType) {
-        this.linkType = linkType;
     }
 }

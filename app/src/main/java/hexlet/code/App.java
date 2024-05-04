@@ -58,7 +58,7 @@ public class App {
 
                 PageSpeedAnalyzer.analyzePage(url, urlRepository);
 
-                LinkChecker.checkLinks(url);
+                LinkChecker.checkAndSaveNonWorkingExternalLinks(url, urlRepository);
 
                 // Перенаправляем пользователя на страницу с информацией о добавленном URL
                 ctx.redirect("/urls/" + addedUrlId);
@@ -289,7 +289,6 @@ public class App {
         htmlContent.append("<th style=\"padding: 8px;\">Сайт</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Статус</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Дата и время проверки</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Тип ссылки</th>");
         htmlContent.append("</tr>");
 
         // Добавляем каждый анализ скорости загрузки страницы в таблицу
@@ -300,7 +299,6 @@ public class App {
             htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getUrl()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getStatusCode()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getCheckedAt()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getLinkType()).append("</td>");
             htmlContent.append("</tr>");
         }
 
