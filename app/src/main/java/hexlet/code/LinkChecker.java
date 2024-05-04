@@ -14,7 +14,7 @@ public class LinkChecker {
         try {
             Document doc = Jsoup.connect(baseUrl).get();
 
-            for (Element link : doc.select("*[href]")) {
+            for (Element link : doc.select("a[href], button[href]")) {
                 String href = link.absUrl("href");
                 // Проверяем, является ли ссылка внутренней
                 if (isInternalLink(href, baseUrl)) {
