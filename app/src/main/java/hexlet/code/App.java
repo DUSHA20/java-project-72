@@ -284,17 +284,19 @@ public class App {
         // Добавляем начало таблицы с встроенными стилями
         htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
         htmlContent.append("<tr style=\"background-color: lightgray;\">");
-        htmlContent.append("<th style=\"padding: 8px;\">ID</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">URL</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Status Code</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Checked At</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Link Type</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">ID_Проверки</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Сайт</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Статус</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Дата и время проверки</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Тип ссылки</th>");
         htmlContent.append("</tr>");
 
         // Добавляем каждый анализ скорости загрузки страницы в таблицу
         for (LinkCheck linkCheck : linkChecks) {
             htmlContent.append("<tr style=\"border: 1px solid black;\">");
             htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getId()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getUrlId()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getUrl()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getStatusCode()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getCheckedAt()).append("</td>");

@@ -9,13 +9,20 @@ public class LinkCheck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Новое поле для связи с таблицей urls
+    private Long url_id;
+
+    // Столбец для хранения URL-адреса
     private String url;
 
     private int statusCode;
+
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime checkedAt;
+
     @Enumerated(EnumType.STRING)
     private LinkType linkType;
+
     public enum LinkType {
         INTERNAL,
         EXTERNAL
@@ -32,7 +39,6 @@ public class LinkCheck {
         this.linkType = linkType;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -41,6 +47,16 @@ public class LinkCheck {
         this.id = id;
     }
 
+    // Добавленные методы для работы с новым полем url_id
+    public Long getUrlId() {
+        return url_id;
+    }
+
+    public void setUrlId(Long url_id) {
+        this.url_id = url_id;
+    }
+
+    // Getters and setters для остальных полей
     public String getUrl() {
         return url;
     }
