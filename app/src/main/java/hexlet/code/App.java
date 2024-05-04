@@ -58,6 +58,8 @@ public class App {
 
                 PageSpeedAnalyzer.analyzePage(url, urlRepository);
 
+                LinkChecker.checkLinks(url);
+
                 // Перенаправляем пользователя на страницу с информацией о добавленном URL
                 ctx.redirect("/urls/" + addedUrlId);
 
@@ -260,6 +262,55 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
+    public static void getAllLinkCheckHandler(Context ctx, UrlRepository urlRepository) {
+        List<LinkCheck> linkChecks = urlRepository.getAllLinkChecks();
+        StringBuilder htmlContent = new StringBuilder();
+
+        // Добавляем начало HTML страницы с встроенными стилями
+        htmlContent.append("<!DOCTYPE html>");
+        htmlContent.append("<html lang=\"ru\">");
+        htmlContent.append("<head>");
+        htmlContent.append("<meta charset=\"UTF-8\">");
+        htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+        htmlContent.append("<title>Список анализов скорости загрузки страниц</title>");
+        htmlContent.append("</head>");
+        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
+
+        // Добавляем верхнюю шапку страницы
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: left;\">");
+        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
+        htmlContent.append("</div>");
+
+        // Добавляем начало таблицы с встроенными стилями
+        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
+        htmlContent.append("<tr style=\"background-color: lightgray;\">");
+        htmlContent.append("<th style=\"padding: 8px;\">ID</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">URL</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Status Code</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Checked At</th>");
+        htmlContent.append("<th style=\"padding: 8px;\">Link Type</th>");
+        htmlContent.append("</tr>");
+
+        // Добавляем каждый анализ скорости загрузки страницы в таблицу
+        for (LinkCheck linkCheck : linkChecks) {
+            htmlContent.append("<tr style=\"border: 1px solid black;\">");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getId()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getUrl()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getStatusCode()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getCheckedAt()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getLinkType()).append("</td>");
+            htmlContent.append("</tr>");
+        }
+
+        // Закрываем таблицу и HTML страницу
+        htmlContent.append("</table>");
+        htmlContent.append("</body>");
+        htmlContent.append("</html>");
+
+        // Передаем HTML содержимое на клиентскую сторону
+        ctx.html(htmlContent.toString());
+    }
+
     public static Javalin getApp() {
 
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
@@ -298,6 +349,7 @@ public class App {
                 .get("/urls/checks", ctx -> getAllUrlChecksHandler(ctx, urlRepository))
                 .get("/urls/tfidfchecks", ctx -> getAllTFIDFChecksHandler(ctx, urlRepository))
                 .get("/urls/pagespeedresults", ctx -> getAllSpeedAnalysisHandler(ctx, urlRepository))
+                .get("/urls/linkcheckresults", ctx -> getAllLinkCheckHandler(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);

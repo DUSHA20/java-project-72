@@ -71,7 +71,17 @@ public class UrlRepository extends BaseRepository {
                     ")";
             statement.executeUpdate(createSpeedAnalysisTableSql);
 
-            System.out.println("Tables 'urls', 'Checks','TFIDFResults' and 'SpeedAnalysis' created successfully");
+            String createLinkCheckTableSql = "CREATE TABLE IF NOT EXISTS LinkCheck (" +
+                    "id BIGINT AUTO_INCREMENT PRIMARY KEY," +
+                    "url VARCHAR(255) NOT NULL," +
+                    "statusCode INTEGER NOT NULL," +
+                    "checkedAt TIMESTAMP NOT NULL," +
+                    "linkType ENUM('ВНУТРЕННЯЯ', 'ВНЕШНЯЯ') NOT NULL," +
+                    "FOREIGN KEY (url) REFERENCES urls(id)" +
+                    ")";
+            statement.executeUpdate(createLinkCheckTableSql);
+
+            System.out.println("Tables 'urls', 'Checks','TFIDFResults', 'SpeedAnalysis' and 'LinkCheck' created successfully");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -278,7 +288,7 @@ public class UrlRepository extends BaseRepository {
 
     public List<TFIDFCheck> getAllTFIDFChecks() {
         List<TFIDFCheck> tfidfchecks = new ArrayList<>();
-        String sql = "SELECT id, url_id, word, created_at FROM SpeedAnalysis";
+        String sql = "SELECT id, url_id, word, created_at FROM TFIDFResults";
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -343,5 +353,51 @@ public class UrlRepository extends BaseRepository {
             e.printStackTrace();
         }
         return pagespeedAnalysisList;
+    }
+
+    public void saveUrlStatus(String url, int statusCode, LinkCheck.LinkType linkType) throws SQLException {
+        Long urlId = getUrlIdByName(url);
+        if (urlId != null) {
+            try {
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO LinkCheck (url, statusCode, checkedAt, linkType) VALUES (?, ?, ?, ?)");
+                statement.setString(1, url);
+                statement.setInt(2, statusCode);
+                statement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                statement.setString(4, linkType.name());
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new SQLException("Error occurred while saving URL status to the database: " + e.getMessage());
+            }
+        } else {
+            throw new SQLException("URL not found: " + url);
+        }
+    }
+
+    public List<LinkCheck> getAllLinkChecks() {
+        List<LinkCheck> linkChecks = new ArrayList<>();
+        String sql = "SELECT id, url, statusCode, checkedAt, linkType FROM LinkCheck";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                LinkCheck linkCheck = new LinkCheck();
+                linkCheck.setId(resultSet.getLong("id"));
+                linkCheck.setUrl(resultSet.getString("url"));
+                linkCheck.setStatusCode(resultSet.getInt("statusCode"));
+
+                Timestamp timestamp = resultSet.getTimestamp("checkedAt");
+                LocalDateTime checkedAt = timestamp.toLocalDateTime();
+                linkCheck.setCheckedAt(checkedAt);
+
+                String linkTypeStr = resultSet.getString("linkType");
+                LinkCheck.LinkType linkType = LinkCheck.LinkType.valueOf(linkTypeStr);
+                linkCheck.setLinkType(linkType);
+
+                linkChecks.add(linkCheck);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return linkChecks;
     }
 }
