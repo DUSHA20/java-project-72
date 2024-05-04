@@ -19,7 +19,7 @@ public class LinkCheck {
     private int statusCode;
 
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime checkedAt;
+    private LocalDateTime created_at;
 
     @Enumerated(EnumType.STRING)
     private LinkType linkType;
@@ -33,10 +33,10 @@ public class LinkCheck {
     public LinkCheck() {
     }
 
-    public LinkCheck(String url, int statusCode, LocalDateTime checkedAt, LinkType linkType) {
+    public LinkCheck(String url, int statusCode, LocalDateTime created_at, LinkType linkType) {
         this.url = url;
         this.statusCode = statusCode;
-        this.checkedAt = checkedAt;
+        this.created_at = created_at;
         this.linkType = linkType;
     }
 
@@ -75,10 +75,10 @@ public class LinkCheck {
     }
 
     public LocalDateTime getCheckedAt() {
-        return checkedAt;
+        return created_at;
     }
 
-    public void setCheckedAt(LocalDateTime checkedAt) {
-        this.checkedAt = checkedAt;
+    public void setCheckedAt(LocalDateTime created_at) {
+        this.created_at = created_at;
     }
 }

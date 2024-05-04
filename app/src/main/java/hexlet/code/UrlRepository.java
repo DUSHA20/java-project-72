@@ -370,7 +370,7 @@ public class UrlRepository extends BaseRepository {
         Long urlId = getUrlIdByName(url);
         if (urlId != null) {
             try {
-                PreparedStatement statement = connection.prepareStatement("INSERT INTO Links (url_id, url, statusCode, checkedAt) VALUES (?, ?, ?, ?)");
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO Links (url_id, url, statusCode, created_at) VALUES (?, ?, ?, ?)");
                 statement.setLong(1, urlId);
                 statement.setString(2, url);
                 statement.setInt(3, statusCode);
@@ -387,7 +387,7 @@ public class UrlRepository extends BaseRepository {
 
     public List<LinkCheck> getAllLinkChecks() {
         List<LinkCheck> linkChecks = new ArrayList<>();
-        String sql = "SELECT id, url_id, url, statusCode, checkedAt FROM Links";
+        String sql = "SELECT id, url_id, url, statusCode, created_at FROM Links";
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -397,7 +397,7 @@ public class UrlRepository extends BaseRepository {
                 linkCheck.setUrl(resultSet.getString("url"));
                 linkCheck.setStatusCode(resultSet.getInt("statusCode"));
 
-                Timestamp timestamp = resultSet.getTimestamp("checkedAt");
+                Timestamp timestamp = resultSet.getTimestamp("created_at");
                 LocalDateTime checkedAt = timestamp.toLocalDateTime();
                 linkCheck.setCheckedAt(checkedAt);
 
