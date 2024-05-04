@@ -58,7 +58,7 @@ public class App {
 
                 PageSpeedAnalyzer.analyzePage(url, urlRepository);
 
-                LinkChecker.checkAndSaveNonWorkingInternalLinks(url, urlRepository);
+                LinkChecker.checkAndSaveAllInternalLinks(url, urlRepository);
 
                 // Перенаправляем пользователя на страницу с информацией о добавленном URL
                 ctx.redirect("/urls/" + addedUrlId);

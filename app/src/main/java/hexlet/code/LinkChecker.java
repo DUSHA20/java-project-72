@@ -10,7 +10,7 @@ import org.jsoup.nodes.Element;
 
 public class LinkChecker {
 
-    public static void checkAndSaveNonWorkingInternalLinks(String baseUrl, UrlRepository urlRepository) {
+    public static void checkAndSaveAllInternalLinks(String baseUrl, UrlRepository urlRepository) {
         try {
             Document doc = Jsoup.connect(baseUrl).get();
 
@@ -19,9 +19,7 @@ public class LinkChecker {
                 // Проверяем, является ли ссылка внутренней
                 if (isInternalLink(href, baseUrl)) {
                     int statusCode = getStatusCode(href);
-                    if (statusCode >= HttpURLConnection.HTTP_BAD_REQUEST) {
-                        urlRepository.saveUrlStatus(href, statusCode);
-                    }
+                    urlRepository.saveUrlStatus(href, statusCode);
                 }
             }
         } catch (IOException | SQLException e) {
