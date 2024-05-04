@@ -25,6 +25,32 @@ public class SpeedAnalysisCalculator {
         return approximations;
     }
 
+    public String getApproximatedLoadTimesAsString() {
+        StringBuilder result = new StringBuilder();
+
+        List<Integer> intervalEnds = divideIntoIntervals(3); // Получаем конечные значения интервалов
+        List<Double[]> approximations = calculateApproximations(); // Получаем коэффициенты аппроксимации
+
+        // Проходим по каждому интервалу и рассчитываем приблизительное время загрузки
+        for (int i = 0; i < intervalEnds.size(); i++) {
+            int intervalEnd = intervalEnds.get(i);
+            Double[] coefficients = approximations.get(i);
+
+            // Получаем коэффициенты линейной аппроксимации для текущего интервала
+            double a = coefficients[0];
+            double b = coefficients[1];
+
+            // Рассчитываем время загрузки для конечного значения размера контента в текущем интервале
+            double contentLength = intervalEnd;
+            double approximatedLoadTime = a * contentLength + b;
+
+            // Добавляем результат в строку
+            result.append("Interval ").append(i + 1).append(" (Content Length up to ").append(intervalEnd).append("): ").append(approximatedLoadTime).append(" ms<br>");
+        }
+
+        return result.toString();
+    }
+
     private List<Integer> divideIntoIntervals(int numIntervals) {
         List<Integer> intervalEnds = new ArrayList<>();
         int totalSites = contentLengths.size();
