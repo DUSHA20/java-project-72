@@ -76,7 +76,7 @@ public class UrlRepository extends BaseRepository {
                     "url VARCHAR(255) NOT NULL," +
                     "statusCode INTEGER NOT NULL," +
                     "checkedAt TIMESTAMP NOT NULL," +
-                    "linkType ENUM('ВНУТРЕННЯЯ', 'ВНЕШНЯЯ') NOT NULL," +
+                    "linkType VARCHAR(20) NOT NULL," +
                     "FOREIGN KEY (url) REFERENCES urls(id)" +
                     ")";
             statement.executeUpdate(createLinkCheckTableSql);
