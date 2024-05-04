@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import java.net.MalformedURLException;
 
 public class LinkChecker {
 
@@ -27,12 +28,24 @@ public class LinkChecker {
     }
 
     private static int getStatusCode(String url) throws IOException {
-        URL u = new URL(url);
-        HttpURLConnection connection = (HttpURLConnection) u.openConnection();
-        connection.setRequestMethod("HEAD");
-        connection.connect();
-        int statusCode = connection.getResponseCode();
-        connection.disconnect();
-        return statusCode;
+        try {
+            URL u = new URL(url);
+            String protocol = u.getProtocol();
+            if (!protocol.equals("http") && !protocol.equals("https")) {
+                // Пропускаем URL с неподдерживаемым протоколом
+                return -1;
+            }
+
+            HttpURLConnection connection = (HttpURLConnection) u.openConnection();
+            connection.setRequestMethod("HEAD");
+            connection.connect();
+            int statusCode = connection.getResponseCode();
+            connection.disconnect();
+            return statusCode;
+        } catch (MalformedURLException e) {
+            // Обработка недопустимого URL
+            e.printStackTrace();
+            return -1;
+        }
     }
 }
