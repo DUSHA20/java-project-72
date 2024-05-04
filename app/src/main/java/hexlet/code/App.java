@@ -72,6 +72,75 @@ public class App {
         }
     }
 
+    public static void creaTetable(Context ctx, UrlRepository urlRepository) {
+        List<Long> loadTimes = urlRepository.getAllLoadTimes();
+        List<Integer> contentLengths = urlRepository.getAllContentLengths();
+        SpeedAnalysisCalculator calculator = new SpeedAnalysisCalculator(loadTimes, contentLengths);
+
+        // Создаем HTML содержимое с графиком
+        StringBuilder htmlContent = new StringBuilder();
+
+        // Добавляем начало HTML страницы с встроенными стилями
+        htmlContent.append("<!DOCTYPE html>");
+        htmlContent.append("<html>");
+        htmlContent.append("<head>");
+        htmlContent.append("<title>Approximation Visualization</title>");
+        htmlContent.append("<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>");
+        htmlContent.append("</head>");
+        htmlContent.append("<body>");
+        htmlContent.append("<canvas id=\"myChart\" width=\"800\" height=\"400\"></canvas>");
+        htmlContent.append("<script>");
+
+        // Данные аппроксимации
+        List<Double[]> approximations = calculator.calculateApproximations();
+
+        // Создаем массив с данными для графика
+        htmlContent.append("var approximations = ").append(approximations.toString()).append(";");
+        htmlContent.append("var contentLengths = ").append(contentLengths.toString()).append(";");
+
+        // Конец скрипта
+        htmlContent.append("</script>");
+
+        // JavaScript код для создания графика
+        htmlContent.append("<script>");
+        htmlContent.append("var chartData = {");
+        htmlContent.append("labels: contentLengths,");
+        htmlContent.append("datasets: [{");
+        htmlContent.append("label: 'Approximation',");
+        htmlContent.append("borderColor: 'rgb(75, 192, 192)',");
+        htmlContent.append("data: approximations");
+        htmlContent.append("}]");
+        htmlContent.append("};");
+
+        htmlContent.append("var chartOptions = {");
+        htmlContent.append("scales: {");
+        htmlContent.append("x: {");
+        htmlContent.append("type: 'linear',");
+        htmlContent.append("position: 'bottom'");
+        htmlContent.append("},");
+        htmlContent.append("y: {");
+        htmlContent.append("type: 'linear',");
+        htmlContent.append("position: 'left'");
+        htmlContent.append("}");
+        htmlContent.append("}");
+        htmlContent.append("};");
+
+        htmlContent.append("var ctx = document.getElementById('myChart').getContext('2d');");
+        htmlContent.append("var myChart = new Chart(ctx, {");
+        htmlContent.append("type: 'line',");
+        htmlContent.append("data: chartData,");
+        htmlContent.append("options: chartOptions");
+        htmlContent.append("});");
+        htmlContent.append("</script>");
+
+        // Вставляем скрипт в тело HTML-страницы
+        htmlContent.append("</body>");
+        htmlContent.append("</html>");
+
+        // Передаем HTML содержимое на клиентскую сторону
+        ctx.html(htmlContent.toString());
+    }
+
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
         List<Url> urls = urlRepository.getAllUrls();
         StringBuilder htmlContent = new StringBuilder();
@@ -352,6 +421,7 @@ public class App {
                 .get("/urls/tfidfchecks", ctx -> getAllTFIDFChecksHandler(ctx, urlRepository))
                 .get("/urls/pagespeedresults", ctx -> getAllSpeedAnalysisHandler(ctx, urlRepository))
                 .get("/urls/linkcheckresults", ctx -> getAllLinkCheckHandler(ctx, urlRepository))
+                .get("/urls/table", ctx -> creaTetable(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);

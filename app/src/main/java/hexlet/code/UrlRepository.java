@@ -347,6 +347,36 @@ public class UrlRepository extends BaseRepository {
         return pagespeedAnalysisList;
     }
 
+    public List<Long> getAllLoadTimes() {
+        List<Long> loadTimeList = new ArrayList<>();
+        String sql = "SELECT load_time FROM SpeedAnalysis";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Long loadTime = resultSet.getLong("load_time");
+                loadTimeList.add(loadTime);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loadTimeList;
+    }
+
+    public List<Integer> getAllContentLengths() {
+        List<Integer> contentLengthList = new ArrayList<>();
+        String sql = "SELECT content_length FROM SpeedAnalysis";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Integer contentLength = resultSet.getInt("content_length");
+                contentLengthList.add(contentLength);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contentLengthList;
+    }
+
     public void saveUrlStatus(String url, int statusCode) throws SQLException {
         Long urlId = getUrlIdByName(url);
         if (urlId != null) {
