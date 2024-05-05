@@ -88,12 +88,12 @@ public class App {
         htmlContent.append("<!DOCTYPE html>");
         htmlContent.append("<html>");
         htmlContent.append("<head>");
-        htmlContent.append("<title>Approximated Load Times</title>");
+        htmlContent.append("<title>Приблизительное время загрузки</title>");
         htmlContent.append("</head>");
         htmlContent.append("<body>");
 
         // Добавляем заголовок
-        htmlContent.append("<h1>Approximated Load Times</h1>");
+        htmlContent.append("<h1>Приблизительное время загрузки</h1>");
 
         // Добавляем результаты аппроксимации на страницу
         htmlContent.append("<p>").append(approximatedLoadTimes).append("</p>");
@@ -259,6 +259,7 @@ public class App {
         idsToDelete.add(37L);
         idsToDelete.add(38L);
         idsToDelete.add(47L);
+        idsToDelete.add(48L);
 
         urlRepository.deleteSpeedAnalysisById(idsToDelete);
 

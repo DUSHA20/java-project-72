@@ -45,7 +45,7 @@ public class SpeedAnalysisCalculator {
             double approximatedLoadTime = a * contentLength + b;
 
             // Добавляем результат в строку
-            result.append("Interval ").append(i + 1).append(" (Content Length up to ").append(intervalEnd).append("): ").append(approximatedLoadTime).append(" ms<br>");
+            result.append("Интервал ").append(i + 1).append(" (Длина контента до ").append(intervalEnd).append("): ").append(approximatedLoadTime).append(" ms<br>");
         }
 
         return result.toString();
