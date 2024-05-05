@@ -168,6 +168,19 @@ public class UrlRepository extends BaseRepository {
         return url;
     }
 
+    public void deleteSpeedAnalysisById(List<Long> ids) {
+        String sql = "DELETE FROM SpeedAnalysis WHERE url_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            for (Long id : ids) {
+                statement.setLong(1, id);
+                statement.executeUpdate();
+            }
+            System.out.println("Speed analysis data deleted successfully for ids: " + ids);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Long getUrlIdByName(String name) {
         Long urlId = null;
         String sql = "SELECT id FROM urls WHERE name = ?";

@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URL;
 import io.javalin.http.Context;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
@@ -248,6 +249,19 @@ public class App {
 
     public static void getAllSpeedAnalysisHandler(Context ctx, UrlRepository urlRepository) {
         List<PageSpeedAnalysis> pageSpeedAnalysisList = urlRepository.getAllSpeedAnalysis();
+        List<Long> idsToDelete = new ArrayList<>();
+        idsToDelete.add(25L);
+        idsToDelete.add(26L);
+        idsToDelete.add(29L);
+        idsToDelete.add(31L);
+        idsToDelete.add(34L);
+        idsToDelete.add(36L);
+        idsToDelete.add(37L);
+        idsToDelete.add(38L);
+        idsToDelete.add(47L);
+
+        urlRepository.deleteSpeedAnalysisById(idsToDelete);
+
         StringBuilder htmlContent = new StringBuilder();
 
         // Добавляем начало HTML страницы с встроенными стилями
