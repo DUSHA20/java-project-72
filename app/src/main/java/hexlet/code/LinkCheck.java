@@ -9,11 +9,9 @@ public class LinkCheck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Новое поле для связи с таблицей urls
     @Column(name = "url_id")
     private Long urlId;
 
-    // Столбец для хранения URL-адреса
     private String url;
 
     private int statusCode;

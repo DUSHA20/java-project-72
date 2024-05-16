@@ -4,8 +4,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import java.io.IOException;
-import java.sql.Connection;
-import java.time.LocalDateTime;
 
 public class UrlChecker {
 

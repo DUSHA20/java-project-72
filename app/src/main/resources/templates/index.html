@@ -21,13 +21,19 @@
         <button type="submit" class="btn btn-primary">Проверить</button>
     </form>
 
-    <div class="mt-3 links">
-        <a href="/urls" class="link-btn me-2">Все Сайты</a>
-        <a href="/urls/checks" class="link-btn me-2">Проверенные сайты</a>
-        <a href="/urls/tfidfchecks" class="link-btn me-2">Проверенные на TFIDF сайты</a>
-        <a href="/urls/pagespeedresults" class="link-btn me-2">Результатыт проверки на скорость загрузки</a>
-        <a href="/urls/linkcheckresults" class="link-btn me-2">Результатыт проверки внешних и внутренних ссылок</a>
-        <a href="/urls/table" class="link-btn me-2">Результатыт аппроксимации</a>
+    <div class="button-container">
+        <!-- Кнопка "Проверки SEO" в виде текста -->
+        <a href="/urls" class="link-btn">Все Сайты</a>
+        <span id="seoButton" class="link-btn">Проверки SEO</span>
+    </div>
+
+    <!-- Список ссылок -->
+    <div class="mt-3 links" style="display: none;">
+        <a href="/urls/checks" class="link-btn">Проверенные на теги сайты</a>
+        <a href="/urls/tfidfchecks" class="link-btn">Проверенные на TFIDF сайты</a>
+        <a href="/urls/pagespeedresults" class="link-btn">Результаты проверки на скорость загрузки</a>
+        <a href="/urls/linkcheckresults" class="link-btn">Результаты проверки внешних и внутренних ссылок</a>
+        <a href="/urls/table" class="link-btn">Результаты аппроксимации</a>
     </div>
 
 </div>
@@ -38,6 +44,27 @@
 
 <!-- Подключение скриптов Bootstrap через WebJars -->
 <script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- JavaScript код для управления видимостью списка ссылок -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим кнопку "Проверки SEO"
+    var seoButton = document.getElementById('seoButton');
+
+    // Находим список ссылок
+    var linksList = document.querySelector('.links');
+
+    // Добавляем обработчик события клика на кнопку
+    seoButton.addEventListener('click', function() {
+        // Переключаем видимость списка ссылок при каждом клике
+        if (linksList.style.display === 'none' || linksList.style.display === '') {
+            linksList.style.display = 'block';
+        } else {
+            linksList.style.display = 'none';
+        }
+    });
+});
+</script>
 
 </body>
 </html>

@@ -20,7 +20,7 @@ public class UrlCheck {
 
     private LocalDateTime createdAt;
 
-    // Constructors, getters, and setters
+    // конструктор
     public UrlCheck() {
     }
 
@@ -33,7 +33,6 @@ public class UrlCheck {
         this.createdAt = createdAt;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

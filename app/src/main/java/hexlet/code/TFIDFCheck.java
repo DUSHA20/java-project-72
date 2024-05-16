@@ -18,7 +18,6 @@ public class TFIDFCheck {
 
     private LocalDateTime createdAt;
 
-    // Constructors, getters, and setters
     public TFIDFCheck() {
     }
 
@@ -30,7 +29,6 @@ public class TFIDFCheck {
         this.createdAt = createdAt;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

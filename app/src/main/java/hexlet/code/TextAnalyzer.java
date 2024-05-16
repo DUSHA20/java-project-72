@@ -3,13 +3,8 @@ package hexlet.code;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.time.LocalDateTime;
-import hexlet.code.TFIDFCheck;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 

@@ -15,9 +15,6 @@ import java.net.URL;
 import io.javalin.http.Context;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
 public class App {
 
@@ -34,7 +31,6 @@ public class App {
         return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
     }
 
-    // Надо обновить этот метод. При нажатии на кнопку проверить, должны добавляться данные еще и в таблицу проверенных URL
     public static void addUrlHandler(Context ctx, UrlRepository urlRepository) {
         String url = ctx.formParam("url");
         try {
@@ -86,11 +82,16 @@ public class App {
 
         // Добавляем начало HTML страницы с встроенными стилями
         htmlContent.append("<!DOCTYPE html>");
-        htmlContent.append("<html>");
+        htmlContent.append("<html lang=\"ru\">");
         htmlContent.append("<head>");
         htmlContent.append("<title>Приблизительное время загрузки</title>");
         htmlContent.append("</head>");
-        htmlContent.append("<body>");
+        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
+
+        // Добавляем верхнюю шапку страницы
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: left;\">");
+        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
+        htmlContent.append("</div>");
 
         // Добавляем заголовок
         htmlContent.append("<h1>Приблизительное время загрузки</h1>");
@@ -419,7 +420,7 @@ public class App {
                     htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
 
                     // Добавляем верхнюю шапку страницы
-                    htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: center;\">");
+                    htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: left;\">");
                     htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
                     htmlContent.append("</div>");
 

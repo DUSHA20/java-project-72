@@ -123,7 +123,6 @@ public class UrlRepository extends BaseRepository {
         return url;
     }
 
-    // Метод для получения списка всех URL из базы данных
     public List<Url> getAllUrls() {
         List<Url> urls = new ArrayList<>();
         String sql = "SELECT * FROM urls"; // Получаем все данные из таблицы urls
@@ -197,7 +196,6 @@ public class UrlRepository extends BaseRepository {
         return urlId;
     }
 
-    // Метод для добавления информации о проверке URL в базу данных
     public void addUrlCheck(String url, String title, String h1, String description) {
         try {
             Long urlId = getUrlIdByName(url); // Получаем id URL
@@ -217,32 +215,9 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
-    // Метод для получения информации о проверках конкретного URL из базы данных
-    public List<UrlCheck> getUrlChecksByUrl(String url) {
-        List<UrlCheck> urlChecks = new ArrayList<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Checks WHERE url = ?");
-            statement.setString(1, url);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                UrlCheck urlCheck = new UrlCheck();
-                urlCheck.setId(resultSet.getLong("id"));
-                urlCheck.setUrl(resultSet.getLong("url_id"));
-                urlCheck.setTitle(resultSet.getString("title"));
-                urlCheck.setH1(resultSet.getString("h1"));
-                urlCheck.setDescription(resultSet.getString("description"));
-                urlCheck.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
-                urlChecks.add(urlCheck);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return urlChecks;
-    }
-
     public List<UrlCheck> getAllUrlChecks() {
         List<UrlCheck> urlChecks = new ArrayList<>();
-        String sql = "SELECT * FROM Checks"; // Получаем все данные из таблицы url_checks
+        String sql = "SELECT * FROM Checks";
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -253,7 +228,7 @@ public class UrlRepository extends BaseRepository {
                 urlCheck.setH1(resultSet.getString("h1"));
                 urlCheck.setDescription(resultSet.getString("description"));
                 Timestamp timestamp = resultSet.getTimestamp("created_at");
-                // Преобразуем Timestamp в LocalDateTime
+
                 LocalDateTime createdAt = timestamp.toLocalDateTime();
                 urlCheck.setCreatedAt(createdAt);
 

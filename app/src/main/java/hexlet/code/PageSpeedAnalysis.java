@@ -72,14 +72,6 @@ public class PageSpeedAnalysis {
         this.contentLength = contentLength;
     }
 
-    public Integer getRequestCount() {
-        return requestCount;
-    }
-
-    public void setRequestCount(Integer requestCount) {
-        this.requestCount = requestCount;
-    }
-
     public Boolean getCdnUsed() {
         return isCdnUsed;
     }
