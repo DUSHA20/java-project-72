@@ -84,6 +84,7 @@ public class App {
         htmlContent.append("<!DOCTYPE html>");
         htmlContent.append("<html lang=\"ru\">");
         htmlContent.append("<head>");
+        htmlContent.append("<meta charset=\"UTF-8\">");
         htmlContent.append("<title>Приблизительное время загрузки</title>");
         htmlContent.append("</head>");
         htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
@@ -119,15 +120,15 @@ public class App {
         htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
         htmlContent.append("<title>Список URL</title>");
         htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
+        htmlContent.append("<body style=\"background-color: white;\">");
 
         // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: center;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: left; width: 100%;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
         // Добавляем начало таблицы с встроенными стилями
-        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
+        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%; background-color: #4682B4;\">");
         htmlContent.append("<tr style=\"background-color: lightgray;\"><th style=\"padding: 8px;\">ID</th><th style=\"padding: 8px;\">Name</th><th style=\"padding: 8px;\">Created At</th></tr>");
 
         // Добавляем каждый URL в таблицу
@@ -211,7 +212,7 @@ public class App {
         htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
         htmlContent.append("<title>Список проверок TF-IDF</title>");
         htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
+        htmlContent.append("<body style=\"background-color: white;\">");
 
         // Добавляем верхнюю шапку страницы
         htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: left;\">");
@@ -224,7 +225,6 @@ public class App {
         htmlContent.append("<th style=\"padding: 8px;\">ID_Проверки</th>");
         htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Слово</th>");
-        htmlContent.append("<th style=\"padding: 8px;\"></th>");
         htmlContent.append("<th style=\"padding: 8px;\">Дата и время проверки</th>");
         htmlContent.append("</tr>");
 
