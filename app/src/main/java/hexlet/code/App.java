@@ -120,16 +120,16 @@ public class App {
         htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
         htmlContent.append("<title>Список URL</title>");
         htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">");
+        htmlContent.append("<body style=\"background-color: white; margin: 0;\">");
 
         // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: left; width: 100%;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 10px; text-align: left; width: 100%; margin-top: -10px;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
         // Добавляем начало таблицы с встроенными стилями
-        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%; background-color: #4682B4;\">");
-        htmlContent.append("<tr style=\"background-color: lightgray;\"><th style=\"padding: 8px;\">ID</th><th style=\"padding: 8px;\">Name</th><th style=\"padding: 8px;\">Created At</th></tr>");
+        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
+        htmlContent.append("<tr style=\"background-color: #4682B4;\"><th style=\"padding: 8px;\">ID</th><th style=\"padding: 8px;\">Name</th><th style=\"padding: 8px;\">Created At</th></tr>");
 
         // Добавляем каждый URL в таблицу
         for (Url url : urls) {
