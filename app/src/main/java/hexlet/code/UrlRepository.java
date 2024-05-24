@@ -451,6 +451,22 @@ public class UrlRepository extends BaseRepository {
         }
     }
 
+    public Long getUrlIdByContentLength(int contentLength) {
+        Long urlId = null;
+        String sql = "SELECT url_id FROM SpeedAnalysis WHERE content_length = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, contentLength);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    urlId = resultSet.getLong("url_id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return urlId;
+    }
+
     public List<Integer> getAllContentLengths() {
         List<Integer> contentLengthList = new ArrayList<>();
         String sql = "SELECT content_length FROM SpeedAnalysis";

@@ -173,17 +173,19 @@ public class App {
 
         htmlContent.append("<h1>Результаты анализа скорости загрузки</h1>");
         htmlContent.append("<table border=\"1\" style=\"width: 100%; border-collapse: collapse;\">");
-        htmlContent.append("<tr><th>Длина контента</th><th>Время загрузки</th><th>Результат</th></tr>");
+        htmlContent.append("<tr><th>Длина контента</th><th>Время загрузки</th><th>URL ID</th><th>Результат</th></tr>");
 
         for (int i = 0; i < loadTimes.size(); i++) {
             Long loadTime = loadTimes.get(i);
             Integer contentLength = contentLengths.get(i);
 
             SpeedAnalysisResult result = urlRepository.analyzeLoadTime(loadTime, contentLength);
+            Long urlId = urlRepository.getUrlIdByContentLength(contentLength);
 
             htmlContent.append("<tr>");
             htmlContent.append("<td>").append(contentLength == null ? "" : contentLength).append("</td>");
             htmlContent.append("<td>").append(loadTime == null ? "" : loadTime).append("</td>");
+            htmlContent.append("<td>").append(urlId == null ? "N/A" : urlId).append("</td>");
             htmlContent.append("<td>").append(result.getMessage()).append("</td>");
             htmlContent.append("</tr>");
         }
