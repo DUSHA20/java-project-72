@@ -153,6 +153,48 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
+    public static void analyzeLoadTimesAndCreateTable(Context ctx, UrlRepository urlRepository) {
+        List<Long> loadTimes = urlRepository.getAllLoadTimes();
+        List<Integer> contentLengths = urlRepository.getAllContentLengths();
+
+        StringBuilder htmlContent = new StringBuilder();
+
+        htmlContent.append("<!DOCTYPE html>");
+        htmlContent.append("<html lang=\"ru\">");
+        htmlContent.append("<head>");
+        htmlContent.append("<meta charset=\"UTF-8\">");
+        htmlContent.append("<title>Анализ скорости загрузки</title>");
+        htmlContent.append("</head>");
+        htmlContent.append("<body style=\"background-color: white;\">");
+
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
+        htmlContent.append("</div>");
+
+        htmlContent.append("<h1>Результаты анализа скорости загрузки</h1>");
+        htmlContent.append("<table border=\"1\" style=\"width: 100%; border-collapse: collapse;\">");
+        htmlContent.append("<tr><th>Длина контента</th><th>Время загрузки</th><th>Результат</th></tr>");
+
+        for (int i = 0; i < loadTimes.size(); i++) {
+            Long loadTime = loadTimes.get(i);
+            Integer contentLength = contentLengths.get(i);
+
+            SpeedAnalysisResult result = urlRepository.analyzeLoadTime(loadTime, contentLength);
+
+            htmlContent.append("<tr>");
+            htmlContent.append("<td>").append(contentLength == null ? "" : contentLength).append("</td>");
+            htmlContent.append("<td>").append(loadTime == null ? "" : loadTime).append("</td>");
+            htmlContent.append("<td>").append(result.getMessage()).append("</td>");
+            htmlContent.append("</tr>");
+        }
+
+        htmlContent.append("</table>");
+        htmlContent.append("</body>");
+        htmlContent.append("</html>");
+
+        ctx.html(htmlContent.toString());
+    }
+
     public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
         List<Url> urls = urlRepository.getAllUrls();
         StringBuilder htmlContent = new StringBuilder();
@@ -444,7 +486,8 @@ public class App {
                 .get("/urls/pagespeedresults", ctx -> getAllSpeedAnalysisHandler(ctx, urlRepository))
                 .get("/urls/linkcheckresults", ctx -> getAllLinkCheckHandler(ctx, urlRepository))
                 .get("/urls/table", ctx -> creaTetable(ctx, urlRepository))
-                .get("/urls/results", ctx -> checkMetaTagsAndCreateTable(ctx, urlRepository))
+                .get("/urls/metategsresults", ctx -> checkMetaTagsAndCreateTable(ctx, urlRepository))
+                .get("/urls/speedresults", ctx -> analyzeLoadTimesAndCreateTable(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);

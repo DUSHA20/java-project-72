@@ -414,6 +414,37 @@ public class UrlRepository extends BaseRepository {
         return new ValidationResult(true, "Описание корректное.");
     }
 
+    public SpeedAnalysisResult analyzeLoadTime(Long loadTime, Integer contentLength) {
+        if (loadTime == null) {
+            return new SpeedAnalysisResult(false, "Время загрузки отсутствует.");
+        }
+        if (contentLength == null) {
+            return new SpeedAnalysisResult(false, "Длина контента отсутствует.");
+        }
+
+        if (contentLength <= 33758) {
+            if (loadTime <= 300) {
+                return new SpeedAnalysisResult(true, "Скорость оптимальная.");
+            } else {
+                return new SpeedAnalysisResult(false, "Медленная загрузка. Рекомендации по оптимизации: Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
+            }
+        } else if (contentLength > 33758 && contentLength <= 48648) {
+            if (loadTime <= 438) {
+                return new SpeedAnalysisResult(true, "Скорость оптимальная.");
+            } else {
+                return new SpeedAnalysisResult(false, "Медленная загрузка. Рекомендации по оптимизации: Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
+            }
+        } else if (contentLength > 48648 && contentLength <= 90000) {
+            if (loadTime <= 1124) {
+                return new SpeedAnalysisResult(true, "Скорость оптимальная.");
+            } else {
+                return new SpeedAnalysisResult(false, "Медленная загрузка. Рекомендации по оптимизации: Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
+            }
+        } else {
+            return new SpeedAnalysisResult(false, "Длина контента превышает допустимый интервал.");
+        }
+    }
+
     public List<Integer> getAllContentLengths() {
         List<Integer> contentLengthList = new ArrayList<>();
         String sql = "SELECT content_length FROM SpeedAnalysis";
