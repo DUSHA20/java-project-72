@@ -60,7 +60,6 @@ body {
     background-color: rgba(70, 130, 180, 0.8); /* Затемняем цвет фона при наведении на кнопку */
 }
 
-
 .display-1 {
     font-size: 70px;
     margin-left: 180px;
@@ -103,7 +102,7 @@ footer {
     color: #ccc;
 }
 
-.links {
+.links, .recommendations-links {
     background-color: SteelBlue;
     padding: 10px;
     border-radius: 5px;
@@ -113,7 +112,7 @@ footer {
     display: none; /* Изначально скрываем список */
 }
 
-.links a {
+.links a, .recommendations-links a {
     display: block;
     color: white;
     text-decoration: none;
@@ -122,7 +121,7 @@ footer {
     font-size: 1.2rem; /* Уменьшаем размер текста */
 }
 
-.links a::before {
+.links a::before, .recommendations-links a::before {
     content: ''; /* Создаем пустой контент для псевдоэлемента */
     position: absolute; /* Абсолютное позиционирование */
     bottom: 0; /* Располагаем псевдоэлемент внизу */
@@ -134,7 +133,7 @@ footer {
     transition: height 0.0s ease; /* Плавное изменение высоты */
 }
 
-.links a:hover::before {
+.links a:hover::before, .recommendations-links a:hover::before {
     height: 25px; /* Увеличиваем высоту полосочки при наведении */
 }
 
@@ -167,6 +166,35 @@ footer {
     color: #ccc; /* изменяем цвет текста при наведении */
 }
 
+#recommendationsButton {
+    z-index: 2; /* чтобы кнопка была поверх фона */
+    color: white; /* убираем подсветку при наведении */
+    cursor: pointer;
+    font-size: 20px; /* уменьшаем размер текста */
+    transition: color 0.3s ease; /* добавляем плавное изменение цвета текста */
+}
+
+#recommendationsButton::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -0px; /* Расположение справа от кнопки */
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid white; /* Цвет треугольника */
+    transform: translateY(-50%);
+}
+
+#recommendationsButton:hover::after {
+    border-top-color: #ccc; /* Изменяем цвет треугольника при наведении */
+}
+
+#recommendationsButton:hover {
+    color: #ccc; /* изменяем цвет текста при наведении */
+}
+
 .button-container {
     display: flex; /* Расположение элементов в строку */
     align-items: center; /* Выравнивание элементов по вертикали */
@@ -177,7 +205,7 @@ footer {
 
 /* Стили для кнопок внутри .button-container */
 .button-container .link-btn {
-    margin-right: 20px; /* Добавляем небольшой отступ между кнопками */
+    margin-right: 24px; /* Добавляем небольшой отступ между кнопками */
     font-size: 20px; /* Размер текста кнопок */
     font-family: "Bree Serif", serif; /* Устанавливаем шрифт */
 }
