@@ -440,8 +440,14 @@ public class UrlRepository extends BaseRepository {
             } else {
                 return new SpeedAnalysisResult(false, "Медленная загрузка. Рекомендации по оптимизации: Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
             }
+        } else if (contentLength > 90000) {
+            if (loadTime <= 1124) {
+                return new SpeedAnalysisResult(true, "Скорость оптимальная.");
+            } else {
+                return new SpeedAnalysisResult(false, "Медленная загрузка. Рекомендации по оптимизации: Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
+            }
         } else {
-            return new SpeedAnalysisResult(false, "Длина контента превышает допустимый интервал.");
+            return new SpeedAnalysisResult(false, "Медленная загрузка. Рекомендации по оптимизации: Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
         }
     }
 
