@@ -13,7 +13,7 @@ public class SpeedAnalysisCalculator {
     }
 
     public List<Double[]> calculateApproximations() {
-        int numIntervals = 3; // Всегда используем 3 интервала для аппроксимации
+        int numIntervals = 3;
         List<Integer> intervalEnds = divideIntoIntervals(numIntervals);
         List<Double[]> approximations = new ArrayList<>();
 

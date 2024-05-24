@@ -16,6 +16,7 @@ import io.javalin.http.Context;
 import java.util.List;
 import java.util.ArrayList;
 
+
 public class App {
 
     private static UrlRepository urlRepository;
@@ -105,6 +106,50 @@ public class App {
         htmlContent.append("</html>");
 
         // Передаем HTML содержимое на клиентскую сторону
+        ctx.html(htmlContent.toString());
+    }
+
+    public static void checkMetaTagsAndCreateTable(Context ctx, UrlRepository urlRepository) {
+        List<String> titles = urlRepository.getAllLoadTitle();
+        List<String> descriptions = urlRepository.getAllLoadDescription();
+
+        StringBuilder htmlContent = new StringBuilder();
+
+        htmlContent.append("<!DOCTYPE html>");
+        htmlContent.append("<html lang=\"ru\">");
+        htmlContent.append("<head>");
+        htmlContent.append("<meta charset=\"UTF-8\">");
+        htmlContent.append("<title>Проверка метатегов</title>");
+        htmlContent.append("</head>");
+        htmlContent.append("<body style=\"background-color: white;\">");
+
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
+        htmlContent.append("</div>");
+
+        htmlContent.append("<h1>Результаты проверки метатегов</h1>");
+        htmlContent.append("<table border=\"1\" style=\"width: 100%; border-collapse: collapse;\">");
+        htmlContent.append("<tr><th>Заголовок</th><th>Корректность</th><th>Описание</th><th>Корректность</th></tr>");
+
+        for (int i = 0; i < titles.size(); i++) {
+            String title = titles.get(i);
+            String description = descriptions.get(i);
+
+            ValidationResult titleResult = urlRepository.validateTitle(title);
+            ValidationResult descriptionResult = urlRepository.validateDescription(description);
+
+            htmlContent.append("<tr>");
+            htmlContent.append("<td>").append(title).append("</td>");
+            htmlContent.append("<td>").append(titleResult.getMessage()).append("</td>");
+            htmlContent.append("<td>").append(description).append("</td>");
+            htmlContent.append("<td>").append(descriptionResult.getMessage()).append("</td>");
+            htmlContent.append("</tr>");
+        }
+
+        htmlContent.append("</table>");
+        htmlContent.append("</body>");
+        htmlContent.append("</html>");
+
         ctx.html(htmlContent.toString());
     }
 
@@ -287,7 +332,6 @@ public class App {
         htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Время загрузки (мс)</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Размер</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Использование CDN</th>");
         htmlContent.append("<th style=\"padding: 8px;\">Дата и время анализа</th>");
         htmlContent.append("</tr>");
 
@@ -298,7 +342,6 @@ public class App {
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getUrlId()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getLoadTime()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getContentLength()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getCdnUsed()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getCreatedAt()).append("</td>");
             htmlContent.append("</tr>");
         }
@@ -401,6 +444,7 @@ public class App {
                 .get("/urls/pagespeedresults", ctx -> getAllSpeedAnalysisHandler(ctx, urlRepository))
                 .get("/urls/linkcheckresults", ctx -> getAllLinkCheckHandler(ctx, urlRepository))
                 .get("/urls/table", ctx -> creaTetable(ctx, urlRepository))
+                .get("/urls/results", ctx -> checkMetaTagsAndCreateTable(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);

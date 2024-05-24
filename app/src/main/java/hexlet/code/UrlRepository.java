@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.math.BigDecimal;
+import java.util.regex.Pattern;
 
 
 public class UrlRepository extends BaseRepository {
@@ -311,7 +312,7 @@ public class UrlRepository extends BaseRepository {
 
     public List<PageSpeedAnalysis> getAllSpeedAnalysis() {
         List<PageSpeedAnalysis> pagespeedAnalysisList = new ArrayList<>();
-        String sql = "SELECT id, url_id, load_time, content_length, is_cdn_used, created_at FROM SpeedAnalysis";
+        String sql = "SELECT id, url_id, load_time, content_length, created_at FROM SpeedAnalysis";
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -320,7 +321,6 @@ public class UrlRepository extends BaseRepository {
                 pagespeedAnalysis.setUrlId(resultSet.getLong("url_id"));
                 pagespeedAnalysis.setLoadTime(resultSet.getLong("load_time"));
                 pagespeedAnalysis.setContentLength(resultSet.getInt("content_length"));
-                pagespeedAnalysis.setCdnUsed(resultSet.getBoolean("is_cdn_used"));
 
                 Timestamp timestamp = resultSet.getTimestamp("created_at");
                 // Преобразуем Timestamp в LocalDateTime
@@ -348,6 +348,64 @@ public class UrlRepository extends BaseRepository {
             e.printStackTrace();
         }
         return loadTimeList;
+    }
+
+    public List<String> getAllLoadTitle() {
+        List<String> loadTitleList = new ArrayList<>();
+        String sql = "SELECT title FROM Checks";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String loadTitle = resultSet.getString("title");
+                loadTitleList.add(loadTitle);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loadTitleList;
+    }
+
+    public List<String> getAllLoadDescription() {
+        List<String> loadDescriptionList = new ArrayList<>();
+        String sql = "SELECT description FROM Checks";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String loadDescription = resultSet.getString("description");
+                loadDescriptionList.add(loadDescription);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return loadDescriptionList;
+    }
+
+    public ValidationResult validateTitle(String title) {
+        if (title.length() < 30) {
+            return new ValidationResult(false, "Заголовок слишком короткий. Минимальная длина 30 символов.");
+        }
+        if (title.length() > 60) {
+            return new ValidationResult(false, "Заголовок слишком длинный. Максимальная длина 60 символов.");
+        }
+        if (!Pattern.matches("^[a-zA-Z0-9\\s]+$", title)) {
+            String invalidChars = title.replaceAll("[a-zA-Z0-9\\s]", "");
+            return new ValidationResult(false, "Заголовок содержит недопустимые символы: " + invalidChars);
+        }
+        return new ValidationResult(true, "Заголовок корректный.");
+    }
+
+    public ValidationResult validateDescription(String description) {
+        if (description.length() < 70) {
+            return new ValidationResult(false, "Описание слишком короткое. Минимальная длина 70 символов.");
+        }
+        if (description.length() > 160) {
+            return new ValidationResult(false, "Описание слишком длинное. Максимальная длина 160 символов.");
+        }
+        if (!Pattern.matches("^[a-zA-Z0-9\\s]+$", description)) {
+            String invalidChars = description.replaceAll("[a-zA-Z0-9\\s]", "");
+            return new ValidationResult(false, "Описание содержит недопустимые символы: " + invalidChars);
+        }
+        return new ValidationResult(true, "Описание корректное.");
     }
 
     public List<Integer> getAllContentLengths() {
