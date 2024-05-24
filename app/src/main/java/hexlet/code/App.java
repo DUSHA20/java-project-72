@@ -139,9 +139,9 @@ public class App {
             ValidationResult descriptionResult = urlRepository.validateDescription(description);
 
             htmlContent.append("<tr>");
-            htmlContent.append("<td>").append(title).append("</td>");
+            htmlContent.append("<td>").append(title == null ? "" : title).append("</td>");
             htmlContent.append("<td>").append(titleResult.getMessage()).append("</td>");
-            htmlContent.append("<td>").append(description).append("</td>");
+            htmlContent.append("<td>").append(description == null ? "" : description).append("</td>");
             htmlContent.append("<td>").append(descriptionResult.getMessage()).append("</td>");
             htmlContent.append("</tr>");
         }

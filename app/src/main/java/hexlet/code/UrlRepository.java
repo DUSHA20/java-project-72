@@ -381,6 +381,9 @@ public class UrlRepository extends BaseRepository {
     }
 
     public ValidationResult validateTitle(String title) {
+        if (title == null || title.trim().isEmpty()) {
+            return new ValidationResult(false, "Заголовок отсутствует.");
+        }
         if (title.length() < 30) {
             return new ValidationResult(false, "Заголовок слишком короткий. Минимальная длина 30 символов.");
         }
@@ -395,6 +398,9 @@ public class UrlRepository extends BaseRepository {
     }
 
     public ValidationResult validateDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
+            return new ValidationResult(false, "Описание отсутствует.");
+        }
         if (description.length() < 70) {
             return new ValidationResult(false, "Описание слишком короткое. Минимальная длина 70 символов.");
         }
