@@ -1,6 +1,10 @@
 package hexlet.code;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,14 +33,6 @@ public class PageSpeedAnalysis {
 
     // Constructors, getters, and setters
     public PageSpeedAnalysis() {
-    }
-
-    public PageSpeedAnalysis(Long urlId, Long loadTime, Integer contentLength, Integer requestCount, Boolean isCdnUsed) {
-        this.urlId = urlId;
-        this.loadTime = loadTime;
-        this.contentLength = contentLength;
-        this.requestCount = requestCount;
-        this.isCdnUsed = isCdnUsed;
     }
 
     // Getters and setters

@@ -45,7 +45,12 @@ public class SpeedAnalysisCalculator {
             double approximatedLoadTime = a * contentLength + b;
 
             // Добавляем результат в строку
-            result.append("Интервал ").append(i + 1).append(" (Длина контента до ").append(intervalEnd).append("): ").append(approximatedLoadTime).append(" ms<br>");
+            result.append("Интервал ")
+                    .append(i + 1)
+                    .append(" (Длина контента до ")
+                    .append(intervalEnd).append("): ")
+                    .append(approximatedLoadTime)
+                    .append(" ms<br>");
         }
 
         return result.toString();
@@ -84,7 +89,9 @@ public class SpeedAnalysisCalculator {
             }
         }
 
-        if (count == 0) return new double[]{0, 0};
+        if (count == 0) {
+            return new double[]{0, 0};
+        }
 
         // Вычисление коэффициентов линейной аппроксимации (y = ax + b)
         double a = (count * sumXY - sumX * sumY) / (count * sumX2 - sumX * sumX);

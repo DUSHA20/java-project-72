@@ -69,7 +69,7 @@ public class TextAnalyzer {
 
     public static Map<String, Double> calculateIDF(String html) {
         Document doc = Jsoup.parse(html);
-        Elements elements = doc.select("title, h1, h2, h3, h4, h5, h6, p, meta[name=description]"); // Выбираем нужные HTML элементы с текстом
+        Elements elements = doc.select("title, h1, h2, h3, h4, h5, h6, p, meta[name=description]");
         int totalDocuments = elements.size(); // Количество блоков с текстом
 
         Map<String, Integer> documentCountMap = new HashMap<>();

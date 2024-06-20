@@ -1,6 +1,9 @@
 package hexlet.code;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
@@ -21,13 +24,13 @@ public class TFIDFCheck {
     public TFIDFCheck() {
     }
 
-    public TFIDFCheck(Long id, Long url_id, String word, BigDecimal tfidf, LocalDateTime createdAt) {
-        this.id = id;
-        this.url_id = url_id;
-        this.word = word;
-        this.tfidf = tfidf;
-        this.createdAt = createdAt;
-    }
+//    public TFIDFCheck(Long id, Long url_id, String word, BigDecimal tfidf, LocalDateTime createdAt) {
+//        this.id = id;
+//        this.url_id = url_id;
+//        this.word = word;
+//        this.tfidf = tfidf;
+//        this.createdAt = createdAt;
+//    }
 
     public Long getId() {
         return id;

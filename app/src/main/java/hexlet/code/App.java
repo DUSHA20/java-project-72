@@ -75,23 +75,21 @@ public class App {
         List<Integer> contentLengths = urlRepository.getAllContentLengths();
         SpeedAnalysisCalculator calculator = new SpeedAnalysisCalculator(loadTimes, contentLengths);
 
-        // Получаем приблизительные времена загрузки для каждого интервала
         String approximatedLoadTimes = calculator.getApproximatedLoadTimesAsString();
 
-        // Создаем HTML содержимое с результатами
         StringBuilder htmlContent = new StringBuilder();
 
-        // Добавляем начало HTML страницы с встроенными стилями
         htmlContent.append("<!DOCTYPE html>");
         htmlContent.append("<html lang=\"ru\">");
         htmlContent.append("<head>");
         htmlContent.append("<meta charset=\"UTF-8\">");
         htmlContent.append("<title>Приблизительное время загрузки</title>");
         htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
+        htmlContent.append("<body style=\"background-color: white;\">");
 
         // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; " +
+                "text-align: left; width: 100%; margin-top: -10px;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
@@ -101,7 +99,6 @@ public class App {
         // Добавляем результаты аппроксимации на страницу
         htmlContent.append("<p>").append(approximatedLoadTimes).append("</p>");
 
-        // Закрываем теги HTML
         htmlContent.append("</body>");
         htmlContent.append("</html>");
 
@@ -123,7 +120,8 @@ public class App {
         htmlContent.append("</head>");
         htmlContent.append("<body style=\"background-color: white;\">");
 
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; " +
+                "text-align: left; width: 100%; margin-top: -10px;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
@@ -167,7 +165,8 @@ public class App {
         htmlContent.append("</head>");
         htmlContent.append("<body style=\"background-color: white;\">");
 
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; " +
+                "text-align: left; width: 100%; margin-top: -10px;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
@@ -201,7 +200,6 @@ public class App {
         List<Url> urls = urlRepository.getAllUrls();
         StringBuilder htmlContent = new StringBuilder();
 
-        // Добавляем начало HTML страницы с встроенными стилями
         htmlContent.append("<!DOCTYPE html>");
         htmlContent.append("<html lang=\"ru\">");
         htmlContent.append("<head>");
@@ -212,13 +210,15 @@ public class App {
         htmlContent.append("<body style=\"background-color: white; margin: 0;\">");
 
         // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; " +
+                "text-align: left; width: 100%; margin-top: -10px;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
         // Добавляем начало таблицы с встроенными стилями
         htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
-        htmlContent.append("<tr style=\"background-color: #4682B4;\"><th style=\"padding: 8px;\">ID</th><th style=\"padding: 8px;\">Name</th><th style=\"padding: 8px;\">Created At</th></tr>");
+        htmlContent.append("<tr style=\"background-color: #4682B4;\"><th style=\"padding: 8px;\">" +
+                "ID</th><th style=\"padding: 8px;\">Name</th><th style=\"padding: 8px;\">Created At</th></tr>");
 
         // Добавляем каждый URL в таблицу
         for (Url url : urls) {
@@ -229,7 +229,6 @@ public class App {
             htmlContent.append("</tr>");
         }
 
-        // Закрываем таблицу и HTML страницу
         htmlContent.append("</table>");
         htmlContent.append("</body>");
         htmlContent.append("</html>");
@@ -242,7 +241,6 @@ public class App {
         List<UrlCheck> urlChecks = urlRepository.getAllUrlChecks();
         StringBuilder htmlContent = new StringBuilder();
 
-        // Добавляем начало HTML страницы с встроенными стилями
         htmlContent.append("<!DOCTYPE html>");
         htmlContent.append("<html lang=\"ru\">");
         htmlContent.append("<head>");
@@ -250,10 +248,11 @@ public class App {
         htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
         htmlContent.append("<title>Список проверок URL</title>");
         htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
+        htmlContent.append("<body style=\"background-color: white;\">");
 
         // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; " +
+                "text-align: left; width: 100%; margin-top: -10px;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
@@ -293,7 +292,6 @@ public class App {
         List<TFIDFCheck> tfidfchecks = urlRepository.getAllTFIDFChecks();
         StringBuilder htmlContent = new StringBuilder();
 
-        // Добавляем начало HTML страницы с встроенными стилями
         htmlContent.append("<!DOCTYPE html>");
         htmlContent.append("<html lang=\"ru\">");
         htmlContent.append("<head>");
@@ -304,7 +302,8 @@ public class App {
         htmlContent.append("<body style=\"background-color: white;\">");
 
         // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; " +
+                "text-align: left; width: 100%; margin-top: -10px;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
@@ -327,7 +326,6 @@ public class App {
             htmlContent.append("</tr>");
         }
 
-        // Закрываем таблицу и HTML страницу
         htmlContent.append("</table>");
         htmlContent.append("</body>");
         htmlContent.append("</html>");
@@ -354,7 +352,6 @@ public class App {
 
         StringBuilder htmlContent = new StringBuilder();
 
-        // Добавляем начало HTML страницы с встроенными стилями
         htmlContent.append("<!DOCTYPE html>");
         htmlContent.append("<html lang=\"ru\">");
         htmlContent.append("<head>");
@@ -365,7 +362,8 @@ public class App {
         htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
 
         // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; " +
+                "text-align: left; width: 100%; margin-top: -10px;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
@@ -390,7 +388,6 @@ public class App {
             htmlContent.append("</tr>");
         }
 
-        // Закрываем таблицу и HTML страницу
         htmlContent.append("</table>");
         htmlContent.append("</body>");
         htmlContent.append("</html>");
@@ -414,7 +411,8 @@ public class App {
         htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
 
         // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; " +
+                "text-align: left; width: 100%; margin-top: -10px;\">");
         htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
         htmlContent.append("</div>");
 
@@ -439,7 +437,6 @@ public class App {
             htmlContent.append("</tr>");
         }
 
-        // Закрываем таблицу и HTML страницу
         htmlContent.append("</table>");
         htmlContent.append("</body>");
         htmlContent.append("</html>");
@@ -508,7 +505,8 @@ public class App {
                     htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
 
                     // Добавляем верхнюю шапку страницы
-                    htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;\">");
+                    htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; " +
+                            "text-align: left; width: 100%; margin-top: -10px;\">");
                     htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
                     htmlContent.append("</div>");
 
