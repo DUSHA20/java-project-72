@@ -28,15 +28,6 @@ public class UrlCheck {
     public UrlCheck() {
     }
 
-    public UrlCheck(Long id, String title, String h1, String description, Long urlId, LocalDateTime createdAt) {
-        this.id = id;
-        this.title = title;
-        this.h1 = h1;
-        this.description = description;
-        this.urlId = urlId;
-        this.createdAt = createdAt;
-    }
-
     public Long getId() {
         return id;
     }

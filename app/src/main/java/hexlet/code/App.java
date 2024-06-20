@@ -32,31 +32,31 @@ public class App {
         return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
     }
 
-    public static void addUrlHandler(Context ctx, UrlRepository urlRepository) {
+    public static void addUrlHandler(Context ctx, UrlRepository repository) {
         String url = ctx.formParam("url");
         try {
             URL parsedUrl = new URI(url).toURL();
             String domainWithPort = parsedUrl.getProtocol() + "://" + parsedUrl.getHost() +
                     (parsedUrl.getPort() != -1 ? ":" + parsedUrl.getPort() : "");
 
-            if (!urlRepository.exists(domainWithPort)) {
+            if (!repository.exists(domainWithPort)) {
                 // Если URL не существует, добавляем его
-                urlRepository.addUrl(url);
+                repository.addUrl(url);
 
                 // Выполняем проверку URL и добавляем информацию о проверке в базу данных
-                UrlChecker.checkAndSaveUrlInfo(url, urlRepository);
+                UrlChecker.checkAndSaveUrlInfo(url, repository);
 
                 // Получаем добавленный URL из репозитория
-                Url addedUrl = urlRepository.getLastInsertedUrl();
+                Url addedUrl = repository.getLastInsertedUrl();
                 // Получаем его ID
                 long addedUrlId = addedUrl.getId();
 
                 // Вычисляем TF-IDF и добавляем результаты в базу данных
-                TextAnalyzer.calculateAndSaveTFIDFForUrl(url, urlRepository);
+                TextAnalyzer.calculateAndSaveTFIDFForUrl(url, repository);
 
-                PageSpeedAnalyzer.analyzePage(url, urlRepository);
+                PageSpeedAnalyzer.analyzePage(url, repository);
 
-                LinkChecker.checkAndSaveAllInternalLinks(url, urlRepository);
+                LinkChecker.checkAndSaveAllInternalLinks(url, repository);
 
                 // Перенаправляем пользователя на страницу с информацией о добавленном URL
                 ctx.redirect("/urls/" + addedUrlId);
@@ -70,9 +70,9 @@ public class App {
         }
     }
 
-    public static void creaTetable(Context ctx, UrlRepository urlRepository) {
-        List<Long> loadTimes = urlRepository.getAllLoadTimes();
-        List<Integer> contentLengths = urlRepository.getAllContentLengths();
+    public static void creaTetable(Context ctx, UrlRepository repository) {
+        List<Long> loadTimes = repository.getAllLoadTimes();
+        List<Integer> contentLengths = repository.getAllContentLengths();
         SpeedAnalysisCalculator calculator = new SpeedAnalysisCalculator(loadTimes, contentLengths);
 
         String approximatedLoadTimes = calculator.getApproximatedLoadTimesAsString();
@@ -106,9 +106,9 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
-    public static void checkMetaTagsAndCreateTable(Context ctx, UrlRepository urlRepository) {
-        List<String> titles = urlRepository.getAllLoadTitle();
-        List<String> descriptions = urlRepository.getAllLoadDescription();
+    public static void checkMetaTagsAndCreateTable(Context ctx, UrlRepository repository) {
+        List<String> titles = repository.getAllLoadTitle();
+        List<String> descriptions = repository.getAllLoadDescription();
 
         StringBuilder htmlContent = new StringBuilder();
 
@@ -133,8 +133,8 @@ public class App {
             String title = titles.get(i);
             String description = descriptions.get(i);
 
-            ValidationResult titleResult = urlRepository.validateTitle(title);
-            ValidationResult descriptionResult = urlRepository.validateDescription(description);
+            ValidationResult titleResult = repository.validateTitle(title);
+            ValidationResult descriptionResult = repository.validateDescription(description);
 
             htmlContent.append("<tr>");
             htmlContent.append("<td>").append(title == null ? "" : title).append("</td>");
@@ -151,9 +151,9 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
-    public static void analyzeLoadTimesAndCreateTable(Context ctx, UrlRepository urlRepository) {
-        List<Long> loadTimes = urlRepository.getAllLoadTimes();
-        List<Integer> contentLengths = urlRepository.getAllContentLengths();
+    public static void analyzeLoadTimesAndCreateTable(Context ctx, UrlRepository repository) {
+        List<Long> loadTimes = repository.getAllLoadTimes();
+        List<Integer> contentLengths = repository.getAllContentLengths();
 
         StringBuilder htmlContent = new StringBuilder();
 
@@ -178,8 +178,8 @@ public class App {
             Long loadTime = loadTimes.get(i);
             Integer contentLength = contentLengths.get(i);
 
-            SpeedAnalysisResult result = urlRepository.analyzeLoadTime(loadTime, contentLength);
-            Long urlId = urlRepository.getUrlIdByContentLength(contentLength);
+            SpeedAnalysisResult result = repository.analyzeLoadTime(loadTime, contentLength);
+            Long urlId = repository.getUrlIdByContentLength(contentLength);
 
             htmlContent.append("<tr>");
             htmlContent.append("<td>").append(contentLength == null ? "" : contentLength).append("</td>");
@@ -196,8 +196,8 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
-    public static void getAllUrlsHandler(Context ctx, UrlRepository urlRepository) {
-        List<Url> urls = urlRepository.getAllUrls();
+    public static void getAllUrlsHandler(Context ctx, UrlRepository repository) {
+        List<Url> urls = repository.getAllUrls();
         StringBuilder htmlContent = new StringBuilder();
 
         htmlContent.append("<!DOCTYPE html>");
@@ -237,8 +237,8 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
-    public static void getAllUrlChecksHandler(Context ctx, UrlRepository urlRepository) {
-        List<UrlCheck> urlChecks = urlRepository.getAllUrlChecks();
+    public static void getAllUrlChecksHandler(Context ctx, UrlRepository repository) {
+        List<UrlCheck> urlChecks = repository.getAllUrlChecks();
         StringBuilder htmlContent = new StringBuilder();
 
         htmlContent.append("<!DOCTYPE html>");
@@ -288,8 +288,8 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
-    public static void getAllTFIDFChecksHandler(Context ctx, UrlRepository urlRepository) {
-        List<TFIDFCheck> tfidfchecks = urlRepository.getAllTFIDFChecks();
+    public static void getAllTFIDFChecksHandler(Context ctx, UrlRepository repository) {
+        List<TFIDFCheck> tfidfchecks = repository.getAllTFIDFChecks();
         StringBuilder htmlContent = new StringBuilder();
 
         htmlContent.append("<!DOCTYPE html>");
@@ -334,8 +334,8 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
-    public static void getAllSpeedAnalysisHandler(Context ctx, UrlRepository urlRepository) {
-        List<PageSpeedAnalysis> pageSpeedAnalysisList = urlRepository.getAllSpeedAnalysis();
+    public static void getAllSpeedAnalysisHandler(Context ctx, UrlRepository repository) {
+        List<PageSpeedAnalysis> pageSpeedAnalysisList = repository.getAllSpeedAnalysis();
         List<Long> idsToDelete = new ArrayList<>();
         idsToDelete.add(25L);
         idsToDelete.add(26L);
@@ -348,7 +348,7 @@ public class App {
         idsToDelete.add(47L);
         idsToDelete.add(48L);
 
-        urlRepository.deleteSpeedAnalysisById(idsToDelete);
+        repository.deleteSpeedAnalysisById(idsToDelete);
 
         StringBuilder htmlContent = new StringBuilder();
 
@@ -359,7 +359,7 @@ public class App {
         htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
         htmlContent.append("<title>Список анализов скорости загрузки страниц</title>");
         htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
+        htmlContent.append("<body style=\"background-color: white;\">");
 
         // Добавляем верхнюю шапку страницы
         htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
@@ -396,8 +396,8 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
-    public static void getAllLinkCheckHandler(Context ctx, UrlRepository urlRepository) {
-        List<LinkCheck> linkChecks = urlRepository.getAllLinkChecks();
+    public static void getAllLinkCheckHandler(Context ctx, UrlRepository repository) {
+        List<LinkCheck> linkChecks = repository.getAllLinkChecks();
         StringBuilder htmlContent = new StringBuilder();
 
         // Добавляем начало HTML страницы с встроенными стилями
@@ -474,9 +474,9 @@ public class App {
         }
 
         Javalin app = Javalin.create(configure -> {
-                    configure.fileRenderer(new JavalinJte(createTemplateEngine()));
-                    configure.staticFiles.add("/templates");
-                })
+            configure.fileRenderer(new JavalinJte(createTemplateEngine()));
+            configure.staticFiles.add("/templates");
+        })
                 .get("/", ctx -> ctx.render("index.html"))
                 .post("/urls", ctx -> addUrlHandler(ctx, urlRepository))
                 .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
