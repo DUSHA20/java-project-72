@@ -75,7 +75,7 @@ public class LinkCheck {
         return createdAt;
     }
 
-    public void setCheckedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCheckedAt(LocalDateTime createdAtParam) {
+        this.createdAt = createdAtParam;
     }
 }
