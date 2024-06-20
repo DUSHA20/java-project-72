@@ -36,8 +36,8 @@ public class App {
         String url = ctx.formParam("url");
         try {
             URL parsedUrl = new URI(url).toURL();
-            String domainWithPort = parsedUrl.getProtocol() + "://" + parsedUrl.getHost() +
-                    (parsedUrl.getPort() != -1 ? ":" + parsedUrl.getPort() : "");
+            String domainWithPort = parsedUrl.getProtocol() + "://" + parsedUrl.getHost()
+                   + (parsedUrl.getPort() != -1 ? ":" + parsedUrl.getPort() : "");
 
             if (!repository.exists(domainWithPort)) {
                 // Если URL не существует, добавляем его
@@ -383,7 +383,9 @@ public class App {
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getId()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getUrlId()).append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getLoadTime()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getContentLength()).append("</td>");
+            htmlContent.append("<td style=\"padding: 8px;\">")
+                    .append(pageSpeedAnalysis.getContentLength())
+                    .append("</td>");
             htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getCreatedAt()).append("</td>");
             htmlContent.append("</tr>");
         }

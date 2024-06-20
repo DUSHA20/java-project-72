@@ -64,8 +64,8 @@ public class UrlCheck {
         return urlId;
     }
 
-    public void setUrl(Long urlId) {
-        this.urlId = urlId;
+    public void setUrl(Long newUrlId) {
+        this.urlId = newUrlId;
     }
 
     public LocalDateTime getCreatedAt() {
