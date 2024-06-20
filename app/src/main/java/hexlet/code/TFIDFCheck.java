@@ -13,7 +13,7 @@ public class TFIDFCheck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long url_id;
+    private Long urlId;
 
     private String word;
 
@@ -24,14 +24,6 @@ public class TFIDFCheck {
     public TFIDFCheck() {
     }
 
-//    public TFIDFCheck(Long id, Long url_id, String word, BigDecimal tfidf, LocalDateTime createdAt) {
-//        this.id = id;
-//        this.url_id = url_id;
-//        this.word = word;
-//        this.tfidf = tfidf;
-//        this.createdAt = createdAt;
-//    }
-
     public Long getId() {
         return id;
     }
@@ -41,11 +33,11 @@ public class TFIDFCheck {
     }
 
     public Long getUrlId() {
-        return url_id;
+        return urlId;
     }
 
-    public void setUrlId(Long url_id) {
-        this.url_id = url_id;
+    public void setUrlId(Long urlId) {
+        this.urlId = urlId;
     }
 
     public String getWord() {
