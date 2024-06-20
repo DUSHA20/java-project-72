@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="9.3">
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/ValidationResult.java">
+</file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/SpeedAnalysisResult.java">
+</file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/UrlRepository.java">
 </file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/Url.java">
 </file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/UrlCheck.java">
+</file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/TextAnalyzer.java">
+</file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/BaseRepository.java">
 </file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/LinkChecker.java">
+</file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/LinkCheck.java">
+</file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/SpeedAnalysisCalculator.java">
+</file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/App.java">
-<error line="58" column="21" severity="error" message="&apos;block&apos; child has incorrect indentation level 20, expected level should be 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="59" column="17" severity="error" message="&apos;block rcurly&apos; has incorrect indentation level 16, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/PageSpeedAnalysis.java">
+</file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/TFIDFCheck.java">
+</file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/UrlChecker.java">
+</file>
+<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/PageSpeedAnalyzer.java">
 </file>
 </checkstyle>

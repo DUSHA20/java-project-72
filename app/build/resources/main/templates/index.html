@@ -21,9 +21,26 @@
         <button type="submit" class="btn btn-primary">Проверить</button>
     </form>
 
-    <div class="mt-3 links">
-        <a href="/urls" class="link-btn me-2">Все Сайты</a>
-        <a href="/urls/checks" class="link-btn me-2">Проверенные сайты</a>
+    <div class="button-container">
+        <!-- Кнопка "Проверки SEO" в виде текста -->
+        <a href="/urls" class="link-btn">Все Сайты</a>
+        <span id="seoButton" class="link-btn">Проверки SEO</span>
+        <span id="recommendationsButton" class="link-btn">Рекомендации</span>
+    </div>
+
+    <!-- Список ссылок для проверок SEO -->
+    <div class="mt-3 links" style="display: none;">
+        <a href="/urls/checks" class="link-btn">Проверенные на теги сайты</a>
+        <a href="/urls/tfidfchecks" class="link-btn">Проверенные на TFIDF сайты</a>
+        <a href="/urls/pagespeedresults" class="link-btn">Результаты проверки на скорость загрузки</a>
+        <a href="/urls/linkcheckresults" class="link-btn">Результаты проверки внешних и внутренних ссылок</a>
+        <a href="/urls/table" class="link-btn">Результаты аппроксимации</a>
+    </div>
+
+    <!-- Список ссылок для рекомендаций -->
+    <div class="mt-3 recommendations-links" style="display: none;">
+        <a href="/urls/metategsresults" class="link-btn">Рекомендации по метатегам</a>
+        <a href="/urls/speedresults" class="link-btn">Рекомендации по скорости загрузки</a>
     </div>
 
 </div>
@@ -34,6 +51,43 @@
 
 <!-- Подключение скриптов Bootstrap через WebJars -->
 <script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- JavaScript код для управления видимостью списков ссылок -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим кнопку "Проверки SEO"
+    var seoButton = document.getElementById('seoButton');
+
+    // Находим список ссылок для проверок SEO
+    var linksList = document.querySelector('.links');
+
+    // Добавляем обработчик события клика на кнопку "Проверки SEO"
+    seoButton.addEventListener('click', function() {
+        // Переключаем видимость списка ссылок при каждом клике
+        if (linksList.style.display === 'none' || linksList.style.display === '') {
+            linksList.style.display = 'block';
+        } else {
+            linksList.style.display = 'none';
+        }
+    });
+
+    // Находим кнопку "Рекомендации"
+    var recommendationsButton = document.getElementById('recommendationsButton');
+
+    // Находим список ссылок для рекомендаций
+    var recommendationsLinksList = document.querySelector('.recommendations-links');
+
+    // Добавляем обработчик события клика на кнопку "Рекомендации"
+    recommendationsButton.addEventListener('click', function() {
+        // Переключаем видимость списка ссылок при каждом клике
+        if (recommendationsLinksList.style.display === 'none' || recommendationsLinksList.style.display === '') {
+            recommendationsLinksList.style.display = 'block';
+        } else {
+            recommendationsLinksList.style.display = 'none';
+        }
+    });
+});
+</script>
 
 </body>
 </html>

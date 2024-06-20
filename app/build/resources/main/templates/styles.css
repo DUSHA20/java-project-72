@@ -60,7 +60,6 @@ body {
     background-color: rgba(70, 130, 180, 0.8); /* Затемняем цвет фона при наведении на кнопку */
 }
 
-
 .display-1 {
     font-size: 70px;
     margin-left: 180px;
@@ -91,25 +90,123 @@ footer {
 }
 
 /* Стили для ссылок на главной странице */
-.links {
-    position: absolute;
-    top: 8px;
-    left: 25px;
-    z-index: 2;
-}
-
 .link-btn {
     color: white;
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    margin-right: 20px;
-    font-size: 1.2rem;
-    text-decoration: none; /* Убираем подчеркивание */
+    text-decoration: none;
     cursor: pointer;
-    transition: color 0.3s ease; /* Добавим плавное изменение цвета текста */
+    transition: color 0.3s ease;
+    font-size: 8rem; /* Увеличиваем размер шрифта кнопок */
 }
 
 .link-btn:hover {
-    color: #ccc; /* Изменяем цвет текста при наведении */
+    color: #ccc;
 }
+
+.links, .recommendations-links {
+    background-color: SteelBlue;
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50px; /* Отступ сверху от кнопки "Проверки SEO" */
+    left: 130px; /* Отступ слева */
+    display: none; /* Изначально скрываем список */
+}
+
+.links a, .recommendations-links a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 5px;
+    position: relative;
+    font-size: 1.2rem; /* Уменьшаем размер текста */
+}
+
+.links a::before, .recommendations-links a::before {
+    content: ''; /* Создаем пустой контент для псевдоэлемента */
+    position: absolute; /* Абсолютное позиционирование */
+    bottom: 0; /* Располагаем псевдоэлемент внизу */
+    left: -10px;
+    right: -10px;
+    width: calc(100% + 20px); /* Занимаем всю ширину ссылки */
+    height: 0px; /* Высота темной полосочки */
+    background-color: rgba(0, 0, 0, 0.1); /* Цвет темной полосочки */
+    transition: height 0.0s ease; /* Плавное изменение высоты */
+}
+
+.links a:hover::before, .recommendations-links a:hover::before {
+    height: 25px; /* Увеличиваем высоту полосочки при наведении */
+}
+
+#seoButton {
+    z-index: 2; /* чтобы кнопка была поверх фона */
+    color: white; /* убираем подсветку при наведении */
+    cursor: pointer;
+    font-size: 20px; /* уменьшаем размер текста */
+    transition: color 0.3s ease; /* добавляем плавное изменение цвета текста */
+}
+
+#seoButton::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -0px; /* Расположение справа от кнопки */
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid white; /* Цвет треугольника */
+    transform: translateY(-50%);
+}
+
+#seoButton:hover::after {
+    border-top-color: #ccc; /* Изменяем цвет треугольника при наведении */
+}
+
+#seoButton:hover {
+    color: #ccc; /* изменяем цвет текста при наведении */
+}
+
+#recommendationsButton {
+    z-index: 2; /* чтобы кнопка была поверх фона */
+    color: white; /* убираем подсветку при наведении */
+    cursor: pointer;
+    font-size: 20px; /* уменьшаем размер текста */
+    transition: color 0.3s ease; /* добавляем плавное изменение цвета текста */
+}
+
+#recommendationsButton::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -0px; /* Расположение справа от кнопки */
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid white; /* Цвет треугольника */
+    transform: translateY(-50%);
+}
+
+#recommendationsButton:hover::after {
+    border-top-color: #ccc; /* Изменяем цвет треугольника при наведении */
+}
+
+#recommendationsButton:hover {
+    color: #ccc; /* изменяем цвет текста при наведении */
+}
+
+.button-container {
+    display: flex; /* Расположение элементов в строку */
+    align-items: center; /* Выравнивание элементов по вертикали */
+    position: absolute;
+    top: 18px; /* Отступ сверху */
+    left: 20px; /* Отступ слева */
+}
+
+/* Стили для кнопок внутри .button-container */
+.button-container .link-btn {
+    margin-right: 24px; /* Добавляем небольшой отступ между кнопками */
+    font-size: 20px; /* Размер текста кнопок */
+    font-family: "Bree Serif", serif; /* Устанавливаем шрифт */
+}
+
