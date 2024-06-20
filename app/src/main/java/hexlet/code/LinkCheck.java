@@ -23,7 +23,7 @@ public class LinkCheck {
     private int statusCode;
 
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     private LinkType linkType;
@@ -35,13 +35,6 @@ public class LinkCheck {
 
     // Constructors, getters, and setters
     public LinkCheck() {
-    }
-
-    public LinkCheck(String url, int statusCode, LocalDateTime created_at, LinkType linkType) {
-        this.url = url;
-        this.statusCode = statusCode;
-        this.created_at = created_at;
-        this.linkType = linkType;
     }
 
     public Long getId() {
@@ -79,10 +72,10 @@ public class LinkCheck {
     }
 
     public LocalDateTime getCheckedAt() {
-        return created_at;
+        return createdAt;
     }
 
-    public void setCheckedAt(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCheckedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

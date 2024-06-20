@@ -248,8 +248,8 @@ public class UrlRepository extends BaseRepository {
             Long urlId = getUrlIdByName(url);
             if (urlId != null) {
                 PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO TFIDFResults (url_id, word, tfidf, created_at) " +
-                                "VALUES (?, ?, ?, ?)"
+                        "INSERT INTO TFIDFResults (url_id, word, tfidf, created_at) "
+                                + "VALUES (?, ?, ?, ?)"
                 );
                 for (Map.Entry<String, Double> entry : tfidfMap.entrySet()) {
                     String word = entry.getKey();
@@ -302,8 +302,8 @@ public class UrlRepository extends BaseRepository {
             Long urlId = getUrlIdByName(url);
             if (urlId != null) {
                 PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO SpeedAnalysis (url_id, load_time, content_length, " +
-                                "request_count, is_cdn_used, created_at) VALUES (?, ?, ?, ?, ?, ?)");
+                        "INSERT INTO SpeedAnalysis (url_id, load_time, content_length, "
+                                + "request_count, is_cdn_used, created_at) VALUES (?, ?, ?, ?, ?, ?)");
                 statement.setLong(1, urlId);
                 statement.setLong(2, loadTime);
                 statement.setInt(3, contentLength);
@@ -442,37 +442,37 @@ public class UrlRepository extends BaseRepository {
                 return new SpeedAnalysisResult(true, "Скорость оптимальная.");
             } else {
                 return new SpeedAnalysisResult(false,
-                        "Медленная загрузка. Рекомендации по оптимизации: " +
-                                "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
+                        "Медленная загрузка. Рекомендации по оптимизации: "
+                               + "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
             }
         } else if (contentLength > 33758 && contentLength <= 48648) {
             if (loadTime <= 438) {
                 return new SpeedAnalysisResult(true, "Скорость оптимальная.");
             } else {
                 return new SpeedAnalysisResult(false,
-                        "Медленная загрузка. Рекомендации по оптимизации: " +
-                                "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
+                        "Медленная загрузка. Рекомендации по оптимизации: "
+                               + "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
             }
         } else if (contentLength > 48648 && contentLength <= 90000) {
             if (loadTime <= 1124) {
                 return new SpeedAnalysisResult(true, "Скорость оптимальная.");
             } else {
                 return new SpeedAnalysisResult(false,
-                        "Медленная загрузка. Рекомендации по оптимизации: " +
-                                "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
+                        "Медленная загрузка. Рекомендации по оптимизации: "
+                               + "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
             }
         } else if (contentLength > 90000) {
             if (loadTime <= 1124) {
                 return new SpeedAnalysisResult(true, "Скорость оптимальная.");
             } else {
                 return new SpeedAnalysisResult(false,
-                        "Медленная загрузка. Рекомендации по оптимизации: " +
-                                "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
+                        "Медленная загрузка. Рекомендации по оптимизации: "
+                                + "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
             }
         } else {
             return new SpeedAnalysisResult(false,
-                    "Медленная загрузка. Рекомендации по оптимизации: " +
-                            "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
+                    "Медленная загрузка. Рекомендации по оптимизации: "
+                           + "Оптимизация размера изображений, минимизация файлов CSS и JavaScript.");
         }
     }
 
