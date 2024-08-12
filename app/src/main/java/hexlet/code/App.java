@@ -450,19 +450,19 @@ public class App {
     public static Javalin getApp() {
 
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
-        String jdbcUrlTemplate = getJdbcUrlTemplate();
+        String jdbcUrlTemplate = System.getenv("DATABASE_URL");
 
         DataSource dataSource;
 
-        if (jdbcUrlTemplate.startsWith("jdbc:h2")) {
-            // Используем H2 для локальной разработки
+        if (jdbcUrlTemplate == null || jdbcUrlTemplate.isEmpty()) {
+            // Если переменная DATABASE_URL не определена, используем H2 для локальной разработки
             dataSource = new HikariDataSource(new HikariConfig());
         } else {
-            // Используем PostgreSQL для продакшена
+            // Если переменная DATABASE_URL определена, используем PostgreSQL для продакшена
             HikariConfig config = new HikariConfig();
             config.setJdbcUrl(jdbcUrlTemplate);
-            config.setUsername(System.getenv("JDBC_DATABASE_USER"));
-            config.setPassword(System.getenv("JDBC_DATABASE_PASSWORD"));
+            // Railway автоматически включает информацию о пользователе и пароле в DATABASE_URL,
+            // поэтому не нужно отдельно задавать username и password
             dataSource = new HikariDataSource(config);
         }
 
