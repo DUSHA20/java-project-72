@@ -28,7 +28,7 @@ public class App {
     }
 
     private static String getJdbcUrlTemplate() {
-        return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project");
+        return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
     }
 
     public static void addUrlHandler(Context ctx, UrlRepository repository) {
@@ -207,8 +207,21 @@ public class App {
         DataSource dataSource;
 
         if (jdbcUrlTemplate.startsWith("jdbc:h2")) {
-            // Используем H2 для локальной разработки
-            dataSource = new HikariDataSource(new HikariConfig());
+            try {
+                Class.forName("org.h2.Driver");
+                System.out.println("H2 Driver Loaded Successfully!");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+
+            // Конфигурация для H2
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(jdbcUrlTemplate);
+            config.setDriverClassName("org.h2.Driver");
+            config.setUsername("sa");
+            config.setPassword("");
+            dataSource = new HikariDataSource(config);
         } else {
             // Используем PostgreSQL для продакшена
             HikariConfig config = new HikariConfig();

@@ -2,32 +2,16 @@
 <checkstyle version="9.3">
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/ValidationResult.java">
 </file>
-<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/SpeedAnalysisResult.java">
-</file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/UrlRepository.java">
 </file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/Url.java">
 </file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/UrlCheck.java">
 </file>
-<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/TextAnalyzer.java">
-</file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/BaseRepository.java">
-</file>
-<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/LinkChecker.java">
-</file>
-<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/LinkCheck.java">
-</file>
-<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/SpeedAnalysisCalculator.java">
 </file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/App.java">
 </file>
-<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/PageSpeedAnalysis.java">
-</file>
-<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/TFIDFCheck.java">
-</file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/UrlChecker.java">
-</file>
-<file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/PageSpeedAnalyzer.java">
 </file>
 </checkstyle>
