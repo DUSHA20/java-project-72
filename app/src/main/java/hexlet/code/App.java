@@ -14,7 +14,6 @@ import java.net.URI;
 import java.net.URL;
 import io.javalin.http.Context;
 import java.util.List;
-import java.util.ArrayList;
 
 
 public class App {
@@ -51,13 +50,6 @@ public class App {
                 // Получаем его ID
                 long addedUrlId = addedUrl.getId();
 
-                // Вычисляем TF-IDF и добавляем результаты в базу данных
-                TextAnalyzer.calculateAndSaveTFIDFForUrl(url, repository);
-
-                PageSpeedAnalyzer.analyzePage(url, repository);
-
-                LinkChecker.checkAndSaveAllInternalLinks(url, repository);
-
                 // Перенаправляем пользователя на страницу с информацией о добавленном URL
                 ctx.redirect("/urls/" + addedUrlId);
 
@@ -68,42 +60,6 @@ public class App {
         } catch (Exception e) {
             System.out.println("Некорректный URL: " + url);
         }
-    }
-
-    public static void creaTetable(Context ctx, UrlRepository repository) {
-        List<Long> loadTimes = repository.getAllLoadTimes();
-        List<Integer> contentLengths = repository.getAllContentLengths();
-        SpeedAnalysisCalculator calculator = new SpeedAnalysisCalculator(loadTimes, contentLengths);
-
-        String approximatedLoadTimes = calculator.getApproximatedLoadTimesAsString();
-
-        StringBuilder htmlContent = new StringBuilder();
-
-        htmlContent.append("<!DOCTYPE html>");
-        htmlContent.append("<html lang=\"ru\">");
-        htmlContent.append("<head>");
-        htmlContent.append("<meta charset=\"UTF-8\">");
-        htmlContent.append("<title>Приблизительное время загрузки</title>");
-        htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">");
-
-        // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
-               + "text-align: left; width: 100%; margin-top: -10px;\">");
-        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
-        htmlContent.append("</div>");
-
-        // Добавляем заголовок
-        htmlContent.append("<h1>Приблизительное время загрузки</h1>");
-
-        // Добавляем результаты аппроксимации на страницу
-        htmlContent.append("<p>").append(approximatedLoadTimes).append("</p>");
-
-        htmlContent.append("</body>");
-        htmlContent.append("</html>");
-
-        // Передаем HTML содержимое на клиентскую сторону
-        ctx.html(htmlContent.toString());
     }
 
     public static void checkMetaTagsAndCreateTable(Context ctx, UrlRepository repository) {
@@ -141,51 +97,6 @@ public class App {
             htmlContent.append("<td>").append(titleResult.getMessage()).append("</td>");
             htmlContent.append("<td>").append(description == null ? "" : description).append("</td>");
             htmlContent.append("<td>").append(descriptionResult.getMessage()).append("</td>");
-            htmlContent.append("</tr>");
-        }
-
-        htmlContent.append("</table>");
-        htmlContent.append("</body>");
-        htmlContent.append("</html>");
-
-        ctx.html(htmlContent.toString());
-    }
-
-    public static void analyzeLoadTimesAndCreateTable(Context ctx, UrlRepository repository) {
-        List<Long> loadTimes = repository.getAllLoadTimes();
-        List<Integer> contentLengths = repository.getAllContentLengths();
-
-        StringBuilder htmlContent = new StringBuilder();
-
-        htmlContent.append("<!DOCTYPE html>");
-        htmlContent.append("<html lang=\"ru\">");
-        htmlContent.append("<head>");
-        htmlContent.append("<meta charset=\"UTF-8\">");
-        htmlContent.append("<title>Анализ скорости загрузки</title>");
-        htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">");
-
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
-                + "text-align: left; width: 100%; margin-top: -10px;\">");
-        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
-        htmlContent.append("</div>");
-
-        htmlContent.append("<h1>Результаты анализа скорости загрузки</h1>");
-        htmlContent.append("<table border=\"1\" style=\"width: 100%; border-collapse: collapse;\">");
-        htmlContent.append("<tr><th>Длина контента</th><th>Время загрузки</th><th>URL ID</th><th>Результат</th></tr>");
-
-        for (int i = 0; i < loadTimes.size(); i++) {
-            Long loadTime = loadTimes.get(i);
-            Integer contentLength = contentLengths.get(i);
-
-            SpeedAnalysisResult result = repository.analyzeLoadTime(loadTime, contentLength);
-            Long urlId = repository.getUrlIdByContentLength(contentLength);
-
-            htmlContent.append("<tr>");
-            htmlContent.append("<td>").append(contentLength == null ? "" : contentLength).append("</td>");
-            htmlContent.append("<td>").append(loadTime == null ? "" : loadTime).append("</td>");
-            htmlContent.append("<td>").append(urlId == null ? "N/A" : urlId).append("</td>");
-            htmlContent.append("<td>").append(result.getMessage()).append("</td>");
             htmlContent.append("</tr>");
         }
 
@@ -288,165 +199,6 @@ public class App {
         ctx.html(htmlContent.toString());
     }
 
-    public static void getAllTFIDFChecksHandler(Context ctx, UrlRepository repository) {
-        List<TFIDFCheck> tfidfchecks = repository.getAllTFIDFChecks();
-        StringBuilder htmlContent = new StringBuilder();
-
-        htmlContent.append("<!DOCTYPE html>");
-        htmlContent.append("<html lang=\"ru\">");
-        htmlContent.append("<head>");
-        htmlContent.append("<meta charset=\"UTF-8\">");
-        htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        htmlContent.append("<title>Список проверок TF-IDF</title>");
-        htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">");
-
-        // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
-                + "text-align: left; width: 100%; margin-top: -10px;\">");
-        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
-        htmlContent.append("</div>");
-
-        // Добавляем начало таблицы с встроенными стилями
-        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
-        htmlContent.append("<tr style=\"background-color: #4682B4;\">");
-        htmlContent.append("<th style=\"padding: 8px;\">ID_Проверки</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Слово</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Дата и время проверки</th>");
-        htmlContent.append("</tr>");
-
-        // Добавляем каждую проверку TF-IDF в таблицу
-        for (TFIDFCheck tfidfcheck : tfidfchecks) {
-            htmlContent.append("<tr style=\"border: 1px solid black;\">");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(tfidfcheck.getId()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(tfidfcheck.getUrlId()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(tfidfcheck.getWord()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(tfidfcheck.getCreatedAt()).append("</td>");
-            htmlContent.append("</tr>");
-        }
-
-        htmlContent.append("</table>");
-        htmlContent.append("</body>");
-        htmlContent.append("</html>");
-
-        // Передаем HTML содержимое на клиентскую сторону
-        ctx.html(htmlContent.toString());
-    }
-
-    public static void getAllSpeedAnalysisHandler(Context ctx, UrlRepository repository) {
-        List<PageSpeedAnalysis> pageSpeedAnalysisList = repository.getAllSpeedAnalysis();
-        List<Long> idsToDelete = new ArrayList<>();
-        idsToDelete.add(25L);
-        idsToDelete.add(26L);
-        idsToDelete.add(29L);
-        idsToDelete.add(31L);
-        idsToDelete.add(34L);
-        idsToDelete.add(36L);
-        idsToDelete.add(37L);
-        idsToDelete.add(38L);
-        idsToDelete.add(47L);
-        idsToDelete.add(48L);
-
-        repository.deleteSpeedAnalysisById(idsToDelete);
-
-        StringBuilder htmlContent = new StringBuilder();
-
-        htmlContent.append("<!DOCTYPE html>");
-        htmlContent.append("<html lang=\"ru\">");
-        htmlContent.append("<head>");
-        htmlContent.append("<meta charset=\"UTF-8\">");
-        htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        htmlContent.append("<title>Список анализов скорости загрузки страниц</title>");
-        htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">");
-
-        // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
-                + "text-align: left; width: 100%; margin-top: -10px;\">");
-        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
-        htmlContent.append("</div>");
-
-        // Добавляем начало таблицы с встроенными стилями
-        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
-        htmlContent.append("<tr style=\"background-color: #4682B4;\">");
-        htmlContent.append("<th style=\"padding: 8px;\">ID_Анализа</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Время загрузки (мс)</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Размер</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Дата и время анализа</th>");
-        htmlContent.append("</tr>");
-
-        // Добавляем каждый анализ скорости загрузки страницы в таблицу
-        for (PageSpeedAnalysis pageSpeedAnalysis : pageSpeedAnalysisList) {
-            htmlContent.append("<tr style=\"border: 1px solid black;\">");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getId()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getUrlId()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getLoadTime()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">")
-                    .append(pageSpeedAnalysis.getContentLength())
-                    .append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(pageSpeedAnalysis.getCreatedAt()).append("</td>");
-            htmlContent.append("</tr>");
-        }
-
-        htmlContent.append("</table>");
-        htmlContent.append("</body>");
-        htmlContent.append("</html>");
-
-        // Передаем HTML содержимое на клиентскую сторону
-        ctx.html(htmlContent.toString());
-    }
-
-    public static void getAllLinkCheckHandler(Context ctx, UrlRepository repository) {
-        List<LinkCheck> linkChecks = repository.getAllLinkChecks();
-        StringBuilder htmlContent = new StringBuilder();
-
-        // Добавляем начало HTML страницы с встроенными стилями
-        htmlContent.append("<!DOCTYPE html>");
-        htmlContent.append("<html lang=\"ru\">");
-        htmlContent.append("<head>");
-        htmlContent.append("<meta charset=\"UTF-8\">");
-        htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        htmlContent.append("<title>Список анализов скорости загрузки страниц</title>");
-        htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
-
-        // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
-                + "text-align: left; width: 100%; margin-top: -10px;\">");
-        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
-        htmlContent.append("</div>");
-
-        // Добавляем начало таблицы с встроенными стилями
-        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
-        htmlContent.append("<tr style=\"background-color: #4682B4;\">");
-        htmlContent.append("<th style=\"padding: 8px;\">ID_Проверки</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">ID_Сайта</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Сайт</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Статус</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Дата и время проверки</th>");
-        htmlContent.append("</tr>");
-
-        // Добавляем каждый анализ скорости загрузки страницы в таблицу
-        for (LinkCheck linkCheck : linkChecks) {
-            htmlContent.append("<tr style=\"border: 1px solid black;\">");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getId()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getUrlId()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getUrl()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getStatusCode()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(linkCheck.getCheckedAt()).append("</td>");
-            htmlContent.append("</tr>");
-        }
-
-        htmlContent.append("</table>");
-        htmlContent.append("</body>");
-        htmlContent.append("</html>");
-
-        // Передаем HTML содержимое на клиентскую сторону
-        ctx.html(htmlContent.toString());
-    }
-
     public static Javalin getApp() {
 
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
@@ -483,12 +235,7 @@ public class App {
                 .post("/urls", ctx -> addUrlHandler(ctx, urlRepository))
                 .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
                 .get("/urls/checks", ctx -> getAllUrlChecksHandler(ctx, urlRepository))
-                .get("/urls/tfidfchecks", ctx -> getAllTFIDFChecksHandler(ctx, urlRepository))
-                .get("/urls/pagespeedresults", ctx -> getAllSpeedAnalysisHandler(ctx, urlRepository))
-                .get("/urls/linkcheckresults", ctx -> getAllLinkCheckHandler(ctx, urlRepository))
-                .get("/urls/table", ctx -> creaTetable(ctx, urlRepository))
                 .get("/urls/metategsresults", ctx -> checkMetaTagsAndCreateTable(ctx, urlRepository))
-                .get("/urls/speedresults", ctx -> analyzeLoadTimesAndCreateTable(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);
