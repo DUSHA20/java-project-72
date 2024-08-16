@@ -25,7 +25,7 @@
                 <td style="padding: 8px;">@{url.getName()}</td>
                 <td style="padding: 8px;">@{url.getCreatedAt()}</td>
             </tr>
-        }
+        @endfor
     </table>
 
 </body>
