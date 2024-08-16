@@ -15,7 +15,6 @@ import java.net.URL;
 import io.javalin.http.Context;
 import java.util.List;
 
-
 public class App {
 
     private static UrlRepository urlRepository;
@@ -60,51 +59,6 @@ public class App {
         } catch (Exception e) {
             System.out.println("Некорректный URL: " + url);
         }
-    }
-
-    public static void checkMetaTagsAndCreateTable(Context ctx, UrlRepository repository) {
-        List<String> titles = repository.getAllLoadTitle();
-        List<String> descriptions = repository.getAllLoadDescription();
-
-        StringBuilder htmlContent = new StringBuilder();
-
-        htmlContent.append("<!DOCTYPE html>");
-        htmlContent.append("<html lang=\"ru\">");
-        htmlContent.append("<head>");
-        htmlContent.append("<meta charset=\"UTF-8\">");
-        htmlContent.append("<title>Проверка метатегов</title>");
-        htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">");
-
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
-                + "text-align: left; width: 100%; margin-top: -10px;\">");
-        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
-        htmlContent.append("</div>");
-
-        htmlContent.append("<h1>Результаты проверки метатегов</h1>");
-        htmlContent.append("<table border=\"1\" style=\"width: 100%; border-collapse: collapse;\">");
-        htmlContent.append("<tr><th>Заголовок</th><th>Корректность</th><th>Описание</th><th>Корректность</th></tr>");
-
-        for (int i = 0; i < titles.size(); i++) {
-            String title = titles.get(i);
-            String description = descriptions.get(i);
-
-            ValidationResult titleResult = repository.validateTitle(title);
-            ValidationResult descriptionResult = repository.validateDescription(description);
-
-            htmlContent.append("<tr>");
-            htmlContent.append("<td>").append(title == null ? "" : title).append("</td>");
-            htmlContent.append("<td>").append(titleResult.getMessage()).append("</td>");
-            htmlContent.append("<td>").append(description == null ? "" : description).append("</td>");
-            htmlContent.append("<td>").append(descriptionResult.getMessage()).append("</td>");
-            htmlContent.append("</tr>");
-        }
-
-        htmlContent.append("</table>");
-        htmlContent.append("</body>");
-        htmlContent.append("</html>");
-
-        ctx.html(htmlContent.toString());
     }
 
     public static void getAllUrlsHandler(Context ctx, UrlRepository repository) {
@@ -248,7 +202,6 @@ public class App {
                 .post("/urls", ctx -> addUrlHandler(ctx, urlRepository))
                 .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
                 .get("/urls/checks", ctx -> getAllUrlChecksHandler(ctx, urlRepository))
-                .get("/urls/metategsresults", ctx -> checkMetaTagsAndCreateTable(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);
