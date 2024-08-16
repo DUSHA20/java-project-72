@@ -30,6 +30,7 @@
         <td style="padding: 8px;">@url.createdAt</td>
     </tr>
     }
+    @endfor
     </tbody>
 </table>
 
