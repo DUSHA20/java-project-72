@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URL;
 import io.javalin.http.Context;
 import java.util.List;
+import java.util.Map;
 
 public class App {
 
@@ -63,43 +64,9 @@ public class App {
 
     public static void getAllUrlsHandler(Context ctx, UrlRepository repository) {
         List<Url> urls = repository.getAllUrls();
-        StringBuilder htmlContent = new StringBuilder();
 
-        htmlContent.append("<!DOCTYPE html>");
-        htmlContent.append("<html lang=\"ru\">");
-        htmlContent.append("<head>");
-        htmlContent.append("<meta charset=\"UTF-8\">");
-        htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        htmlContent.append("<title>Список URL</title>");
-        htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white; margin: 0;\">");
-
-        // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
-                + "text-align: left; width: 100%; margin-top: -10px;\">");
-        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
-        htmlContent.append("</div>");
-
-        // Добавляем начало таблицы с встроенными стилями
-        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
-        htmlContent.append("<tr style=\"background-color: #4682B4;\"><th style=\"padding: 8px;\">"
-                + "ID</th><th style=\"padding: 8px;\">Name</th><th style=\"padding: 8px;\">Created At</th></tr>");
-
-        // Добавляем каждый URL в таблицу
-        for (Url url : urls) {
-            htmlContent.append("<tr style=\"border: 1px solid black;\">");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(url.getId()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(url.getName()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(url.getCreatedAt()).append("</td>");
-            htmlContent.append("</tr>");
-        }
-
-        htmlContent.append("</table>");
-        htmlContent.append("</body>");
-        htmlContent.append("</html>");
-
-        // Передаем HTML содержимое на клиентскую сторону
-        ctx.html(htmlContent.toString());
+        // Рендеринг страницы с использованием шаблона allUrls.jte и передачи списка URLs в шаблон
+        ctx.render("allUrls.jte", Map.of("urls", urls));
     }
 
     public static void getAllUrlChecksHandler(Context ctx, UrlRepository repository) {
