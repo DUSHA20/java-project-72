@@ -15,11 +15,19 @@ import java.net.URL;
 import io.javalin.http.Context;
 import java.util.List;
 import java.util.Map;
-import gg.jte.output.StringOutput;
+//import gg.jte.output.StringOutput;
+import java.io.StringWriter;
+//import java.util.Properties;
+import com.github.mustachejava.DefaultMustacheFactory;
+import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheFactory;
+import java.util.HashMap;
+
 
 public class App {
 
     private static UrlRepository urlRepository;
+    private static MustacheFactory mustacheFactory;
 
     private static TemplateEngine createTemplateEngine() {
         ClassLoader classLoader = App.class.getClassLoader();
@@ -63,21 +71,23 @@ public class App {
         }
     }
 
-    public static void getMessageHandler(Context ctx) {
-        // Простое строковое сообщение
-        String message = "Hello, World!";
+    private static MustacheFactory createMustacheFactory() {
+        return new DefaultMustacheFactory("templates");
+    }
 
-        // Получаем экземпляр TemplateEngine
-        TemplateEngine templateEngine = createTemplateEngine();
+    private static void getMessageHandler(Context ctx) {
+        // Настройка Mustache
+        MustacheFactory mustacheFactory = new DefaultMustacheFactory("templates");
+        Mustache mustache = mustacheFactory.compile("message.mustache");
 
-        // Создаем StringOutput для вывода
-        StringOutput output = new StringOutput();
+        // Создаем контекст данных
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("message", "Hello, World!");
 
-        // Рендеринг страницы с использованием шаблона allUrls.jte и передачи строки в шаблон
-        templateEngine.render("allUrls.jte", Map.of("message", message), output);
-
-        // Передача отрендеренного HTML в контекст
-        ctx.html(output.toString());
+        // Рендеринг шаблона с использованием Mustache
+        StringWriter writer = new StringWriter();
+        mustache.execute(writer, dataModel);
+        ctx.html(writer.toString());
     }
 
     public static void getAllUrlChecksHandler(Context ctx, UrlRepository repository) {
@@ -171,6 +181,8 @@ public class App {
             e.printStackTrace();
             System.exit(1);
         }
+
+        mustacheFactory = createMustacheFactory();
 
         Javalin app = Javalin.create(configure -> {
             configure.fileRenderer(new JavalinJte(createTemplateEngine()));

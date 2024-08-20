@@ -11,6 +11,7 @@
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/BaseRepository.java">
 </file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/App.java">
+<error line="80" column="25" severity="error" message="&apos;mustacheFactory&apos; hides a field." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
 </file>
 <file name="/Users/dusiafa/Documents/Java/java-project-72/app/src/main/java/hexlet/code/UrlChecker.java">
 </file>

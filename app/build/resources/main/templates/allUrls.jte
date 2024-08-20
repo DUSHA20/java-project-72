@@ -1,32 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список URL</title>
+    <title>Message Page</title>
 </head>
-<body style="background-color: white; margin: 0;">
-
-    <!-- Верхняя шапка страницы -->
-    <div style="background-color: #4682B4; padding: 20px 10px; text-align: left; width: 100%; margin-top: -10px;">
-        <a href="/" style="color: white; text-decoration: none;">На главную</a>
-    </div>
-
-    <!-- Таблица со списком URL -->
-    <table style="border-collapse: collapse; margin: 20px auto; width: 80%;">
-        <tr style="background-color: #4682B4;">
-            <th style="padding: 8px;">ID</th>
-            <th style="padding: 8px;">Name</th>
-            <th style="padding: 8px;">Created At</th>
-        </tr>
-        @for(Url url : urls) {
-            <tr style="border: 1px solid black;">
-                <td style="padding: 8px;">@{url.getId()}</td>
-                <td style="padding: 8px;">@{url.getName()}</td>
-                <td style="padding: 8px;">@{url.getCreatedAt()}</td>
-            </tr>
-        @endfor
-    </table>
-
+<body>
+<h1>$message</h1>
 </body>
 </html>
