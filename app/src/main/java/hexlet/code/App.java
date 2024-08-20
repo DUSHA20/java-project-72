@@ -75,19 +75,37 @@ public class App {
         return new DefaultMustacheFactory("templates");
     }
 
-    private static void getMessageHandler(Context ctx) {
-        // Настройка Mustache
-        MustacheFactory mustacheFactory = new DefaultMustacheFactory("templates");
-        Mustache mustache = mustacheFactory.compile("message.mustache");
+//    private static void getMessageHandler(Context ctx) {
+//        // Настройка Mustache
+//        MustacheFactory mustacheFactory = new DefaultMustacheFactory("templates");
+//        Mustache mustache = mustacheFactory.compile("message.mustache");
+//
+//        // Создаем контекст данных
+//        Map<String, Object> dataModel = new HashMap<>();
+//        dataModel.put("message", "Hello, World!");
+//
+//        // Рендеринг шаблона с использованием Mustache
+//        StringWriter writer = new StringWriter();
+//        mustache.execute(writer, dataModel);
+//        ctx.html(writer.toString());
+//    }
+    public static void getAllUrlsHandler(Context ctx, UrlRepository repository) {
+        List<Url> urls = repository.getAllUrls();
 
-        // Создаем контекст данных
-        Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put("message", "Hello, World!");
+        // Подготовка контекста для Mustache
+        Map<String, Object> context = Map.of(
+                "urls", urls
+        );
 
-        // Рендеринг шаблона с использованием Mustache
-        StringWriter writer = new StringWriter();
-        mustache.execute(writer, dataModel);
-        ctx.html(writer.toString());
+        try {
+            // Рендеринг шаблона
+            Mustache mustache = mustacheFactory.compile("allUrls.mustache");
+            StringWriter writer = new StringWriter();
+            mustache.execute(writer, context).flush();
+            ctx.html(writer.toString());
+        } catch (Exception e) {
+            ctx.status(500).result("Error processing template: " + e.getMessage());
+        }
     }
 
     public static void getAllUrlChecksHandler(Context ctx, UrlRepository repository) {
@@ -190,7 +208,7 @@ public class App {
         })
                 .get("/", ctx -> ctx.render("index.html"))
                 .post("/urls", ctx -> addUrlHandler(ctx, urlRepository))
-                .get("/urls", ctx -> getMessageHandler(ctx))
+                .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
                 .get("/urls/checks", ctx -> getAllUrlChecksHandler(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
