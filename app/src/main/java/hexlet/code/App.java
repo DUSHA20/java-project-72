@@ -15,6 +15,7 @@ import java.net.URL;
 import io.javalin.http.Context;
 import java.util.List;
 import java.util.Map;
+import gg.jte.output.StringOutput;
 
 public class App {
 
@@ -62,11 +63,21 @@ public class App {
         }
     }
 
-    public static void getAllUrlsHandler(Context ctx, UrlRepository repository) {
-        List<Url> urls = repository.getAllUrls();
+    public static void getMessageHandler(Context ctx) {
+        // Простое строковое сообщение
+        String message = "Hello, World!";
 
-        // Рендеринг страницы с использованием шаблона allUrls.jte и передачи списка URLs в шаблон
-        ctx.render("allUrls.jte", Map.of("urls", urls));
+        // Получаем экземпляр TemplateEngine
+        TemplateEngine templateEngine = createTemplateEngine();
+
+        // Создаем StringOutput для вывода
+        StringOutput output = new StringOutput();
+
+        // Рендеринг страницы с использованием шаблона allUrls.jte и передачи строки в шаблон
+        templateEngine.render("allUrls.jte", Map.of("message", message), output);
+
+        // Передача отрендеренного HTML в контекст
+        ctx.html(output.toString());
     }
 
     public static void getAllUrlChecksHandler(Context ctx, UrlRepository repository) {
@@ -167,7 +178,7 @@ public class App {
         })
                 .get("/", ctx -> ctx.render("index.html"))
                 .post("/urls", ctx -> addUrlHandler(ctx, urlRepository))
-                .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
+                .get("/urls", ctx -> getMessageHandler(ctx))
                 .get("/urls/checks", ctx -> getAllUrlChecksHandler(ctx, urlRepository))
                 .get("/urls/{id}", ctx -> {
                     long id = Long.parseLong(ctx.pathParam("id"));
