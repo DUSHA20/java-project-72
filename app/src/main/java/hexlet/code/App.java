@@ -21,7 +21,7 @@ import java.io.StringWriter;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
-import java.util.HashMap;
+//import java.util.HashMap;
 
 
 public class App {
@@ -75,20 +75,6 @@ public class App {
         return new DefaultMustacheFactory("templates");
     }
 
-//    private static void getMessageHandler(Context ctx) {
-//        // Настройка Mustache
-//        MustacheFactory mustacheFactory = new DefaultMustacheFactory("templates");
-//        Mustache mustache = mustacheFactory.compile("message.mustache");
-//
-//        // Создаем контекст данных
-//        Map<String, Object> dataModel = new HashMap<>();
-//        dataModel.put("message", "Hello, World!");
-//
-//        // Рендеринг шаблона с использованием Mustache
-//        StringWriter writer = new StringWriter();
-//        mustache.execute(writer, dataModel);
-//        ctx.html(writer.toString());
-//    }
     public static void getAllUrlsHandler(Context ctx, UrlRepository repository) {
         List<Url> urls = repository.getAllUrls();
 
@@ -110,53 +96,23 @@ public class App {
 
     public static void getAllUrlChecksHandler(Context ctx, UrlRepository repository) {
         List<UrlCheck> urlChecks = repository.getAllUrlChecks();
-        StringBuilder htmlContent = new StringBuilder();
 
-        htmlContent.append("<!DOCTYPE html>");
-        htmlContent.append("<html lang=\"ru\">");
-        htmlContent.append("<head>");
-        htmlContent.append("<meta charset=\"UTF-8\">");
-        htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-        htmlContent.append("<title>Список проверок URL</title>");
-        htmlContent.append("</head>");
-        htmlContent.append("<body style=\"background-color: white;\">");
+        // Подготовка контекста для Mustache
+        Map<String, Object> context = Map.of("urlChecks", urlChecks);
 
-        // Добавляем верхнюю шапку страницы
-        htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
-                + "text-align: left; width: 100%; margin-top: -10px;\">");
-        htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
-        htmlContent.append("</div>");
+        try {
+            // Получение шаблона Mustache
+            Mustache mustache = mustacheFactory.compile("allUrlChecks.mustache");
 
-        // Добавляем начало таблицы с встроенными стилями
-        htmlContent.append("<table style=\"border-collapse: collapse; margin: 20px auto; width: 80%;\">");
-        htmlContent.append("<tr style=\"background-color: #4682B4;\">");
-        htmlContent.append("<th style=\"padding: 8px;\">ID</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">URL_id</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Title</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">H1</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Description</th>");
-        htmlContent.append("<th style=\"padding: 8px;\">Created At</th>");
-        htmlContent.append("</tr>");
+            // Рендеринг шаблона
+            StringWriter writer = new StringWriter();
+            mustache.execute(writer, context).flush();
 
-        // Добавляем каждую проверку URL в таблицу
-        for (UrlCheck urlCheck : urlChecks) {
-            htmlContent.append("<tr style=\"border: 1px solid black;\">");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getId()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getUrl()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getTitle()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getH1()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getDescription()).append("</td>");
-            htmlContent.append("<td style=\"padding: 8px;\">").append(urlCheck.getCreatedAt()).append("</td>");
-            htmlContent.append("</tr>");
+            // Передача отрендеренного HTML в контекст Javalin
+            ctx.html(writer.toString());
+        } catch (Exception e) {
+            ctx.status(500).result("Ошибка при обработке шаблона: " + e.getMessage());
         }
-
-        // Закрываем таблицу и HTML страницу
-        htmlContent.append("</table>");
-        htmlContent.append("</body>");
-        htmlContent.append("</html>");
-
-        // Передаем HTML содержимое на клиентскую сторону
-        ctx.html(htmlContent.toString());
     }
 
     public static Javalin getApp() {
@@ -214,42 +170,20 @@ public class App {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);
 
-                    // Создаем HTML-контент с помощью StringBuilder
-                    StringBuilder htmlContent = new StringBuilder();
-
-                    // Добавляем начало HTML страницы
-                    htmlContent.append("<!DOCTYPE html>");
-                    htmlContent.append("<html lang=\"ru\">");
-                    htmlContent.append("<head>");
-                    htmlContent.append("<meta charset=\"UTF-8\">");
-                    htmlContent.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-                    htmlContent.append("<title>Детали URL</title>");
-                    htmlContent.append("</head>");
-                    htmlContent.append("<body style=\"background-color: white;\">"); // Белый фон страницы
-
-                    // Добавляем верхнюю шапку страницы
-                    htmlContent.append("<div style=\"background-color: #4682B4; padding: 20px 10px; "
-                            + "text-align: left; width: 100%; margin-top: -10px;\">");
-                    htmlContent.append("<a href=\"/\" style=\"color: white; text-decoration: none;\">На главную</a>");
-                    htmlContent.append("</div>");
-
-                    // Добавляем информацию о URL
                     if (url != null) {
-                        htmlContent.append("<div style=\"margin: 20px auto; width: 80%;\">");
-                        htmlContent.append("<h2>ID: ").append(url.getId()).append("</h2>");
-                        htmlContent.append("<p>Name: ").append(url.getName()).append("</p>");
-                        htmlContent.append("<p>Created At: ").append(url.getCreatedAt()).append("</p>");
-                        htmlContent.append("</div>");
+                        Map<String, Object> model = Map.of(
+                                "id", url.getId(),
+                                "name", url.getName(),
+                                "createdAt", url.getCreatedAt()
+                        );
+
+                        Mustache mustache = mustacheFactory.compile("urlDetails.mustache");
+                        StringWriter writer = new StringWriter();
+                        mustache.execute(writer, model).flush();
+                        ctx.html(writer.toString());
                     } else {
-                        htmlContent.append("<p>URL not found</p>");
+                        ctx.status(404).result("URL not found");
                     }
-
-                    // Закрываем HTML страницу
-                    htmlContent.append("</body>");
-                    htmlContent.append("</html>");
-
-                    // Передаем HTML содержимое на клиентскую сторону
-                    ctx.html(htmlContent.toString());
                 })
                 .start(port);
 
