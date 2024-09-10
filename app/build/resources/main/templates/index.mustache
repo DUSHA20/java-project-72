@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css"> <!-- Подключаем внешний CSS файл -->
+</head>
+<body>
+<div class="background-image"></div> <!-- Этот блок будет содержать фоновое изображение -->
+<div class="container mt-5">
+    <!-- Применяем класс к заголовкам -->
+    <h1 class="display-1 bree-serif-regular">Анализатор страниц</h1>
+    <!-- Применяем класс к абзацам -->
+    <p class="lead mb-4 bree-serif-regular">Бесплатно проверяйте сайты на SEO пригодность</p>
+
+    <!-- Форма для ввода URL -->
+    <form action="/urls" method="post" class="d-flex">
+        <input type="text" class="form-control form-control-lg me-2" id="urlInput" name="url" placeholder="Ссылка" required>
+        <button type="submit" class="btn btn-primary">Проверить</button>
+    </form>
+
+    <div class="button-container mt-3">
+        <!-- Кнопка "Проверки SEO" в виде текста -->
+        <a href="/urls" class="link-btn">Все Сайты</a>
+        <span id="seoButton" class="link-btn">Проверки SEO</span>
+    </div>
+
+    <!-- Список ссылок для проверок SEO -->
+    <div class="mt-3 links" style="display: none;">
+        <a href="/urls/checks" class="link-btn">Проверенные на теги сайты</a>
+    </div>
+
+</div>
+
+<footer>
+    &copy; 2024 - Created by Evdokiya Afanaseva
+</footer>
+
+<!-- Подключение скриптов Bootstrap через WebJars -->
+<script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- JavaScript код для управления видимостью списков ссылок -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим кнопку "Проверки SEO"
+    var seoButton = document.getElementById('seoButton');
+
+    // Находим список ссылок для проверок SEO
+    var linksList = document.querySelector('.links');
+
+    // Добавляем обработчик события клика на кнопку "Проверки SEO"
+    seoButton.addEventListener('click', function() {
+        // Переключаем видимость списка ссылок при каждом клике
+        if (linksList.style.display === 'none' || linksList.style.display === '') {
+            linksList.style.display = 'block';
+        } else {
+            linksList.style.display = 'none';
+        }
+    });
+});
+</script>
+
+</body>
+</html>

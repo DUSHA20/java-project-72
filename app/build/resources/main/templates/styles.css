@@ -210,3 +210,19 @@ footer {
     font-family: "Bree Serif", serif; /* Устанавливаем шрифт */
 }
 
+.flash-message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    color: white;
+    text-align: center; /* Центрирование текста */
+    font-size: 16px; /* Увеличение размера текста */
+}
+
+.flash-success {
+    background-color: #28a745;
+}
+
+.flash-error {
+    background-color: #dc3545;
+}

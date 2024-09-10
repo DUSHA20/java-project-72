@@ -21,7 +21,8 @@ import java.io.StringWriter;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
-//import java.util.HashMap;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 
 public class App {
@@ -29,7 +30,7 @@ public class App {
     private static UrlRepository urlRepository;
     private static MustacheFactory mustacheFactory;
 
-    private static TemplateEngine createTemplateEngine() {
+    protected static TemplateEngine createTemplateEngine() {
         ClassLoader classLoader = App.class.getClassLoader();
         ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
         TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
@@ -37,7 +38,8 @@ public class App {
     }
 
     private static String getJdbcUrlTemplate() {
-        return System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
+        return System.getenv().getOrDefault("JDBC_DATABASE_URL",
+                "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1");
     }
 
     public static void addUrlHandler(Context ctx, UrlRepository repository) {
@@ -45,7 +47,7 @@ public class App {
         try {
             URL parsedUrl = new URI(url).toURL();
             String domainWithPort = parsedUrl.getProtocol() + "://" + parsedUrl.getHost()
-                   + (parsedUrl.getPort() != -1 ? ":" + parsedUrl.getPort() : "");
+                    + (parsedUrl.getPort() != -1 ? ":" + parsedUrl.getPort() : "");
 
             if (!repository.exists(domainWithPort)) {
                 // Если URL не существует, добавляем его
@@ -59,32 +61,60 @@ public class App {
                 // Получаем его ID
                 long addedUrlId = addedUrl.getId();
 
+                // Устанавливаем flash-сообщение
+                ctx.sessionAttribute("flash", Map.of("success", "Страница успешно добавлена"));
+
+                // отладка
+                System.out.println("Flash message: " + ctx.sessionAttribute("flash"));
+
                 // Перенаправляем пользователя на страницу с информацией о добавленном URL
                 ctx.redirect("/urls/" + addedUrlId);
 
             } else {
-                System.out.println("Сайт уже существует: " + domainWithPort);
+                // Устанавливаем flash-сообщение
+                ctx.sessionAttribute("flash", Map.of("error", "Сайт уже существует"));
+
+                // отладка
+                System.out.println("Flash message: " + ctx.sessionAttribute("flash"));
+
+                // Перенаправляем пользователя на страницу со всеми добавленными сайтами
+                ctx.redirect("/urls");
             }
 
         } catch (Exception e) {
-            System.out.println("Некорректный URL: " + url);
+            e.printStackTrace();
+            ctx.sessionAttribute("flash", Map.of("error", "Некорректный URL"));
+            // Отладка
+            System.out.println("Flash message: " + ctx.sessionAttribute("flash"));
+            ctx.redirect("/urls");
         }
     }
 
-    private static MustacheFactory createMustacheFactory() {
+    protected static MustacheFactory createMustacheFactory() {
         return new DefaultMustacheFactory("templates");
     }
 
     public static void getAllUrlsHandler(Context ctx, UrlRepository repository) {
         List<Url> urls = repository.getAllUrls();
+        if (urls == null) {
+            urls = new ArrayList<>(); // Or any other default value
+        }
 
-        // Подготовка контекста для Mustache
+        Map<String, Object> flash = ctx.sessionAttribute("flash");
+        if (flash == null) {
+            flash = new HashMap<>(); // Default empty map
+        }
+        ctx.sessionAttribute("flash", null); // Clear flash messages after usage
+
+        // Отладка
+        System.out.println("Flash message on URL list page: " + flash);
+
         Map<String, Object> context = Map.of(
-                "urls", urls
+                "urls", urls,
+                "flash", flash
         );
 
         try {
-            // Рендеринг шаблона
             Mustache mustache = mustacheFactory.compile("allUrls.mustache");
             StringWriter writer = new StringWriter();
             mustache.execute(writer, context).flush();
@@ -96,19 +126,28 @@ public class App {
 
     public static void getAllUrlChecksHandler(Context ctx, UrlRepository repository) {
         List<UrlCheck> urlChecks = repository.getAllUrlChecks();
+        if (urlChecks == null) {
+            urlChecks = new ArrayList<>(); // Or any other default value
+        }
 
-        // Подготовка контекста для Mustache
-        Map<String, Object> context = Map.of("urlChecks", urlChecks);
+        Map<String, Object> flash = ctx.sessionAttribute("flash");
+        if (flash == null) {
+            flash = new HashMap<>(); // Default empty map
+        }
+        ctx.sessionAttribute("flash", null); // Clear flash messages after usage
+
+        // Отладка
+        System.out.println("Flash message on URL checks page: " + flash);
+
+        Map<String, Object> context = Map.of(
+                "urlChecks", urlChecks,
+                "flash", flash
+        );
 
         try {
-            // Получение шаблона Mustache
             Mustache mustache = mustacheFactory.compile("allUrlChecks.mustache");
-
-            // Рендеринг шаблона
             StringWriter writer = new StringWriter();
             mustache.execute(writer, context).flush();
-
-            // Передача отрендеренного HTML в контекст Javalin
             ctx.html(writer.toString());
         } catch (Exception e) {
             ctx.status(500).result("Ошибка при обработке шаблона: " + e.getMessage());
@@ -162,7 +201,7 @@ public class App {
             configure.fileRenderer(new JavalinJte(createTemplateEngine()));
             configure.staticFiles.add("/templates");
         })
-                .get("/", ctx -> ctx.render("index.html"))
+                .get("/", ctx -> ctx.render("index.mustache"))
                 .post("/urls", ctx -> addUrlHandler(ctx, urlRepository))
                 .get("/urls", ctx -> getAllUrlsHandler(ctx, urlRepository))
                 .get("/urls/checks", ctx -> getAllUrlChecksHandler(ctx, urlRepository))
@@ -170,11 +209,19 @@ public class App {
                     long id = Long.parseLong(ctx.pathParam("id"));
                     Url url = urlRepository.getUrlById(id);
 
+                    // Извлечение флеш-сообщений
+                    Map<String, Object> flash = ctx.sessionAttribute("flash");
+                    if (flash == null) {
+                        flash = new HashMap<>(); // Создаем пустую карту, если флеш-сообщений нет
+                    }
+                    ctx.sessionAttribute("flash", null); // Очистка флеш-сообщений после использования
+
                     if (url != null) {
                         Map<String, Object> model = Map.of(
                                 "id", url.getId(),
                                 "name", url.getName(),
-                                "createdAt", url.getCreatedAt()
+                                "createdAt", url.getCreatedAt(),
+                                "flash", flash // Добавляем флеш-сообщения в модель
                         );
 
                         Mustache mustache = mustacheFactory.compile("urlDetails.mustache");
